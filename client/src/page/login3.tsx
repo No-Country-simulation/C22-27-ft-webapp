@@ -34,7 +34,7 @@ export const Login = () => {
     <div
       className="d-flex flex-column min-vh-100"
       style={{
-        backgroundImage: `url(https://i.pinimg.com/736x/9e/61/ce/9e61ceeb19bf077c76892e26e0709259.jpg)`,
+        backgroundImage: `url(https://i.pinimg.com/736x/8d/da/b9/8ddab9867f98cf741e397fe51fd058c5.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: '100vw',
