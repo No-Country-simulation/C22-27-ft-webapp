@@ -1,8 +1,6 @@
 /* SideBar.css */
 .sidebar {
-  width: 260px;
-  height: 100vh;
-  position: fixed;
+  min-height: 100vh;
   background-color: #0a1e63;
   color: white;
   overflow-y: auto;
