@@ -17,106 +17,138 @@
  * @constant
  * @type {import('react-router-dom').RouteObject[]}
  * @description Router principal que contiene todas las rutas de la aplicación
- * 
+ *
  * @example
  * import router from './routes';
- * 
+ *
  * // En tu archivo principal
  * <RouterProvider router={router} />
- * 
+ *
  * @returns {RouteObject[]} Configuración de rutas de la aplicación
  */
 import { createBrowserRouter } from "react-router-dom";
 import { Login } from "../page/login2";
 import { Layaud } from "../page/layaud";
+import ProtectedRoute from "./protectedRoute";
+import RouteRedirect from "./routeRedirect";
+const ROLES = {
+  ADMIN: "Administrator",
+  MEDIC: "Medicos",
+  PATIENT: "Pacientes",
+};
+
 const router = createBrowserRouter([
-  //ruta para landing page
+  // Ruta principal
   {
     path: "/",
     element: <div>Página de Inicio</div>,
     errorElement: <div>¡Ups! Algo salió mal - Página no encontrada</div>,
   },
-  //ruta para el layout principal de la aplicación
+
+  // Área de Pacientes
   {
-    path: "/app",
-    element: <Layaud/>,
+    path: "/app-paciente",
+    element: (
+      <ProtectedRoute allowedRoles={[ROLES.PATIENT]}>
+        <Layaud />
+      </ProtectedRoute>
+    ),
     children: [
-      // Rutas para Pacientes
       {
-        path: "paciente",
-        children: [
-          {
-            path: "dashboard",
-            element: <div>Panel de Control - Paciente</div>,
-          },
-          {
-            path: "agendar-cita",
-            element: <div>Agendar Nueva Cita</div>,
-          },
-          {
-            path: "mis-citas",
-            element: <div>Mis Citas Programadas</div>,
-          },
-          {
-            path: "consulta/:citaId",
-            element: <div>Sala de Consulta Virtual</div>,
-          },
-          {
-            path: "mi-historial",
-            element: <div>Mi Historial Médico</div>,
-          },
-        ],
+        index: true,
+        element: <RouteRedirect to="dashboard" />,
       },
-      // Rutas para Médicos
       {
-        path: "medico",
-        children: [
-          {
-            path: "dashboard",
-            element: <div>Panel de Control - Médico</div>,
-          },
-          {
-            path: "consultas",
-            element: <div>Consultas Pendientes</div>,
-          },
-          {
-            path: "pacientes",
-            element: <div>Lista de Pacientes</div>,
-          },
-          {
-            path: "historial/:pacienteId",
-            element: <div>Historial del Paciente</div>,
-          },
-        ],
+        path: "dashboard",
+        element: <div>Panel de Control - Paciente</div>,
       },
-      // Rutas para Administradores
       {
-        path: "admin",
-        children: [
-          {
-            path: "dashboard",
-            element: <div>Panel de Control - Administrador</div>,
-          },
-          {
-            path: "gestionar-citas",
-            element: <div>Gestión de Citas</div>,
-          },
-          {
-            path: "gestionar-medicos",
-            element: <div>Gestión de Médicos</div>,
-          },
-          {
-            path: "gestionar-pacientes",
-            element: <div>Gestión de Pacientes</div>,
-          },
-        ],
+        path: "agendar-cita",
+        element: <div>Agendar Nueva Cita</div>,
+      },
+      {
+        path: "mis-citas",
+        element: <div>Mis Citas Programadas</div>,
+      },
+      {
+        path: "consulta/:citaId",
+        element: <div>Sala de Consulta Virtual</div>,
+      },
+      {
+        path: "mi-historial",
+        element: <div>Mi Historial Médico</div>,
       },
     ],
   },
-  //rutas de autenticación
+
+  // Área de Médicos
+  {
+    path: "/app-medico",
+    element: (
+      <ProtectedRoute allowedRoles={[ROLES.MEDIC]}>
+        <Layaud />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <RouteRedirect to="dashboard" />,
+      },
+      {
+        path: "dashboard",
+        element: <div>Panel de Control - Médico</div>,
+      },
+      {
+        path: "consultas",
+        element: <div>Consultas Pendientes</div>,
+      },
+      {
+        path: "pacientes",
+        element: <div>Lista de Pacientes</div>,
+      },
+      {
+        path: "historial/:pacienteId",
+        element: <div>Historial del Paciente</div>,
+      },
+    ],
+  },
+
+  // Área de Administradores
+  {
+    path: "/app-administrador",
+    element: (
+      <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+        <Layaud />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <RouteRedirect to="dashboard" />,
+      },
+      {
+        path: "dashboard",
+        element: <div>Panel de Control - Administrador</div>,
+      },
+      {
+        path: "gestionar-citas",
+        element: <div>Gestión de Citas</div>,
+      },
+      {
+        path: "gestionar-medicos",
+        element: <div>Gestión de Médicos</div>,
+      },
+      {
+        path: "gestionar-pacientes",
+        element: <div>Gestión de Pacientes</div>,
+      },
+    ],
+  },
+
+  // Rutas de autenticación
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/registro",
