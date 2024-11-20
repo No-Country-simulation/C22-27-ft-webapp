@@ -27,6 +27,8 @@
  * @returns {RouteObject[]} Configuración de rutas de la aplicación
  */
 import { createBrowserRouter } from "react-router-dom";
+import { Login } from "../page/login2";
+import { Layaud } from "../page/layaud";
 const router = createBrowserRouter([
   //ruta para landing page
   {
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
   //ruta para el layout principal de la aplicación
   {
     path: "/app",
-    element: <div>Layout Principal</div>,
+    element: <Layaud/>,
     children: [
       // Rutas para Pacientes
       {
@@ -114,7 +116,7 @@ const router = createBrowserRouter([
   //rutas de autenticación
   {
     path: "/login",
-    element: <div>Página de Login</div>,
+    element: <Login/>,
   },
   {
     path: "/registro",

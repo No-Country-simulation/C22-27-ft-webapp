@@ -1,6 +1,4 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './SideBar.css';
 
 const Sidebar = () => {
@@ -69,7 +67,7 @@ const Sidebar = () => {
         </div>
         <ul className="nav flex-column">
           <li className="nav-item">
-            <NavLink to="/medico/configuracion" className="nav-link">Configuración</NavLink>
+            <NavLink to="/app/paciente/dashboard" className="nav-link">Configuración</NavLink>
           </li>
           <li className="nav-item">
             <NavLink to="/medico/reportes" className="nav-link d-flex justify-content-between">
