@@ -5,7 +5,7 @@ export const Login = () => {
     <div
       className="d-flex flex-column min-vh-100"
       style={{
-        backgroundImage: 'url("/path/to/your-image.jpg")',
+        backgroundImage: 'url("https://i.pinimg.com/736x/2d/ab/48/2dab48e71b17bd29b01469f11981c192.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: '100vw',
@@ -32,6 +32,7 @@ export const Login = () => {
             marginRight: '60px',
             padding: '20px', 
             borderRadius: '8px', 
+            backgroundColor: 'rgba(200,200,200,0.4)',
           }}
         >
           <div className="card-body">
@@ -67,7 +68,7 @@ export const Login = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-light text-black w-100" style={{ padding: '3px 0' }}>
+      <footer className=" text-black w-100" style={{ padding: '0px', paddingTop:'5px', paddingBottom:'0px', marginBottom:'0px' ,backgroundColor: 'rgba(200,200,200,0.4)'}}>
         <div className="container text-center">
           <p>&copy; 2024 Hospital el PEPE</p>
         </div>
