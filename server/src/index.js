@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 const router =require('./routes/index')
+
 const {conn}=require('./db/DB_connection')
 
 app.listen(PORT, async () => {
@@ -21,9 +22,12 @@ app.use((req, res, next) => {
         'GET, POST, OPTIONS, PUT, DELETE'
     );
     next();
-})
+});
+
 
 app.use(express.json())
 
 app.use('/healdtech',router)
+
+
 
