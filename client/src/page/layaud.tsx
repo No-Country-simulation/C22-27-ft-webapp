@@ -1,57 +1,62 @@
-import React from 'react';
+import { Outlet } from "react-router-dom";
+import SideBar from "../component/sideBar/SideBar";
 
 export const Layaud = () => {
   return (
-    <div className="d-flex flex-column" style={{ minHeight: '100vh', width: '100vw' }}>
+    <div className="d-flex flex-column" style={{ minHeight: "100vh", width: "100vw" }}>
       {/* Header */}
-      <header className="bg-primary text-white p-2 w-100">
+      <header
+        className="bg-primary text-white w-100"
+        style={{ height: "5rem", position: "fixed", top: 0, zIndex: 10 }}
+      >
         <nav className="container-fluid">
           <h1 className="text-center">Hospital El PEPE</h1>
         </nav>
       </header>
 
       {/* Layout principal */}
-      <div className="d-flex flex-grow-1 w-100">
+      <div className="d-flex" style={{ marginTop: "5rem" }}>
         {/* Barra lateral */}
         <aside
-          className="bg-light p-3 shadow-sm"
+          className="bg-light"
           style={{
-            width: '250px', // Ancho fijo para la barra lateral
-            minHeight: '100%',
+            width: "250px", // Ancho fijo de la barra lateral
+            height: "calc(100vh - 5rem)", // Altura ajustada al espacio disponible debajo del header
+            position: "fixed",
+            top: "5rem", // Alineada justo debajo del header
+            overflowY: "auto", // Scroll vertical independiente
           }}
         >
-          <h5 className="border-bottom pb-2 mb-3">Costado</h5>
-          <ul className="list-unstyled">
-            <li className="py-2">
-              <a href="#enlace1" className="text-dark text-decoration-none">
-                Enlace 1
-              </a>
-            </li>
-            <li className="py-2">
-              <a href="#enlace2" className="text-dark text-decoration-none">
-                Enlace 2
-              </a>
-            </li>
-            <li className="py-2">
-              <a href="#enlace3" className="text-dark text-decoration-none">
-                Enlace 3
-              </a>
-            </li>
-          </ul>
+          <SideBar />
         </aside>
 
         {/* Contenido principal */}
-        <main className="flex-grow-1 p-4 bg-white w-100">
-          <h1>Este es el cuerpo</h1>
+        <main
+          className="flex-grow-1 p-4 bg-white"
+          style={{
+            marginLeft: "250px", // Espacio para la barra lateral
+            padding: "20px",
+          }}
+        >
+          <Outlet/>
         </main>
       </div>
 
       {/* Footer */}
-      <footer className="bg-light text-black w-100" style={{ padding: '3px 0' }}>
+      {/* <footer
+        className="bg-light text-black w-100"
+        style={{
+          padding: "3px 0",
+          marginTop: "auto",
+          position: "fixed",
+          bottom: 0,
+          zIndex: 5,
+        }}
+      >
         <div className="container text-center">
           <p>&copy; 2024 Hospital el PEPE</p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
