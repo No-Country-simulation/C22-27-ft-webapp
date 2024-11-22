@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 
 const useMockAuth = () => {
   return {
-    isAuthenticated: false,
+    isAuthenticated: true,
     userRole: "Medicos",
   };
 };
