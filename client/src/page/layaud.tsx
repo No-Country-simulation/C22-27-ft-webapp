@@ -6,12 +6,13 @@ export const Layaud = () => {
   return (
     <div className="d-flex flex-column" style={{ minHeight: "100vh", width: "100vw", background:"#E8E8E8"}}>
       {/* Header */}
-      <header>
+      <header className="flex-grow-1 d-flex flex-column "
+      style={{marginLeft:"250px"}}> 
         <Navbar/>
       </header>
 
       {/* Layout principal */}
-      <div className="d-flex" style={{ marginTop: "5rem" }}>
+      <div className="d-flex" >
         {/* Barra lateral */}
         <aside
           className="bg-light"

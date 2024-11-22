@@ -14,17 +14,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className="navbar fixed-top shadow-sm p-3"
-      style={{ backgroundColor: '#0063B4' }}
+      className="navbar shadow-sm p-3 w-auto "
+      style={{ 
+        backgroundColor: '#337094',
+      }}
     >
       <div className="container-fluid px-4">
-        {/* logo/title */}
-        <span className="navbar-brand fw-bold fs-4 text-white">
-          Hospital El PEPE
-        </span>
-
+        
         {/* Buscador */}
-        <div className="d-none d-md-block mx-auto" style={{ width: '35%' }}>
+        <div className="d-flex" style={{  width: '600px' }}>
           <div className="input-group">
             <span className="input-group-text border-0 bg-white bg-opacity-25">
               <span className="text-white">🔍</span>
@@ -76,8 +74,12 @@ const Navbar = () => {
                   <button
                     key={notif.id}
                     className={`dropdown-item py-2 px-3 border-bottom ${
-                      index === 0 ? 'bg-success bg-gradient' : ''
+                      index === 0 ? ' bg-gradient' : ''
                     }`}
+                    style={{
+                      backgroundColor: index === 0 ? '#337094' : 'transparent',
+                      color: index === 0 ? 'white' : 'inherit'
+                    }}
                   >
                     <div className="d-flex justify-content-between align-items-start">
                       <div>
@@ -85,14 +87,19 @@ const Navbar = () => {
                         <small className="text-muted">{notif.time}</small>
                       </div>
                       {index === 0 && (
-                        <span className="badge bg-primary ms-2">Nueva</span>
+                        <span className="badge bg-primary ms-2 ">Nueva</span>
                       )}
                     </div>
                   </button>
                 ))}
 
                 <div className="p-2 text-center">
-                  <small className="text-primary" role="button">
+                  <small 
+                  role="button" 
+                  className='btn w-100 border' 
+                  style={{ 
+                    color:"#004C79",
+                  }}>
                     Ver todas las notificaciones
                   </small>
                 </div>
