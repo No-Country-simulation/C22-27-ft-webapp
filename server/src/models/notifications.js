@@ -16,15 +16,15 @@ const Notificacion = conn.define('Notificacion', {
 //       key: 'id',  
 //     },
 //   },
-  mensaje: {
+  message: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  tipo: {
+  type: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  enviado: {
+  send: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
