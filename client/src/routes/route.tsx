@@ -31,7 +31,9 @@ import { Login } from "../page/login2";
 import { Layaud } from "../page/layaud";
 import ProtectedRoute from "./protectedRoute";
 import RouteRedirect from "./routeRedirect";
-import { PaginaInicio } from '../page/paginaInicio';
+
+import DashboardMedic from "../page/medico/dashboardMedic";
+
 const ROLES = {
   ADMIN: "Administrator",
   MEDIC: "Medicos",
@@ -97,7 +99,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <div>Panel de Control - Médico</div>,
+        element: <DashboardMedic />,
       },
       {
         path: "consultas",

@@ -1,13 +1,38 @@
-import { NavLink } from 'react-router-dom';
-import './SideBar.css';
+import { NavLink } from 'react-router-dom'
+import styles from './SideBar.module.css'
+
+// Define las propiedades requeridas para un NavLink
+interface NavLinkItemProps {
+  to: string
+  badge?: number
+  children: React.ReactNode
+}
+
+const NavLinkItem = ({ to, badge, children }: NavLinkItemProps) => (
+  <NavLink
+    to={to}
+    className={({ isActive }) =>
+      `btn btn-outline-primary border-0 d-flex justify-content-between ${
+        styles['btn-outline-primary']
+      } ${isActive ? styles.active : ''}`
+    }
+  >
+    {children}
+    {badge && (
+      <span className={`badge rounded-pill align-self-center ${styles.badge}`}>
+        {badge}
+      </span>
+    )}
+  </NavLink>
+)
 
 const Sidebar = () => {
   return (
-    <div className="sidebar">
+    <div className={styles.sidebar}>
       {/* Perfil */}
-      <div className="p-3">
+      <div className="p-3 pt-4">
         <div className="d-flex align-items-center">
-          <div className="avatar-container">PE</div>
+          <div className={styles['avatar-container']}>PE</div>
           <div className="ms-3">
             <div className="fw-bold">Dr. El pepe</div>
             <small>Médico General</small>
@@ -23,20 +48,15 @@ const Sidebar = () => {
         </div>
         <ul className="nav flex-column">
           <li className="nav-item">
-            <NavLink to="/medico/dashboard" className="nav-link">Panel Principal</NavLink>
+            <NavLinkItem to="dashboard">Panel Principal</NavLinkItem>
           </li>
+          {/* fin - Panel Principal*/}
           <li className="nav-item">
-            <NavLink to="/medico/consultas" className="nav-link d-flex justify-content-between">
+            <NavLinkItem to="consultas" badge={5}>
               Consultas Pendientes
-              <span className="badge rounded-pill align-self-center">5</span>
-            </NavLink>
+            </NavLinkItem>
           </li>
-          <li className="nav-item">
-            <NavLink to="/medico/citas" className="nav-link d-flex justify-content-between">
-              Citas de Hoy
-              <span className="badge rounded-pill align-self-center">8</span>
-            </NavLink>
-          </li>
+          {/* fin - Consultas Pendientes*/}
         </ul>
 
         {/* Pacientes */}
@@ -45,49 +65,48 @@ const Sidebar = () => {
         </div>
         <ul className="nav flex-column">
           <li className="nav-item">
-            <NavLink to="/medico/pacientes" className="nav-link d-flex justify-content-between">
+            <NavLinkItem to="pacientes" badge={120}>
               Todos los Pacientes
-              <span className="badge rounded-pill align-self-center">120</span>
-            </NavLink>
+            </NavLinkItem>
           </li>
+          {/* fin - Todos los Pacientes*/}
           <li className="nav-item">
-            <NavLink to="/medico/pacientes-nuevos" className="nav-link d-flex justify-content-between">
-              Pacientes Nuevos
-              <span className="badge rounded-pill align-self-center">3</span>
-            </NavLink>
+            <NavLinkItem to="historial/:pacienteId">Historiales</NavLinkItem>
           </li>
-          <li className="nav-item">
-            <NavLink to="/medico/historial" className="nav-link">Historiales</NavLink>
-          </li>
+          {/* fin - Historiales*/}
         </ul>
 
         {/* Administración */}
         <div className="px-3 mb-2 mt-4">
-          <small className="text-secondary text-uppercase">Administración</small>
+          <small className="text-secondary text-uppercase">
+            Administración
+          </small>
         </div>
         <ul className="nav flex-column">
           <li className="nav-item">
-            <NavLink to="/app/paciente/dashboard" className="nav-link">Configuración</NavLink>
+            <NavLinkItem to="configuracion">Configuración</NavLinkItem>
           </li>
+          {/* fin - Configuración*/}
           <li className="nav-item">
-            <NavLink to="/medico/reportes" className="nav-link d-flex justify-content-between">
-              Reportes
-              <span className="badge rounded-pill align-self-center">2</span>
-            </NavLink>
+            <NavLinkItem to="Reportes">Reportes</NavLinkItem>
           </li>
+          {/* fin - Reportes*/}
         </ul>
 
         {/* cerrar sesión */}
-        <div className="mt-4">
-        <button 
-          className="btn btn-link w-100 text-decoration-none"
-          onClick={() => {/* lógica para cerrar sesión */}}>
-          Cerrar Sesión
-        </button>
-      </div>
+        <div className="mt-4 text-center">
+          <button
+            className="btn btn-outline-danger text-decoration-none text-white "
+            onClick={() => {
+              /* lógica para cerrar sesión */
+            }}
+          >
+            Cerrar Sesión
+          </button>
+        </div>
       </nav>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
