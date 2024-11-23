@@ -44,7 +44,7 @@ const router = createBrowserRouter([
   // Ruta principal
   {
     path: "/",
-    element: <div> <PaginaInicio /></div>,
+    element: <div> Pagina inicio</div>,
     errorElement: <div>¡Ups! Algo salió mal - Página no encontrada</div>,
   },
 
