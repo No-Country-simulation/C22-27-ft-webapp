@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import backgroundImg from '../assets/2dab48e71b17bd29b01469f11981c192.jpg';
-import useUserStore from '../store/useAuth';
+import { useAuthStore } from '../store/useAuth';
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -8,36 +8,8 @@ export const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Estado y métodos de Zustand
-  const { users, initializeUsers, authenticateUser } = useUserStore();
+  const { login } = useAuthStore();
 
-  // Simula cargar usuarios desde el JSON (podrías hacerlo con fetch en lugar de hardcodeado)
-  useEffect(() => {
-    const usersJSON = [
-      {
-        id: 1,
-        name: 'Alice Johnson',
-        email: 'alice.johnson@example.com',
-        password: '123456',
-        status: 'active',
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
-        refreshToken: 'def5020023904f21cfe8b1bd9f...',
-        createdAt: '2024-11-22T10:00:00.000Z',
-        updatedAt: '2024-11-22T10:00:00.000Z',
-      },
-      {
-        id: 2,
-        name: 'Bob Smith',
-        email: 'bob.smith@example.com',
-        password: '$2b$10$T8Ebp3cP8z/r2fOdY9/UuOwFFxNrs2GUO1rfRT3XPlK/ilbHXeYdW',
-        status: 'inactive',
-        token: null,
-        refreshToken: null,
-        createdAt: '2024-11-20T14:25:00.000Z',
-        updatedAt: '2024-11-21T15:30:00.000Z',
-      },
-    ];
-    initializeUsers(usersJSON);
-  }, [initializeUsers]);
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,18 +17,23 @@ export const Login = () => {
     if (!email || !password) {
       setErrorMessage('Por favor, completa todos los campos.');
       return;
-    }
+    };
+// Inicie un usuario
+    login({
+      id: 1,
+      name: 'Alice Johnson',
+      email: 'alice.johnson@example.com',
+      password: '123456',
+      status: 'active',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+      refreshToken: 'def5020023904f21cfe8b1bd9f...',
+      userRole: "Medicos",
+      createdAt: '2024-11-22T10:00:00.000Z',
+      updatedAt: '2024-11-22T10:00:00.000Z',
+    },'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9');
 
-    const token = authenticateUser(email, password);
-
-    if (token) {
-      alert('Inicio de sesión exitoso.');
-      setErrorMessage('');
-      console.log('Token recibido:', token);
-      // Aquí puedes redirigir al usuario o guardar el token en el estado global/localStorage
-    } else {
-      setErrorMessage('Correo o contraseña incorrectos.');
-    }
+    alert('Inicio de sesión exitoso.');
+    
   };
 
   return (
