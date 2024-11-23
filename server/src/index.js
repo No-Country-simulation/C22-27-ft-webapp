@@ -3,6 +3,9 @@ const app = express();
 const PORT = 3001;
 const router =require('./routes/index')
 const {conn}=require('./db/DB_connection')
+const {consulta}=require('./models/consultaModel')
+const {patient}=require('./models/patientModel')
+const {doctor}=require('./models/doctorModel')
 
 app.listen(PORT, async () => {
     await conn.sync({force: true})
