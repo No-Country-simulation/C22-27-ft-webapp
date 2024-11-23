@@ -1,78 +1,165 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import backgroundImg from '../assets/2dab48e71b17bd29b01469f11981c192.jpg';
+import useUserStore from '../store/useAuth';
 
 export const Login = () => {
-  return (
-    <div
-      className="d-flex flex-column min-vh-100"
-      style={{
-        backgroundImage: 'url("https://i.pinimg.com/736x/2d/ab/48/2dab48e71b17bd29b01469f11981c192.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        width: '100vw',
-      }}
-    >
-      {/* Header */}
-      <header className="bg-primary text-white p-2 w-100">
-        <nav className="container-fluid">
-          <h1 className="text-center">Hospital el PEPE</h1>
-        </nav>
-      </header>
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
+  // Estado y métodos de Zustand
+  const { users, initializeUsers, authenticateUser } = useUserStore();
+
+  // Simula cargar usuarios desde el JSON (podrías hacerlo con fetch en lugar de hardcodeado)
+  useEffect(() => {
+    const usersJSON = [
+      {
+        id: 1,
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        password: '123456',
+        status: 'active',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+        refreshToken: 'def5020023904f21cfe8b1bd9f...',
+        createdAt: '2024-11-22T10:00:00.000Z',
+        updatedAt: '2024-11-22T10:00:00.000Z',
+      },
+      {
+        id: 2,
+        name: 'Bob Smith',
+        email: 'bob.smith@example.com',
+        password: '$2b$10$T8Ebp3cP8z/r2fOdY9/UuOwFFxNrs2GUO1rfRT3XPlK/ilbHXeYdW',
+        status: 'inactive',
+        token: null,
+        refreshToken: null,
+        createdAt: '2024-11-20T14:25:00.000Z',
+        updatedAt: '2024-11-21T15:30:00.000Z',
+      },
+    ];
+    initializeUsers(usersJSON);
+  }, [initializeUsers]);
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      setErrorMessage('Por favor, completa todos los campos.');
+      return;
+    }
+
+    const token = authenticateUser(email, password);
+
+    if (token) {
+      alert('Inicio de sesión exitoso.');
+      setErrorMessage('');
+      console.log('Token recibido:', token);
+      // Aquí puedes redirigir al usuario o guardar el token en el estado global/localStorage
+    } else {
+      setErrorMessage('Correo o contraseña incorrectos.');
+    }
+  };
+
+  return (
+    <div className="d-flex flex-column min-vh-100">
       {/* Layout principal */}
-      <div className="d-flex flex-grow-1 justify-content-center align-items-center w-100 px-4">
-        {/* Formulario de Login (centrado verticalmente y en la derecha) */}
+      <div className="d-flex flex-grow-1 w-100">
+        {/* Sección de imagen */}
         <div
-          className="card shadow-sm"
           style={{
-            width: '100%',
-            height: '70%',
-            maxWidth: '450px', 
-            position: 'absolute',
-            right: '0',
-            marginRight: '60px',
-            padding: '20px', 
-            borderRadius: '8px', 
-            backgroundColor: 'rgba(200,200,200,0.4)',
+            flex: 1,
+            backgroundImage: `url(${backgroundImg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
+        ></div>
+
+        {/* Sección del formulario */}
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ width: '30%', background: 'rgba(200,200,200,0.4)' }}
         >
-          <div className="card-body">
-            <h4 className="card-title text-center mb-4">Bienvenido de nuevo</h4>
-            <form>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">Correo electrónico</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  placeholder="Ingresa tu correo"
-                  required
-                />
+          <div
+            style={{
+              width: '450px',
+              padding: '30px',
+              color: '#004C79',
+              fontSize: '15px',
+            }}
+          >
+            <div className="card-body">
+              <h2
+                className="card-title text-center mb-4"
+                style={{ color: '#004C79', fontWeight: '700px' }}
+              >
+                Bienvenido de nuevo!
+              </h2>
+              <br />
+              <br />
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Correo electrónico
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="Ingresa tu correo"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Contraseña
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    placeholder="Ingresa tu contraseña"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className="text-end">
+                  <a
+                    href="#"
+                    className="text-decoration-none mt-3"
+                    style={{ color: '#004C79', margin: '0' }}
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </a>
+                </div>
+                <br />
+                {errorMessage && <p className="text-danger">{errorMessage}</p>}
+                <button
+                  type="submit"
+                  className="btn w-100"
+                  style={{
+                    background: '#004C79',
+                    color: 'white',
+                    boxShadow: '0px 6px 12px rgba(0, 76, 121, 0.6)',
+                  }}
+                >
+                  Iniciar sesión
+                </button>
+              </form>
+              <div className="text-center mt-3">
+                <a
+                  href="/forgot-password"
+                  className="text-decoration-none"
+                  style={{ color: '#004C79' }}
+                >
+                  ¿No tienes una cuenta? Regístrate
+                </a>
               </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">Contraseña</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  placeholder="Ingresa tu contraseña"
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-primary w-100">Iniciar sesión</button>
-            </form>
-            <div className="text-center mt-3">
-              <a href="/forgot-password" className="text-decoration-none">¿Olvidaste tu contraseña?</a>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className=" text-black w-100" style={{ padding: '0px', paddingTop:'5px', paddingBottom:'0px', marginBottom:'0px' ,backgroundColor: 'rgba(200,200,200,0.4)'}}>
-        <div className="container text-center">
-          <p>&copy; 2024 Hospital el PEPE</p>
-        </div>
-      </footer>
     </div>
   );
 };

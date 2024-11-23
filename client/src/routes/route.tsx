@@ -31,7 +31,9 @@ import { Login } from "../page/login2";
 import { Layaud } from "../page/layaud";
 import ProtectedRoute from "./protectedRoute";
 import RouteRedirect from "./routeRedirect";
+
 import DashboardMedic from "../page/medico/dashboardMedic";
+
 const ROLES = {
   ADMIN: "Administrator",
   MEDIC: "Medicos",
@@ -42,7 +44,7 @@ const router = createBrowserRouter([
   // Ruta principal
   {
     path: "/",
-    element: <div>Página de Inicio</div>,
+    element: <div> <PaginaInicio /></div>,
     errorElement: <div>¡Ups! Algo salió mal - Página no encontrada</div>,
   },
 
