@@ -1,60 +1,33 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string; // Hash de la contraseña
-  status: string;
+interface AuthState {
+  user: any | null;
   token: string | null;
-  refreshToken: string | null;
-  createdAt: string;
-  updatedAt: string;
+  isAuthenticated: boolean;
+  login: (userData: any, token: string) => void;
+  logout: () => void;
 }
 
-interface UserStore {
-  users: User[];
-  currentUser: User | null;
-  initializeUsers: (jsonUsers: User[]) => void;
-  authenticateUser: (email: string, password: string) => string | null; // Devuelve un token si es válido
-  logoutUser: () => void;
-  getUserByToken: (token: string) => User | null;
-}
-
-const useUserStore = create<UserStore>((set, get) => ({
-  users: [],
-  currentUser: null,
-
-  // Inicializa la lista de usuarios con datos del JSON
-  initializeUsers: (jsonUsers: User[]) => {
-    set({ users: jsonUsers });
-  },
-
-  // Autentica al usuario verificando el correo y contraseña
-  authenticateUser: (email, password) => {
-    const users = get().users;
-    const user = users.find((u) => u.email === email && u.status === 'active');
-
-    if (user) {
-      // Simula la verificación del hash de la contraseña
-      if (password === user.password) {
-        set({ currentUser: user });
-        return user.token || null; // Devuelve el token si existe
-      }
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      login: (userData, token) => set({
+        user: userData,
+        token,
+        isAuthenticated: true
+      }),
+      logout: () => set({
+        user: null,
+        token: null,
+        isAuthenticated: false
+      })
+    }),
+    {
+      name: 'auth-storage'
     }
-    return null; // Retorna null si las credenciales no son válidas
-  },
-
-  // Cierra sesión eliminando el usuario actual
-  logoutUser: () => {
-    set({ currentUser: null });
-  },
-
-  // Obtiene un usuario basado en el token
-  getUserByToken: (token) => {
-    const users = get().users;
-    return users.find((user) => user.token === token) || null;
-  },
-}));
-
-export default useUserStore;
+  )
+);
