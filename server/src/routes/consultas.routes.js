@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const consultaController = require('../controllers/consulta.controller');
 
-router.get('/', consultaController.create);
+router.post('/', consultaController.createConsultation);
 
-router.get('/', consultaController.findAll);
+router.get('/', consultaController.findAllConsultations);
 
 router.route('/:id')
-    .get(consultaController.findOne)
-    .put(consultaController.update)
-    .delete(consultaController.remove);
+    .get(consultaController.findOneConsultation)
+    .patch(consultaController.updateConsultation)
+    .delete(consultaController.deleteConsultation);
 module.exports = router;

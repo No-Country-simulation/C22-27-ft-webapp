@@ -23,7 +23,7 @@ const Doctor = conn.define('doctor', {
     // rolId: {}
 })
 
-Doctor.hasMany(Consultation, {
+Doctor.hasOne(Consultation, {
     foreignKey: 'doctorId',
     sourceKey: 'id'
 });

@@ -2,18 +2,14 @@ const PatientController = require('../models/patientModel');
 
 exports.createPatient = async (req, res) => {
     try {
-        const { dateBirth, address, phone } = req.body;
+        const { name, age, dateBirth, address, phone } = req.body;
 
         const createPatient = await PatientController.create({
+            name,
+            age,
             dateBirth,
             address,
             phone,
-            // include: [
-            //     {
-            //         association: 'consultations',
-            //         include: []
-            //     }
-            // ]
         })
 
         res.status(200).json({ message: 'Paciente creado correctamente.', data: createPatient });
@@ -44,16 +40,17 @@ exports.findOnePatient = async (req, res) => {
 exports.updatePatient = async (req, res) => {
     try {
         const { id } = req.params;
-        const { dateBirth, address, phone } = req.body;
+        const { age, dateBirth, address, phone } = req.body;
         const update = await PatientController.update(
             {
+                age,
                 dateBirth,
                 address,
                 phone
             },
             { where: { id } }
         )
-        res.json({ message: 'Paciente actualizado correctamente.', data: { dateBirth, address, phone } });
+        res.json({ message: 'Paciente actualizado correctamente.', data: { age, dateBirth, address, phone } });
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Error al actualizar el paciente.', details: err.message });

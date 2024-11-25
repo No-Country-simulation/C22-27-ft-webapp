@@ -11,6 +11,16 @@ const Patient = conn.define('patient',{
 
     // userId: {},
 
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    age: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+
     dateBirth: {
         type: DataTypes.DATE,
         allowNull: false
@@ -22,14 +32,14 @@ const Patient = conn.define('patient',{
     },
 
     phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false
     },
 
     // rolId: {}
 })
 
-Patient.hasMany(Consultation, {
+Patient.hasOne(Consultation, {
     foreignKey: 'patientId',
     sourceKey: 'id'
 });
