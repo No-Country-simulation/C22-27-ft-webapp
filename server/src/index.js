@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 const router =require('./routes/index')
+const cookieParser = require("cookie-parser");
 
 const {conn}=require('./db/DB_connection')
 
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(cookieParser());
 
 app.use(express.json())
 
