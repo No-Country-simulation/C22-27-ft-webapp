@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const notificationsController = require('../controllers/notificationsController.js');
+const authorization = require("../middlewares/authorization.middleware.js");
+const checkToken = require('../middlewares/checkTocken.middleware.js');
 
-router.get('/', notificationsController.getAllNotification); 
+router.get('/', checkToken , authorization("admin"), notificationsController.getAllNotification); 
 router.get('/:id',notificationsController.getNotificationById);
-router.get('/:usuario_id', notificationsController.getNotificationByUser);
+router.get('/userId/:usuario_id', notificationsController.getNotificationByUser);
 router.post('/', notificationsController.createNotification);
 router.patch('/:id/enviado', notificationsController.markAsSent);
 router.delete('/:id', notificationsController.deleteNotificationById);

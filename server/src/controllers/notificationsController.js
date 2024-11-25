@@ -5,8 +5,7 @@ const Notificacion = require('../models/notifications.js');
 exports.createNotification = async (req, res) => {
   try {
     const { usuario_id, message, type } = req.body;
-
-    // Crear la notificación
+   
     const notificacion = await Notificacion.create({ usuario_id, message, type });
 
     res.status(201).json({ message: 'Notificación creada con éxito.', notificacion });
@@ -19,10 +18,8 @@ exports.createNotification = async (req, res) => {
 exports.getAllNotification = async (req, res) => {
   try {
     const notificaciones = await Notificacion.findAll({
-      include: {
-        //model: Usuario,
-        attributes: ['nombre', 'email'], 
-      },
+        attributes: ['message', 'type'], 
+      
     });
 
     res.status(200).json(notificaciones);

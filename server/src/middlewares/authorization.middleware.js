@@ -1,8 +1,8 @@
 const { request, response } = require("express");
 
-export const authorization = (role) => {
-
+const authorization = (role) => {
   return async (req = request, res = response, next) => {
+    
     if (!req.user)
       return res.status(401).json({ status: "error", msg: "Unauthorized" });
     if (req.user.role != role)
@@ -10,3 +10,5 @@ export const authorization = (role) => {
     next();
   };
 };
+
+module.exports = authorization;
