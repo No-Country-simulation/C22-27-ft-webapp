@@ -1,8 +1,11 @@
 import { useState, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
+import { GoGear } from 'react-icons/go'
+import { TbBellRinging, TbBellRingingFilled } from 'react-icons/tb'
+import { BiSearch } from 'react-icons/bi'
 
 const Navbar = () => {
-  const [notificaciones, setNotificaciones] = useState(5)
+  const [notificaciones, setNotificaciones] = useState(10)
   const [showNotifications, setShowNotifications] = useState(false)
   const notificationRef = useRef(null)
 
@@ -15,22 +18,31 @@ const Navbar = () => {
   return (
     <nav
       className="navbar shadow-sm p-3 w-auto "
-      style={{ 
+      style={{
         backgroundColor: '#337094',
       }}
     >
       <div className="container-fluid px-4">
-        
         {/* Buscador */}
-        <div className="d-flex" style={{  width: '600px' }}>
+        <div className="d-flex" style={{ width: '600px' }}>
           <div className="input-group">
             <span className="input-group-text border-0 bg-white bg-opacity-25">
-              <span className="text-white">🔍</span>
+              <BiSearch className="text-white" />
             </span>
+            
             <input
               type="search"
-              className="form-control border-0 bg-white bg-opacity-25 text-white"
               placeholder="Buscar paciente..."
+              className='form-control'
+              style={{
+                border: '1px solid rgba(255, 255, 255, 0.9)',
+                background: "rgba(255, 255, 255, 0.9)",
+                borderRadius: ' 0 6px 6px 0',
+                padding: '8px 12px',
+                width: '240px',
+                fontSize: '14px',
+                color: '#1e293b',
+              }}
             />
           </div>
         </div>
@@ -40,15 +52,24 @@ const Navbar = () => {
           {/* Notificaciones */}
           <div ref={notificationRef} className="dropdown">
             <button
-              className="btn d-flex align-items-center justify-content-center position-relative rounded-circle"
+              className="btn d-flex align-items-center justify-content-center position-relative rounded"
               onClick={() => setShowNotifications(!showNotifications)}
               style={{
-                width: '40px',
-                height: '40px',
                 backgroundColor: 'rgba(255, 255, 255, 0.2)',
               }}
             >
-              <span className="text-white fs-5">🔔</span>
+              {/* btn notificaciones */}
+              {notificaciones > 0 ? (
+                <TbBellRingingFilled
+                  className="text-white text-decoration-none"
+                  style={{ fontSize: '25px' }}
+                />
+              ) : (
+                <TbBellRinging
+                  className="text-white text-decoration-none"
+                  style={{ fontSize: '25px' }}
+                />
+              )}
               {notificaciones > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   {notificaciones}
@@ -78,7 +99,7 @@ const Navbar = () => {
                     }`}
                     style={{
                       backgroundColor: index === 0 ? '#337094' : 'transparent',
-                      color: index === 0 ? 'white' : 'inherit'
+                      color: index === 0 ? 'white' : 'inherit',
                     }}
                   >
                     <div className="d-flex justify-content-between align-items-start">
@@ -94,30 +115,33 @@ const Navbar = () => {
                 ))}
 
                 <div className="p-2 text-center">
-                  <small 
-                  role="button" 
-                  className='btn w-100 border' 
-                  style={{ 
-                    color:"#004C79",
-                  }}>
+                  <NavLink
+                    to="consultas"
+                    role="button"
+                    className="btn w-100 border"
+                    style={{
+                      color: '#004C79',
+                    }}
+                  >
                     Ver todas las notificaciones
-                  </small>
+                  </NavLink>
                 </div>
               </div>
             )}
           </div>
 
           {/* Settings */}
-          <NavLink 
-            to="configuracion" 
-            className="btn d-flex align-items-center justify-content-center rounded-circle"
+          <NavLink
+            to="configuracion"
+            className="btn d-flex align-items-center justify-content-center rounded"
             style={{
-              width: '40px',
-              height: '40px',
               backgroundColor: 'rgba(255, 255, 255, 0.2)',
             }}
           >
-            <span className="fs-4 text-white text-decoration-none">⚙️</span>
+            <GoGear
+              className="text-white text-decoration-none"
+              style={{ fontSize: '25px' }}
+            />
           </NavLink>
 
           {/* Avatar */}
