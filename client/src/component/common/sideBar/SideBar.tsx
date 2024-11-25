@@ -28,7 +28,6 @@ const NavLinkItem = ({ to, badge, children }: NavLinkItemProps) => (
 )
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false)
   return (
         <div className={styles.sidebar}>
           {/* Perfil */}
