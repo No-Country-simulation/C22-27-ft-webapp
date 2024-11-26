@@ -21,7 +21,7 @@ const responseInterceptor = (response: AxiosResponse) => {
 
 const responseErrorInterceptor = (error: AxiosError) => {
   if (error.response?.status === 401) {
-    localStorage.removeItem("token");
+    localStorage.removeItem("auth-storage");
     window.location.href = "/login";
   }
   return Promise.reject(error);
