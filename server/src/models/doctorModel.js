@@ -6,10 +6,26 @@ const Doctor = conn.define('doctor', {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
-        autoIncrement: true
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
     },
 
     // userId: {},
+
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    age: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+
+    dateBirth: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
 
     specialty: {
         type: DataTypes.STRING,
@@ -17,7 +33,8 @@ const Doctor = conn.define('doctor', {
     },
 
     numberDoctor: {
-      type: DataTypes.STRING,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
     }
 
     // rolId: {}

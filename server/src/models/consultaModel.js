@@ -5,7 +5,8 @@ const Consultation = conn.define('consultation', {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
     },
 
     date: {

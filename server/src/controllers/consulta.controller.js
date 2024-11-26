@@ -1,15 +1,18 @@
-const ConsultationController = require('../models/consultaModel');
-const PatientController = require('../models/patientModel');
+const ConsultationModel = require('../models/consultaModel');
+const PatientModel = require('../models/patientModel');
+const DoctorModel = require('../models/doctorModel');
 
 exports.createConsultation = async (req, res) => {
         try {
-            const { date, status, desciption, patientId } = req.body;
+            const { date, status, desciption, patientId, doctorId } = req.body;
 
-            const createConsultation = await ConsultationController.create({
+            const createConsultation = await ConsultationModel.create({
                 date,
                 status,
-                desciption
-            })
+                desciption,
+                patientId,
+                doctorId
+            });
             res.json({ message: 'Consulta creada correctamente.', data: createConsultation });
         } catch (err) {
             res.status(500).send(err);
@@ -18,13 +21,16 @@ exports.createConsultation = async (req, res) => {
 
 exports.findAllConsultations = async  (req, res) => {
     try {
-        const allConsultations = await ConsultationController.findAll({
+        const allConsultations = await ConsultationModel.findAll({
             include: [
                 {
-                    model: PatientController,
-                    attributes: ['id']
+                    model: PatientModel
+                },
+                {
+                    model: DoctorModel
                 }
-            ]
+            ],
+            attributes: { exclude: ['patientId', 'doctorId'] }
         });
         res.json(allConsultations);
     } catch (err) {
@@ -35,7 +41,22 @@ exports.findAllConsultations = async  (req, res) => {
 exports.findOneConsultation = async (req, res) => {
     try {
         const { id } = req.params;
-        const findOne = await ConsultationController.findByPk(id);
+        const findOne = await ConsultationModel.findByPk(id, {
+            include: [
+                {
+                    model: PatientModel
+                },
+                {
+                    model: DoctorModel
+                }
+            ],
+            attributes: { exclude: ['patientId', 'doctorId'] }
+        });
+
+        if (!findOne) {
+            res.json({ message: 'Consulta no encontrada.' });
+        }
+
         res.json(findOne);
     } catch (err) {
         res.status(500).json({ error: 'Error al buscar la consulta.', details: err.message });
@@ -46,8 +67,13 @@ exports.updateConsultation = async (req, res) => {
     try {
         const { id } = req.params;
         const { status, desciption } = req.body;
+        const search = await ConsultationModel.findByPk(id);
 
-        const update = await ConsultationController.update(
+        if (!search) {
+            res.json({ message: 'Consulta no encontrada.' });
+        }
+
+        const update = await ConsultationModel.update(
             {
                 status,
                 desciption
@@ -62,6 +88,17 @@ exports.updateConsultation = async (req, res) => {
 
 exports.deleteConsultation = async (req, res) => {
     try {
-        
-    } catch (err) {}
+        const { id } = req.params;
+        const search = await ConsultationModel.findByPk(id);
+
+        if (!search) {
+            res.json({ message: 'Consulta no encontrada.' });
+        }
+
+        await ConsultationModel.destroy({ where: { id } });
+
+        res.json({ message: 'Consulta eliminada correctamente.' });
+    } catch (err) {
+        res.status(500).json({ error: 'Error al eliminar la consulta.', details: err.message });
+    }
 }

@@ -6,7 +6,8 @@ const Patient = conn.define('patient',{
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
-        autoIncrement: true
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
     },
 
     // userId: {},
@@ -44,7 +45,7 @@ Patient.hasOne(Consultation, {
     sourceKey: 'id'
 });
 
-Consultation.belongsTo(Patient, {
+const belongs = Consultation.belongsTo(Patient, {
     foreignKey: 'patientId',
     targetId: 'id'
 });
