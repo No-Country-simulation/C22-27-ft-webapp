@@ -1,4 +1,4 @@
-const Notificacion = require('../models/notifications.js');
+const Notification = require('../models/notifications.js');
 //const Usuario = require('../models/Usuarios'); 
 
 // Crear una notificación
@@ -6,25 +6,23 @@ exports.createNotification = async (req, res) => {
   try {
     const { usuario_id, message, type } = req.body;
    
-    const notificacion = await Notificacion.create({ usuario_id, message, type });
+    const notification = await Notificacion.create({ usuario_id, message, type });
 
-    res.status(201).json({ message: 'Notificación creada con éxito.', notificacion });
+    res.status(201).json({ message: "Notification successfully created.", notification });
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear la notificación.', details: error.message });
+    res.status(500).json({ error: "Error creating the notification.", details: error.message });
   }
 };
 
 // Obtener todas las notificaciones
 exports.getAllNotification = async (req, res) => {
   try {
-    const notificaciones = await Notificacion.findAll({
-        attributes: ['message', 'type'], 
-      
+    const notifications = await Notification.findAll({
+        attributes: ['message', 'type'],
     });
-
-    res.status(200).json(notificaciones);
+    res.status(200).json(notifications);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener las notificaciones.', details: error.message });
+    res.status(500).json({ error: "Error fetching the notifications.", details: error.message });
   }
 };
 
@@ -32,13 +30,13 @@ exports.getAllNotification = async (req, res) => {
 exports.getNotificationByUser = async (req, res) => {
   try {
     const { usuario_id } = req.params;
-    const notificaciones = await Notificacion.findAll({
+    const notifications = await Notification.findAll({
       where: { usuario_id },
     });
 
-    res.status(200).json(notificaciones);
+    res.status(200).json(notifications);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener notificaciones del usuario.', details: error.message });
+    res.status(500).json({ error: "Error fetching user notifications.", details: error.message });
   }
 };
 
@@ -47,17 +45,17 @@ exports.markAsSent = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const notificacion = await Notificacion.findByPk(id);
-    if (!notificacion) {
-      return res.status(404).json({ error: 'Notificación no encontrada.' });
+    const notifications = await Notification.findByPk(id);
+    if (!notifications) {
+      return res.status(404).json({ error:"Notification not found."});
     }
 
-    notificacion.enviado = true;
-    await notificacion.save();
+    notifications.enviado = true;
+    await notifications.save();
 
-    res.status(200).json({ message: 'Notificación marcada como enviada.', notificacion });
+    res.status(200).json({ message: "Notification marked as sent.", details: notifications });
   } catch (error) {
-    res.status(500).json({ error: 'Error al marcar la notificación como enviada.', details: error.message });
+    res.status(500).json({ error: "Error marking the notification as sent.", details: error.message });
   }
 };
 

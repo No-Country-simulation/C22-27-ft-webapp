@@ -37,14 +37,13 @@ const login = async (req = request, res = response) => {
     // Buscar el usuario en la base de datos por email
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).json({ status: "error", msg: "Usuario no encontrado" });
+      return res.status(404).json({ status: "error", msg: "User not found" });
     }
     // Validar la contraseña
     const passwordMatch = isValidPassword(user.hashpass, password);
     if (!passwordMatch) {
-      return res.status(401).json({ status: "error", msg: "Contraseña incorrecta" });
+      return res.status(401).json({ status: "error", msg: "Incorrect password" });
     }
-
     // Generar el token
     const token = createToken(user);
 
@@ -54,12 +53,12 @@ const login = async (req = request, res = response) => {
     // Responder con éxito
     return res.status(200).json({
       status: "ok",
-      msg: "Inicio de sesión exitoso",
+      msg: "Login successful",
       payload: { id: user.id, email: user.email, name: user.name },
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ status: "error", msg: "Error interno del servidor" });
+    return res.status(500).json({ status: "error", msg: "Internal server error"});
   }
 };
 

@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const {conn}=require('./db/DB_connection')
 
 app.listen(PORT, async () => {
-    await conn.sync({force: true})
+    await conn.sync({force: false})
     console.log('Server OK in port: ' + PORT);
 });
 
