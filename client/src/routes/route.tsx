@@ -33,6 +33,9 @@ import ProtectedRoute from "./protectedRoute";
 import RouteRedirect from "./routeRedirect";
 
 import DashboardMedic from "../page/medico/dashboardMedic";
+import Historial  from "../page/historial/historial";
+import { Tpacientes } from "../page/tpacientes/tpacientes";
+
 
 const ROLES = {
   ADMIN: "Administrator",
@@ -107,11 +110,11 @@ const router = createBrowserRouter([
       },
       {
         path: "pacientes",
-        element: <div>Lista de Pacientes</div>,
+        element: <Tpacientes/>,
       },
       {
         path: "historial/:pacienteId",
-        element: <div>Historial del Paciente</div>,
+        element: <Historial />,
       },
     ],
   },
