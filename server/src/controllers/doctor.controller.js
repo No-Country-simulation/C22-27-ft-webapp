@@ -2,12 +2,17 @@ const doctorModel = require('../models/doctorModel');
 
 exports.createDoctor = async (req, res) => {
     try {
-        const { name, age, dateBirth, specialty } = req.body;
+        const { name, rol, age, email, password, dateBirth, address, phone, specialty } = req.body;
 
         const create = await doctorModel.create({
             name,
+            rol,
             age,
+            email,
+            password,
             dateBirth,
+            address,
+            phone,
             specialty
         })
         res.json({ message: 'Doctor creado correctamente.', data: create });
@@ -49,18 +54,23 @@ exports.updateDoctor = async (req, res) => {
             res.json({ message: 'Doctor no encontrado.' });
         }
 
-        const { name, age, dateBirth, specialty } = req.body;
+        const { name, rol, age, email, password, dateBirth, address, phone, specialty} = req.body;
 
         await doctorModel.update(
             {
                 name,
+                rol,
                 age,
+                email,
+                password,
                 dateBirth,
+                address,
+                phone,
                 specialty
             },
             { where: { id } }
         )
-        res.json({ message: 'Doctor actualizado correctamente.', data: { name, age, dateBirth, specialty } });
+        res.json({ message: 'Doctor actualizado correctamente.', data: { name, rol, age, email, password, dateBirth, address, phone, specialty } });
     } catch (err) {
         res.status(500).json({ error: 'Error al actualizar el doctor.', details: err.message });
     }

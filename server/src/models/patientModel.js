@@ -10,7 +10,10 @@ const Patient = conn.define('patient',{
         defaultValue: DataTypes.UUIDV4
     },
 
-    // userId: {},
+    rol: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
 
     name: {
         type: DataTypes.STRING,
@@ -19,6 +22,16 @@ const Patient = conn.define('patient',{
 
     age: {
         type: DataTypes.INTEGER,
+        allowNull: false
+    },
+
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    password: {
+        type: DataTypes.STRING,
         allowNull: false
     },
 
@@ -36,8 +49,6 @@ const Patient = conn.define('patient',{
         type: DataTypes.BIGINT,
         allowNull: false
     },
-
-    // rolId: {}
 })
 
 Patient.hasOne(Consultation, {

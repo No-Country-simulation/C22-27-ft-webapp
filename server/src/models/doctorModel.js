@@ -10,7 +10,10 @@ const Doctor = conn.define('doctor', {
         defaultValue: DataTypes.UUIDV4
     },
 
-    // userId: {},
+    rol: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
 
     name: {
         type: DataTypes.STRING,
@@ -22,8 +25,28 @@ const Doctor = conn.define('doctor', {
         allowNull: false
     },
 
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
     dateBirth: {
         type: DataTypes.DATE,
+        allowNull: false
+    },
+
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    phone: {
+        type: DataTypes.BIGINT,
         allowNull: false
     },
 
@@ -36,8 +59,6 @@ const Doctor = conn.define('doctor', {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
     }
-
-    // rolId: {}
 })
 
 Doctor.hasOne(Consultation, {
@@ -47,7 +68,8 @@ Doctor.hasOne(Consultation, {
 
 Consultation.belongsTo(Doctor, {
     foreignKey: 'doctorId',
-    targetId: 'id'
+    targetId: 'id',
+    allowNull: false
 })
 
 module.exports = Doctor;
