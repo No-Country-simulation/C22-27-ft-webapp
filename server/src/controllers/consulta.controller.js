@@ -13,9 +13,9 @@ exports.createConsultation = async (req, res) => {
                 patientId,
                 doctorId
             });
-            res.json({ message: 'Consulta creada correctamente.', data: createConsultation });
+            return res.json({ message: 'Consulta creada correctamente.', data: createConsultation });
         } catch (err) {
-            res.status(500).send(err);
+            return res.status(500).send(err);
         }
 }
 
@@ -32,9 +32,9 @@ exports.findAllConsultations = async  (req, res) => {
             ],
             attributes: { exclude: ['patientId', 'doctorId'] }
         });
-        res.json(allConsultations);
+        return res.json(allConsultations);
     } catch (err) {
-        res.status(500).json({ error: 'Error al buscar las consultas.', details: err.message });
+        return res.status(500).json({ error: 'Error al buscar las consultas.', details: err.message });
     }
 }
 
@@ -54,12 +54,12 @@ exports.findOneConsultation = async (req, res) => {
         });
 
         if (!findOne) {
-            res.json({ message: 'Consulta no encontrada.' });
+            return res.json({ message: 'Consulta no encontrada.' });
         }
 
-        res.json(findOne);
+        return res.json(findOne);
     } catch (err) {
-        res.status(500).json({ error: 'Error al buscar la consulta.', details: err.message });
+        return res.status(500).json({ error: 'Error al buscar la consulta.', details: err.message });
     }
 }
 
@@ -70,7 +70,7 @@ exports.updateConsultation = async (req, res) => {
         const search = await ConsultationModel.findByPk(id);
 
         if (!search) {
-            res.json({ message: 'Consulta no encontrada.' });
+            return res.json({ message: 'Consulta no encontrada.' });
         }
 
         const update = await ConsultationModel.update(
@@ -80,9 +80,9 @@ exports.updateConsultation = async (req, res) => {
             },
             { where: { id } }
         )
-        res.json({ message: 'Consulta actualizada correctamente.', data: { status, desciption } });
+        return res.json({ message: 'Consulta actualizada correctamente.', data: { status, desciption } });
     } catch (err) {
-        res.status(500).json({ error: 'Error al actualizar la consulta.', details: err.message });
+        return res.status(500).json({ error: 'Error al actualizar la consulta.', details: err.message });
     }
 }
 
@@ -92,13 +92,13 @@ exports.deleteConsultation = async (req, res) => {
         const search = await ConsultationModel.findByPk(id);
 
         if (!search) {
-            res.json({ message: 'Consulta no encontrada.' });
+            return res.json({ message: 'Consulta no encontrada.' });
         }
 
         await ConsultationModel.destroy({ where: { id } });
 
-        res.json({ message: 'Consulta eliminada correctamente.' });
+        return res.json({ message: 'Consulta eliminada correctamente.' });
     } catch (err) {
-        res.status(500).json({ error: 'Error al eliminar la consulta.', details: err.message });
+        return res.status(500).json({ error: 'Error al eliminar la consulta.', details: err.message });
     }
 }
