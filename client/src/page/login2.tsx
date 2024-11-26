@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import backgroundImg from '../assets/2dab48e71b17bd29b01469f11981c192.jpg';
 import { useAuthStore } from '../store/useAuth';
-
+import { authApi } from '../APIs/auth.api';
+import { useNavigate } from 'react-router-dom';
 export const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const navigate = useNavigate();
   // Estado y métodos de Zustand
   const { login } = useAuthStore();
 
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -19,20 +21,21 @@ export const Login = () => {
       return;
     };
 // Inicie un usuario
-    login({
-      id: 1,
-      name: 'Alice Johnson',
-      email: 'alice.johnson@example.com',
-      password: '123456',
-      status: 'active',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
-      refreshToken: 'def5020023904f21cfe8b1bd9f...',
-      userRole: "Medicos",
-      createdAt: '2024-11-22T10:00:00.000Z',
-      updatedAt: '2024-11-22T10:00:00.000Z',
-    },'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9');
-
-    alert('Inicio de sesión exitoso.');
+  try {
+    const response = await authApi.login({ email, password });
+    console.log('response', response);
+    login(response.user, response.token);
+    //redirigir al panel segun el rol del usuario
+    if(response.user.role === 'admin'){
+     return navigate('/app-administrador');
+    }else if(response.user.role === 'doctor'){
+      return navigate('/app-medico');
+    }else{
+      return navigate('/app-paciente');
+    }
+  } catch (error) {
+    console.log(error)
+  }
     
   };
 

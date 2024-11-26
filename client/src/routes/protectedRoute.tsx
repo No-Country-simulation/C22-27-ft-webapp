@@ -1,24 +1,20 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useAuthStore } from "../store/useAuth";
 
 interface ProtectedRouteProps {
   children: ReactNode;
   allowedRoles: string[];
 }
 
-const useMockAuth = () => {
-  return {
-    isAuthenticated: true,
-    userRole: "Medicos",
-  };
-};
 const ProtectedRoute = ({
   children,
   allowedRoles = [],
 }: ProtectedRouteProps) => {
-  const { isAuthenticated, userRole } = useMockAuth();
+  const { isAuthenticated,user } = useAuthStore();
   const location = useLocation();
-
+  const userRole = user?.role;
+  
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace={true} />;
   }
