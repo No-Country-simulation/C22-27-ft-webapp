@@ -6,7 +6,7 @@ export const Layaud = () => {
   return (
     <div className="d-flex flex-column" style={{ minHeight: "100vh", background:"#E8E8E8"}}>
       {/* Header */}
-      <header className="flex-grow-1 d-flex flex-column "
+      <header className="flex-grow-1 d-flex flex-column sticky-top"
       style={{marginLeft:"250px"}}> 
         <Navbar/>
       </header>
@@ -31,7 +31,8 @@ export const Layaud = () => {
         <main
           className="flex-grow-1 "
           style={{
-            padding: "20px"
+            padding: "20px",
+            background: 'linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%)'
           }}
         >
           <Outlet/>

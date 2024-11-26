@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import styles from './SideBar.module.css'
+import styles from './Sidebar.module.css'
 import { useState } from 'react'
 
 // Define las propiedades requeridas para un NavLink
