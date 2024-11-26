@@ -33,8 +33,10 @@ import ProtectedRoute from "./protectedRoute";
 import RouteRedirect from "./routeRedirect";
 
 import DashboardMedic from "../page/medico/dashboardMedic";
+import ConsultasMedic from "../page/medico/consultasMedic";
 import Historial  from "../page/historial/historial";
 import { Tpacientes } from "../page/tpacientes/tpacientes";
+
 
 
 const ROLES = {
@@ -106,7 +108,8 @@ const router = createBrowserRouter([
       },
       {
         path: "consultas",
-        element: <div>Consultas Pendientes</div>,
+        element: <ConsultasMedic/>,
+        // element: <div>Consultas Pendientes</div>,
       },
       {
         path: "pacientes",

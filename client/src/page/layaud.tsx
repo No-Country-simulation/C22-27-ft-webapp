@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../component/sideBar/Sidebar";
-import Navbar from "../component/navbar/Navbar";
+import Sidebar from "../component/common/sideBar/SideBar";
+import Navbar from "../component/common/navbar/Navbar";
 
 export const Layaud = () => {
   return (
-    <div className="d-flex flex-column" style={{ minHeight: "100vh", width: "100vw", background:"#E8E8E8"}}>
+    <div className="d-flex flex-column" style={{ minHeight: "100vh", background:"#E8E8E8"}}>
       {/* Header */}
-      <header className="flex-grow-1 d-flex flex-column "
+      <header className="flex-grow-1 d-flex flex-column sticky-top"
       style={{marginLeft:"250px"}}> 
         <Navbar/>
       </header>
@@ -29,9 +29,10 @@ export const Layaud = () => {
 
         {/* Contenido principal */}
         <main
-          className="flex-grow-1 p-4"
+          className="flex-grow-1 "
           style={{
-            padding: "20px"
+            padding: "20px",
+            background: 'linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%)'
           }}
         >
           <Outlet/>
