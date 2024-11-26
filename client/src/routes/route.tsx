@@ -40,9 +40,9 @@ import { Tpacientes } from "../page/tpacientes/tpacientes";
 
 
 const ROLES = {
-  ADMIN: "Administrator",
-  MEDIC: "Medicos",
-  PATIENT: "Pacientes",
+  ADMIN: "admin",
+  MEDIC: "doctor",
+  PATIENT: "patient",
 };
 
 const router = createBrowserRouter([
@@ -162,6 +162,10 @@ const router = createBrowserRouter([
   {
     path: "/registro",
     element: <div>Página de Registro</div>,
+  },
+  {
+    path: "/unauthorized",
+    element: <div>No autorizado</div>,
   },
 ]);
 
