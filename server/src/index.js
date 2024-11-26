@@ -3,7 +3,9 @@ const app = express();
 const PORT = 3001;
 const router =require('./routes/index')
 const {conn}=require('./db/DB_connection')
+const { sequelize } = require('./models');
 
+app.use(express.json())
 app.listen(PORT, async () => {
     await conn.sync({force: true})
     console.log('Server OK in port: ' + PORT);
@@ -23,7 +25,7 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(express.json())
+
 
 app.use('/healdtech',router)
 
