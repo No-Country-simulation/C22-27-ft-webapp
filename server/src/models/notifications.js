@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const {conn}=require('../db/DB_connection');
-const User = require("./users.js")
 const MedicalHistory = require('./medicalHistory.js')
 const Consultation = require('./consultaModel.js')
+const Patient = require('./patientModel.js')
 
 const Notificacion = conn.define('Notificacion', {
   id: {
@@ -10,14 +10,6 @@ const Notificacion = conn.define('Notificacion', {
     primaryKey: true,
     autoIncrement: true,
   },
-//   usuario_id: {
-//     type: DataTypes.BIGINT,
-//     allowNull: false,
-//     references: {
-//       model: Usuario,
-//       key: 'id',  
-//     },
-//   },
   message: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -35,19 +27,19 @@ const Notificacion = conn.define('Notificacion', {
   tableName: 'notificaciones',
 });
 
-Notificacion.belongsTo(User, {
-  foreignKey: 'patientId',
-  as: 'user',
-});
+// Notificacion.belongsTo(Patient, {
+//   foreignKey: 'patientId',
+//   as: 'patient',
+// });
 
-Notificacion.belongsTo(MedicalHistory, {
-  foreignKey: 'medicalHistoryId',
-  as: 'medicalHistory',
-});
+// Notificacion.belongsTo(MedicalHistory, {
+//   foreignKey: 'medicalHistoryId',
+//   as: 'medicalHistory',
+// });
 
-Notificacion.belongsTo(Consultation, {
-  foreignKey: 'consultationId',
-  as: 'consultation',
-});
+// Notificacion.belongsTo(Consultation, {
+//   foreignKey: 'consultationId',
+//   as: 'consultation',
+// });
 
 module.exports = Notificacion;

@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
-const Consultation = require('./consultaModel');
+const Consultation = require('./consultaModel.js');
 
 const Patient = conn.define('patient',{
     id: {

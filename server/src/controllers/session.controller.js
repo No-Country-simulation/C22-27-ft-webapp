@@ -1,15 +1,15 @@
 const { request, response } = require("express");
 const { createHash, isValidPassword } = require("../utils/hashPassword.js");
 const { createToken,  } = require("../utils/jw.js");
-const User = require('../models/users.js'); 
+const Patient = require('../models/patientModel.js'); 
 
 const register = async (req = request, res = response) => {
   try {
     const { email, password, name } = req.body;
 
     // Verificar si ya existe un usuario con el email proporcionado
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
+    const existingPatient = await Patient.findOne({ where: { email } });
+    if (existingPatient) {
       return res.status(400).json({ status: "error", msg: "Email already registered" });
     }
 
@@ -17,13 +17,13 @@ const register = async (req = request, res = response) => {
     const hashedPassword = createHash(password);
 
     // Crear el usuario en la base de datos
-    const newUser = await User.create({
+    const newPatient = await Patient.create({
       email,
       password: hashedPassword,
       name,
     });
 
-    res.status(201).json({ status: "ok", msg: "User created", user: newUser });
+    res.status(201).json({ status: "ok", msg: "patient created", Patient: newPatient });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: "error", msg: "Internal server error" });
@@ -35,17 +35,17 @@ const login = async (req = request, res = response) => {
   try {
     const { email, password } = req.body;
     // Buscar el usuario en la base de datos por email
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(404).json({ status: "error", msg: "User not found" });
+    const patient = await Patient.findOne({ where: { email } });
+    if (!patient) {
+      return res.status(404).json({ status: "error", msg: "patient not found" });
     }
     // Validar la contraseña
-    const passwordMatch = isValidPassword(user.hashpass, password);
+    const passwordMatch = isValidPassword(patient.hashpass, password);
     if (!passwordMatch) {
       return res.status(401).json({ status: "error", msg: "Incorrect password" });
     }
     // Generar el token
-    const token = createToken(user);
+    const token = createToken(patient);
 
     // Configurar la cookie con el token
     res.cookie("token", token, { httpOnly: true });
@@ -54,7 +54,7 @@ const login = async (req = request, res = response) => {
     return res.status(200).json({
       status: "ok",
       msg: "Login successful",
-      payload: { id: user.id, email: user.email, name: user.name },
+      payload: { id: patient.id, email: patient.email, name: patient.name },
     });
   } catch (error) {
     console.error(error);

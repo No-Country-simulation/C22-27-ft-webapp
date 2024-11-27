@@ -1,10 +1,11 @@
-const PatientController = require('../models/patientModel');
+const Patient = require('../models/patientModel.js');
+
 
 exports.createPatient = async (req, res) => {
     try {
         const { name, rol, age, email, password,  dateBirth, address, phone } = req.body;
 
-        const createPatient = await PatientController.create({
+        const createPatient = await Patient.create({
             name,
             rol,
             age,
@@ -14,7 +15,7 @@ exports.createPatient = async (req, res) => {
             address,
             phone,
         })
-
+        
         return res.status(200).json({ message: 'Patient successfully created', data: createPatient });
     } catch (err) {
         return res.status(500).json({ error: 'Error when creating the patient', details: err.message });
@@ -23,7 +24,7 @@ exports.createPatient = async (req, res) => {
 
 exports.findAllPatient = async (req, res) => {
     try {
-        const findALl = await PatientController.findAll();
+        const findALl = await Patient.findAll();
         return res.json(findALl);
     } catch (err) {
         return res.status(500).json({ error: 'Error when searching for patients', details: err.message });
@@ -33,7 +34,7 @@ exports.findAllPatient = async (req, res) => {
 exports.findOnePatient = async (req, res) => {
     try {
         const { id } = req.params;
-        const findOne = await PatientController.findByPk(id);
+        const findOne = await Patient.findByPk(id);
 
         if (!findOne) {
             return res.json({ message: 'Patient not found' });
@@ -48,14 +49,14 @@ exports.findOnePatient = async (req, res) => {
 exports.updatePatient = async (req, res) => {
     try {
         const { id } = req.params;
-        const search = await PatientController.findByPk(id);
+        const search = await Patient.findByPk(id);
         const { name, rol, age, email, password, dateBirth, address, phone } = req.body;
 
         if (!search) {
             return res.json({ message: 'Patient not found' });
         }
 
-        const update = await PatientController.update(
+        const update = await Patient.update(
             {
                 name,
                 rol,
@@ -78,13 +79,13 @@ exports.updatePatient = async (req, res) => {
 exports.deletePatient = async  (req, res) => {
     try {
         const { id } = req.params;
-        const search = await PatientController.findByPk(id);
+        const search = await Patient.findByPk(id);
 
         if (!search) {
             return res.json({ message: 'Patient not found' });
         }
 
-        await PatientController.destroy({
+        await Patient.destroy({
             where: { id }
         });
         return res.json({ message: 'Patient delete correctly' });

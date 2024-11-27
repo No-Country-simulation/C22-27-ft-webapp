@@ -1,12 +1,15 @@
 const Notification = require('../models/notifications.js');
-//const Usuario = require('../models/Usuarios'); 
 
 // Crear una notificación
 exports.createNotification = async (req, res) => {
   try {
-    const { usuario_id, message, type } = req.body;
+    const { patient_id, message, type } = req.body;
    
-    const notification = await Notificacion.create({ usuario_id, message, type });
+    const notification = await Notification.create({
+      patient_id,
+      message,
+      type 
+    });
 
     res.status(201).json({ message: "Notification successfully created.", notification });
   } catch (error) {
@@ -29,9 +32,9 @@ exports.getAllNotification = async (req, res) => {
 // Obtener notificaciones por usuario
 exports.getNotificationByUser = async (req, res) => {
   try {
-    const { usuario_id } = req.params;
+    const { patient_id } = req.params;
     const notifications = await Notification.findAll({
-      where: { usuario_id },
+      where: { patient_id },
     });
 
     res.status(200).json(notifications);
@@ -63,12 +66,12 @@ exports.getNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
     
-    const notificacion = await Notificacion.findByPk(id);
-    if (!notificacion) {
+    const notification = await Notification.findByPk(id);
+    if (!notification) {
       return res.status(404).json({ error: 'Notification not found.' });
     }
 
-    res.status(200).json({ message: 'Notificación encontrada correctamente.',  data: { notificacion }  });
+    res.status(200).json({ message: 'Notificación encontrada correctamente.',  data: { notification }  });
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener la notificación.', details: error.message });
   }
@@ -78,11 +81,11 @@ exports.deleteNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const notificacion = await Notificacion.findByPk(id);
-    if (!notificacion) {
+    const notification = await Notification.findByPk(id);
+    if (!notification) {
       return res.status(404).json({ error: 'Notification not found.' });
     }
-    await notificacion.destroy();
+    await notification.destroy();
     res.status(200).json({ message: 'Notificación eliminada correctamente.'});
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar la notificación.', details: error.message });
