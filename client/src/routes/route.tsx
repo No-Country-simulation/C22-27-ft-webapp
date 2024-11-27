@@ -116,7 +116,7 @@ const router = createBrowserRouter([
         element: <Tpacientes/>,
       },
       {
-        path: "historial/:pacienteId",
+        path: "historial",
         element: <Historial />,
       },
     ],

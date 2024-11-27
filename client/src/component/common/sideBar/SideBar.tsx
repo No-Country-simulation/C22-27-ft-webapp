@@ -72,7 +72,7 @@ const Sidebar = () => {
               </li>
               {/* fin - Todos los Pacientes*/}
               <li className="nav-item">
-                <NavLinkItem to="historial/:pacienteId">
+                <NavLinkItem to="historial">
                   Historiales
                 </NavLinkItem>
               </li>

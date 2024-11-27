@@ -99,19 +99,19 @@ const DashboardMedic = () => {
 
       <div className={styles.quickActions}>
         <button className={styles.actionButton} onClick={()=>{
-          navigate("/medico/nueva-consulta");
+          navigate("/app-medico/nueva-consulta");
         }}>
           <RiStethoscopeLine />
           Nueva Consulta
         </button>
         <button className={styles.actionButton} onClick={()=>{
-          navigate("/medico/historial-medico");
+          navigate("/app-medico/historial");
         }}>
           <FiClipboard />
           Historial Médico
         </button>
         <button className={styles.actionButton} onClick={()=>{
-          navigate("/medico/recetas");
+          navigate("/app-medico/recetas");
         }}>
           <FiHeart />
           Recetas
