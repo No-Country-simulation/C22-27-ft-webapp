@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
-const {conn}=require('../db/DB_connection')
-//const Usuario = require('./Usuarios'); 
+const {conn}=require('../db/DB_connection');
+const User = require("./users.js")
+const MedicalHistory = require('./medicalHistory.js')
 
 const Notificacion = conn.define('Notificacion', {
   id: {
@@ -31,6 +32,21 @@ const Notificacion = conn.define('Notificacion', {
 }, {
   timestamps: true,
   tableName: 'notificaciones',
+});
+
+Notificacion.belongsTo(User, {
+  foreignKey: 'patientId',
+  as: 'user',
+});
+
+Notificacion.belongsTo(MedicalHistory, {
+  foreignKey: 'medicalHistoryId',
+  as: 'medicalHistory',
+});
+
+Notificacion.belongsTo(Consultation, {
+  foreignKey: 'consultationId',
+  as: 'consultation',
 });
 
 module.exports = Notificacion;

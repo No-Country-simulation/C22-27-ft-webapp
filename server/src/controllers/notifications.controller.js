@@ -65,7 +65,7 @@ exports.getNotificationById = async (req, res) => {
     
     const notificacion = await Notificacion.findByPk(id);
     if (!notificacion) {
-      return res.status(404).json({ error: 'Notificación no encontrada.' });
+      return res.status(404).json({ error: 'Notification not found.' });
     }
 
     res.status(200).json({ message: 'Notificación encontrada correctamente.',  data: { notificacion }  });
@@ -80,7 +80,7 @@ exports.deleteNotificationById = async (req, res) => {
 
     const notificacion = await Notificacion.findByPk(id);
     if (!notificacion) {
-      return res.status(404).json({ error: 'Notificación no encontrada.' });
+      return res.status(404).json({ error: 'Notification not found.' });
     }
     await notificacion.destroy();
     res.status(200).json({ message: 'Notificación eliminada correctamente.'});
