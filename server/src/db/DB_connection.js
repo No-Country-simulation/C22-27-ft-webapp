@@ -20,4 +20,3 @@ sequelize.authenticate()
 module.exports = {
     conn: sequelize,
 };
-

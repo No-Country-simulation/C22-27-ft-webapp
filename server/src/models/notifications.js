@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const {conn}=require('../db/DB_connection');
 const User = require("./users.js")
 const MedicalHistory = require('./medicalHistory.js')
+const Consultation = require('./consultaModel.js')
 
 const Notificacion = conn.define('Notificacion', {
   id: {

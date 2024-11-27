@@ -2,13 +2,16 @@ const express = require('express');
 const router = express.Router();
 const notificationsRouter = require("./notifications.routes.js");
 const sessionRouter = require("./session.routes.js");
-const usersRouter = require("./users.routes.js")
+const usersRouter = require("./users.routes.js");
+const consultaRouter = require("./consultas.routes.js");
+const patientRouter = require("./patient.routes.js");
+const doctorRouter = require("./doctor.routes.js")
 
-router.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 router.use("/session", sessionRouter);
 router.use("/notifications", notificationsRouter);
 router.use("/users", usersRouter);
+router.use('/consultas', consultaRouter);
+router.use('/patients', patientRouter);
+router.use('/doctor', doctorRouter);
 
 module.exports = router;
