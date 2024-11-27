@@ -27,19 +27,19 @@ const Notificacion = conn.define('Notificacion', {
   tableName: 'notificaciones',
 });
 
-// Notificacion.belongsTo(Patient, {
-//   foreignKey: 'patientId',
-//   as: 'patient',
-// });
+Notificacion.belongsTo(Patient, {
+  foreignKey: 'patientId',
+  as: 'patient',
+});
 
-// Notificacion.belongsTo(MedicalHistory, {
-//   foreignKey: 'medicalHistoryId',
-//   as: 'medicalHistory',
-// });
+Notificacion.belongsTo(MedicalHistory, {
+  foreignKey: 'medicalHistoryId',
+  as: 'medicalHistory',
+});
 
-// Notificacion.belongsTo(Consultation, {
-//   foreignKey: 'consultationId',
-//   as: 'consultation',
-// });
+Notificacion.belongsTo(Consultation, {
+  foreignKey: 'consultationId',
+  as: 'consultation',
+});
 
 module.exports = Notificacion;

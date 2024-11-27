@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const {conn}=require('../db/DB_connection');
+const { conn } = require('../db/DB_connection');
 const Patient = require('./patientModel.js')
 const Consultation = require('./consultaModel.js')
 
@@ -7,7 +7,8 @@ const MedicalHistory = conn.define('MedicalHistory', {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
-    autoIncrement: true,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4
   },
   patientId: {
     type: DataTypes.UUID,

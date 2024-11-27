@@ -3,11 +3,11 @@ const MedicalHistory = require('../models/medicalHistory.js');
 // Crear una History
 exports.createMedicalHistory = async (req, res) => {
   try {
-    const { patient_id, consulta_id } = req.body;
+    const { patientId, consultationId } = req.body;
    
     const notification = await MedicalHistory.create({
-      patient_id,
-      consulta_id,
+      patientId,
+      consultationId,
     });
 
     res.status(201).json({ message: "Medical History successfully created.", notification });
