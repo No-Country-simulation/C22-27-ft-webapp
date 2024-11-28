@@ -101,7 +101,7 @@ const consultasMedic = () => {
   return (
     <div className={styles.consultasContainer}>
       {/* Header  */}
-      <header className={styles.header}>
+      <header>
         <ConsultasHeader totalHoy={15} />
       </header>
 

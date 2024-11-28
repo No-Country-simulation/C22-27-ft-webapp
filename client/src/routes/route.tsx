@@ -36,6 +36,8 @@ import DashboardMedic from "../page/medico/dashboardMedic";
 import ConsultasMedic from "../page/medico/consultasMedic";
 import Historial  from "../page/historial/historial";
 import { Tpacientes } from "../page/tpacientes/tpacientes";
+import Configuracion from "../page/Configuracion/Configuracion";
+import Reportes from "../page/reportes/reportes";
 
 
 
@@ -109,7 +111,6 @@ const router = createBrowserRouter([
       {
         path: "consultas",
         element: <ConsultasMedic/>,
-        // element: <div>Consultas Pendientes</div>,
       },
       {
         path: "pacientes",
@@ -118,6 +119,14 @@ const router = createBrowserRouter([
       {
         path: "historial",
         element: <Historial />,
+      },
+      {
+        path: "configuracion",
+        element: <Configuracion />,
+      },
+      {
+        path: "reportes",
+        element: <Reportes/>,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styles from './Sidebar.module.css'
-import { useState } from 'react'
+import { useAuthStore } from '../../../store/useAuth'
 
 // Define las propiedades requeridas para un NavLink
 interface NavLinkItemProps {
@@ -101,7 +101,9 @@ const Sidebar = () => {
               <button
                 className="btn btn-outline-danger text-decoration-none text-white "
                 onClick={() => {
-                  /* lógica para cerrar sesión */
+                  const logout = useAuthStore.getState().logout;
+                  logout();
+                  window.location.href = '/login';
                 }}
               >
                 Cerrar Sesión
