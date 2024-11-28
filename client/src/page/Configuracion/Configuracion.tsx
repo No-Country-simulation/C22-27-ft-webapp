@@ -1,11 +1,12 @@
 import { useState } from 'react'
 
 import styles from './Configuracion.module.css'
-import ConfiguracionHeader from '../../component/Medic/configuracion/ConfiguracionHeader/ConfiguracionHeader'
-import ConfiguracionCuenta from '../../component/Medic/configuracion/ConfiguracionCuenta/ConfiguracionCuenta'
-import ConfiguracionPreferencias from '../../component/Medic/configuracion/ConfiguracionPreferencias/ConfiguracionPreferencias'
-import ConfiguracionNotificaciones from '../../component/Medic/configuracion/ConfiguracionNotificaciones/ConfiguracionNotificaciones'
-import ConfiguracionPerfil from '../../component/Medic/configuracion/ConfiguracionPerfil/ConfiguracionPerfil'
+import ConfiguracionHeader from '../../components/Medic/configuracion/ConfiguracionHeader/ConfiguracionHeader'
+import ConfiguracionPerfil from '../../components/Medic/configuracion/ConfiguracionPerfil/ConfiguracionPerfil'
+import ConfiguracionCuenta from '../../components/Medic/configuracion/ConfiguracionCuenta/ConfiguracionCuenta'
+import ConfiguracionPreferencias from '../../components/Medic/configuracion/ConfiguracionPreferencias/ConfiguracionPreferencias'
+import ConfiguracionNotificaciones from '../../components/Medic/configuracion/ConfiguracionNotificaciones/ConfiguracionNotificaciones'
+
 // 
 
 // 

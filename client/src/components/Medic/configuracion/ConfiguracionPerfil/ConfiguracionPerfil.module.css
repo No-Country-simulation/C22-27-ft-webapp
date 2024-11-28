@@ -1,3 +1,4 @@
+/* Disposición */
 .configCard {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
@@ -13,26 +14,41 @@
   border-bottom: 1px solid #e9ecef;
 }
 
-.cardIcon {
-  width: 24px;
-  height: 24px;
-  color: #0d6efd;
-}
-
 .cardContent {
   padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
 }
 
+/* Tipografía */
 .cardHeader p {
   color: #64748b;
   font-size: 0.875rem;
   margin: 0.25rem 0 0 0;
 }
 
+/* Iconos */
+.cardIcon {
+  width: 24px;
+  height: 24px;
+  color: #0d6efd;
+}
+
+.avatarIcon {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Avatar */
+.avatarSection {
+  text-align: center;
+}
+
 .avatarContainer {
-  width: 100px;
-  height: 100px;
-  margin: 1rem auto;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1rem;
   position: relative;
   cursor: pointer;
 }
@@ -46,31 +62,16 @@
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 600;
 }
 
-.avatarOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s;
+.formSection {
+  display: grid;
+  gap: 1rem;
 }
 
-.avatarContainer:hover .avatarOverlay {
-  opacity: 1;
-}
-
-.avatarIcon {
-  color: white;
-  font-size: 1.5rem;
-}
-
+/* Elementos del formulario */
 .formGroup {
   margin-bottom: 1.25rem;
   padding: 1rem;
@@ -86,6 +87,7 @@
   font-weight: 500;
 }
 
+/* Elementos de interfaz */
 .badge {
   display: inline-block;
   padding: 0.35rem 0.75rem;

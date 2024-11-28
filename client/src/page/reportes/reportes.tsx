@@ -1,10 +1,11 @@
 import { ReactNode } from 'react'
-import ReportesDocumentos from '../../component/Medic/reportes/ReportesDocumentos/ReportesDocumentos'
-import ReportesHeader from '../../component/Medic/reportes/ReportesHeader/ReportesHeader'
-import ReportesNotificacion from '../../component/Medic/reportes/ReportesNotificacion/ReportesNotificacion'
-import ReportesStats from '../../component/Medic/reportes/ReportesStats/ReportesStats'
+
 import styles from './reportes.module.css'
 import { FiAlertCircle, FiBell, FiCheckCircle, FiFile, FiFileText } from 'react-icons/fi'
+import ReportesHeader from '../../components/Medic/reportes/ReportesHeader/ReportesHeader';
+import ReportesNotificacion from '../../components/Medic/reportes/ReportesNotificacion/ReportesNotificacion';
+import ReportesStats from '../../components/Medic/reportes/ReportesStats/ReportesStats';
+import ReportesDocumentos from '../../components/Medic/reportes/ReportesDocumentos/ReportesDocumentos';
 
 // Interfaces 
 interface Notificacion {
