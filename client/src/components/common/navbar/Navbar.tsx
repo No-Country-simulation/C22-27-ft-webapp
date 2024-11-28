@@ -3,8 +3,22 @@ import { NavLink } from 'react-router-dom'
 import { GoGear } from 'react-icons/go'
 import { TbBellRinging, TbBellRingingFilled } from 'react-icons/tb'
 import { BiSearch } from 'react-icons/bi'
+import { useAuthStore } from '../../../store/useAuth'
 
 const Navbar = () => {
+  //
+  const { user } = useAuthStore()
+
+  const getInitials = () => {
+    if (!user?.firstName || !user?.lastName) return '';
+    
+    // Toma la primera letra del firstName y la primera del lastName
+    const firstInitial = user.firstName[0];
+    const lastInitial = user.lastName[0];
+    
+    return (firstInitial + lastInitial).toUpperCase();
+  };
+
   const [notificaciones, setNotificaciones] = useState(10)
   const [showNotifications, setShowNotifications] = useState(false)
   const notificationRef = useRef(null)
@@ -14,7 +28,6 @@ const Navbar = () => {
     { id: 1, text: 'Nueva consulta pendiente', time: 'Hace 5 min' },
     { id: 2, text: 'Mensaje consulta de paciente', time: 'Hace 1 hora' },
   ]
-
   return (
     <nav
       className="navbar shadow-sm p-3 w-auto "
@@ -29,14 +42,14 @@ const Navbar = () => {
             <span className="input-group-text border-0 bg-white bg-opacity-25">
               <BiSearch className="text-white" />
             </span>
-            
+
             <input
               type="search"
               placeholder="Buscar paciente..."
-              className='form-control'
+              className="form-control"
               style={{
                 border: '1px solid rgba(255, 255, 255, 0.9)',
-                background: "rgba(255, 255, 255, 0.9)",
+                background: 'rgba(255, 255, 255, 0.9)',
                 borderRadius: ' 0 6px 6px 0',
                 padding: '8px 12px',
                 width: '240px',
@@ -145,19 +158,24 @@ const Navbar = () => {
           </NavLink>
 
           {/* Avatar */}
-          <button
-            className="btn p-0 rounded-circle overflow-hidden"
+
+          <div
             style={{
-              width: '60px',
-              height: '60px',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontWeight: '500',
+              fontSize: '1.125rem',
+              overflow: 'hidden',
             }}
           >
-            <img
-              src="https://www.sopitas.com/wp-content/uploads/2020/10/meme-el-pepe-ete-sech-origen.png"
-              alt="Avatar"
-              className="w-100 h-100 object-fit-cover"
-            />
-          </button>
+            {getInitials()}
+          </div>
         </div>
       </div>
     </nav>
