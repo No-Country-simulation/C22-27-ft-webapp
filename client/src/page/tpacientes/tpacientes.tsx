@@ -29,6 +29,13 @@ export const Tpacientes = () => {
   ];
   return (
     <div style={{maxHeight: '1000px',}}>
+      {/* Botón de orden */}
+      <div style={{ margin: '10px', padding: '10px' }}>
+        <button style={{ padding: '8px 16px', borderRadius: '8px', background: '#004C79', color: '#fff', border: 'none',boxShadow:'0px 0px 10px 0px rgba(0,0,0,0.75)' }}>
+          ORDENAR
+        </button>
+      </div>
+
         <div
         className="rounded-3 custom-scroll"
         style={{
