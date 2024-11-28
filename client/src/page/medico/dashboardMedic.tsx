@@ -1,73 +1,94 @@
-import { useState } from 'react';
-import { 
-  FiClock, FiCalendar, FiUser, FiVideo, FiActivity,
-  FiCheck, FiHeart, FiThermometer, FiClipboard,
-  FiTrendingUp, FiDollarSign, FiUsers, FiAlertCircle,
-  FiPieChart, FiFileText, FiMessageSquare
-} from 'react-icons/fi';
-import { RiStethoscopeLine, RiVirusLine, RiMentalHealthLine, RiHospitalLine } from 'react-icons/ri';
-import styles from './dashboardMedic.module.css';
-
+import { useEffect, useState } from "react";
+import {
+  FiClock,
+  FiCalendar,
+  FiUser,
+  FiVideo,
+  FiActivity,
+  FiHeart,
+  FiThermometer,
+  FiClipboard,
+  FiTrendingUp,
+  FiUsers,
+  FiAlertCircle,
+  FiPieChart,
+  FiFileText,
+  FiMessageSquare,
+} from "react-icons/fi";
+import { RiStethoscopeLine, RiVirusLine, RiHospitalLine } from "react-icons/ri";
+import styles from "./dashboardMedic.module.css";
+import { doctorDashboardApi } from "../../APIs/doctor/dashboard.api";
+import {
+  DoctorStats,
+  NextPatientDetails,
+} from "../../mock/doctor/dashboard.mock";
+import { Appointment } from "../../mock/doctor/dashboard.mock";
+import { useAuthStore } from "../../store/useAuth";
+import Loading from "../../component/common/loaders/loding";
+import { useNavigate } from "react-router-dom";
 const DashboardMedic = () => {
-  const [activeFilter, setActiveFilter] = useState('todas');
+  const { user } = useAuthStore();
+  const [stats, setStats] = useState<DoctorStats | null>(null);
+  const [appointments, setAppointments] = useState<Appointment[] | null>(null);
+  const [nextPatient, setNextPatient] = useState<NextPatientDetails | null>(
+    null
+  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [activeFilter, setActiveFilter] = useState("todas");
 
-  const citas = [
-    {
-      id: 1,
-      paciente: "María González",
-      hora: "09:00 AM",
-      tipo: "Consulta General",
-      estado: "confirmada",
-      isVirtual: true,
-      sintomas: "Dolor de cabeza, fiebre"
-    },
-    {
-      id: 2,
-      paciente: "Juan Pérez",
-      hora: "10:30 AM",
-      tipo: "Seguimiento",
-      estado: "pendiente",
-      isVirtual: false,
-      sintomas: "Control post-operatorio"
-    },
-    {
-      id: 3,
-      paciente: "Ana López",
-      hora: "11:45 AM",
-      tipo: "Primera Visita",
-      estado: "confirmada",
-      isVirtual: true,
-      sintomas: "Dolor abdominal"
-    },
-    {
-      id: 4,
-      paciente: "Carlos Ruiz",
-      hora: "14:15 PM",
-      tipo: "Emergencia",
-      estado: "urgente",
-      isVirtual: false,
-      sintomas: "Presión arterial alta"
-    }
-  ];
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const [stats, appointments, nextPatient] = await Promise.all([
+          doctorDashboardApi.getDoctorStats(),
+          doctorDashboardApi.getDayliAppointments(),
+          doctorDashboardApi.getNextPatientDetails(),
+        ]);
+        setStats(stats);
+        setAppointments(appointments);
+        setNextPatient(nextPatient);
+      } catch (error) {
+        console.error(error);
+        setError(error as Error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadDashboardData();
+  }, []);
+  if (error) {
+    return <div className="text-center text-danger d-flex justify-content-center align-items-center h-100">Error al cargar los datos por favor recargue la pagina</div>;
+  }
+  if (loading)
+    return (
+      <div className="d-flex h-100 justify-content-center align-items-center">
+        <Loading />
+      </div>
+    );
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>¡Buen día, Dr. Rodríguez!</h1>
+          <h1 className={styles.title}>¡Buen día, {user?.username}!</h1>
           <p className={styles.welcomeText}>
-            <FiCalendar className={styles.icon} /> 
-            Martes, 12 de Marzo • 8 citas programadas
+            <FiCalendar className={styles.icon} />
+            {new Date().toLocaleDateString("es-ES", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}{" "}
+            • {appointments?.length} citas programadas
           </p>
         </div>
         <div className={styles.headerStats}>
           <div className={styles.miniStat}>
-            <FiUsers /> 
-            <span>125 Pacientes este mes</span>
-          </div>
-          <div className={styles.miniStat}>
-            <FiDollarSign />
-            <span>98% Satisfacción</span>
+            <FiUsers />
+            <span>{stats?.monthly.totalPatients} Pacientes este mes</span>
           </div>
           <div className={`${styles.tag} ${styles.online}`}>
             <span className={styles.onlineDot}></span>
@@ -77,25 +98,23 @@ const DashboardMedic = () => {
       </header>
 
       <div className={styles.quickActions}>
-        <button className={styles.actionButton}>
+        <button className={styles.actionButton} onClick={()=>{
+          navigate("/app-medico/nueva-consulta");
+        }}>
           <RiStethoscopeLine />
           Nueva Consulta
         </button>
-        <button className={styles.actionButton}>
+        <button className={styles.actionButton} onClick={()=>{
+          navigate("/app-medico/historial");
+        }}>
           <FiClipboard />
           Historial Médico
         </button>
-        <button className={styles.actionButton}>
+        <button className={styles.actionButton} onClick={()=>{
+          navigate("/app-medico/recetas");
+        }}>
           <FiHeart />
           Recetas
-        </button>
-        <button className={styles.actionButton}>
-          <FiActivity />
-          Laboratorio
-        </button>
-        <button className={styles.actionButton}>
-          <RiHospitalLine />
-          Hospitalización
         </button>
       </div>
 
@@ -106,7 +125,9 @@ const DashboardMedic = () => {
           </div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Pacientes Hoy</span>
-            <h3 className={styles.statValue}>8</h3>
+            <h3 className={styles.statValue}>
+              {stats?.daily.totalAppointments}
+            </h3>
             <p className={styles.statTrend}>
               <FiTrendingUp />
               <span>+12% vs ayer</span>
@@ -120,9 +141,11 @@ const DashboardMedic = () => {
           </div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Consultas Virtuales</span>
-            <h3 className={styles.statValue}>5</h3>
+            <h3 className={styles.statValue}>
+              {stats?.daily.virtualAppointments}
+            </h3>
             <div className={styles.progressBar}>
-              <div className={styles.progress} style={{width: '62.5%'}}></div>
+              <div className={styles.progress} style={{ width: `35%` }}></div>
             </div>
           </div>
         </div>
@@ -133,7 +156,7 @@ const DashboardMedic = () => {
           </div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Eficiencia</span>
-            <h3 className={styles.statValue}>94%</h3>
+            <h3 className={styles.statValue}>{stats?.monthly.satisfaction}%</h3>
             <p className={styles.statDetail}>+5% este mes</p>
           </div>
         </div>
@@ -155,38 +178,49 @@ const DashboardMedic = () => {
           <div className={styles.sectionHeader}>
             <h2>Próximas Consultas</h2>
             <div className={styles.filterTags}>
-              {['todas', 'virtuales', 'presenciales', 'urgentes'].map(filter => (
-                <button 
-                  key={filter}
-                  className={`${styles.filterTag} ${activeFilter === filter ? styles.active : ''}`}
-                  onClick={() => setActiveFilter(filter)}
-                >
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                </button>
-              ))}
+              {["todas", "virtuales", "presenciales", "urgentes"].map(
+                (filter) => (
+                  <button
+                    key={filter}
+                    className={`${styles.filterTag} ${
+                      activeFilter === filter ? styles.active : ""
+                    }`}
+                    onClick={() => setActiveFilter(filter)}
+                  >
+                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                  </button>
+                )
+              )}
             </div>
           </div>
 
-          {citas.map((cita) => (
-            <div key={cita.id} className={styles.appointment}>
+          {appointments?.map((appointment) => (
+            <div key={appointment.id} className={styles.appointment}>
               <div className={styles.appointmentTime}>
-                <FiClock />
-                {cita.hora}
+                <FiClock /> A las{" "}
+                {new Date(appointment.datetime).toLocaleTimeString("es-ES", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}{" "}
+                hrs
               </div>
               <div className={styles.patientAvatar}>
-                {cita.paciente.split(' ').map(n => n[0]).join('')}
+                {appointment.patient.name
+                  .split(" ")
+                  .map((n: string) => n[0])
+                  .join("")}
               </div>
               <div className={styles.appointmentInfo}>
-                <h3>{cita.paciente}</h3>
-                <p>{cita.tipo}</p>
+                <h3>{appointment.patient.name}</h3>
+                <p>{appointment.type}</p>
                 <p className={styles.symptoms}>
                   <FiAlertCircle />
-                  {cita.sintomas}
+                  {appointment.patient.symptoms}
                 </p>
               </div>
-              <div className={`${styles.tag} ${styles[cita.estado]}`}>
-                {cita.isVirtual && <FiVideo />}
-                {cita.estado}
+              <div className={`${styles.tag} ${styles[appointment.status]}`}>
+                {appointment.type === "virtual" && <FiVideo />}
+                {appointment.status}
               </div>
             </div>
           ))}
@@ -197,28 +231,34 @@ const DashboardMedic = () => {
             <h2>Próximo Paciente</h2>
             <div className={styles.currentPatient}>
               <div className={styles.patientHeader}>
-                <div className={styles.patientAvatar}>MG</div>
+                <div className={styles.patientAvatar}>
+                  {nextPatient?.basicInfo.name
+                    .split(" ")
+                    .map((n: string) => n[0])
+                    .join("")}
+                </div>
                 <div>
-                  <h3>María González</h3>
+                  <h3>{nextPatient?.basicInfo.name}</h3>
                   <p>
                     <FiVideo />
-                    Consulta General • 09:00 AM
+                    {nextPatient?.appointment.reason} .{" "}
+                    {nextPatient?.appointment.time}
                   </p>
                 </div>
               </div>
-              
+
               <div className={styles.patientDetails}>
                 <div className={styles.detailItem}>
                   <span>Última visita</span>
-                  <strong>15 Feb 2024</strong>
+                  <strong>{nextPatient?.lastVisit.date}</strong>
                 </div>
                 <div className={styles.detailItem}>
                   <span>Alergias</span>
-                  <strong>Penicilina</strong>
+                  <strong>{nextPatient?.basicInfo.allergies.join(", ")}</strong>
                 </div>
                 <div className={styles.detailItem}>
                   <span>Grupo Sanguíneo</span>
-                  <strong>O+</strong>
+                  <strong>{nextPatient?.basicInfo.bloodType}</strong>
                 </div>
               </div>
 
@@ -226,47 +266,41 @@ const DashboardMedic = () => {
                 <div className={styles.vitalSign}>
                   <FiThermometer />
                   <span>Temperatura</span>
-                  <strong>36.5°C</strong>
+                  <strong>{nextPatient?.vitalSigns.temperature}°C</strong>
                 </div>
                 <div className={styles.vitalSign}>
                   <FiActivity />
                   <span>Presión</span>
-                  <strong>120/80</strong>
+                  <strong>{nextPatient?.vitalSigns.bloodPressure}</strong>
                 </div>
                 <div className={styles.vitalSign}>
                   <RiVirusLine />
                   <span>PCR</span>
-                  <strong>Negativo</strong>
+                  <strong>{nextPatient?.vitalSigns.pcr}</strong>
                 </div>
               </div>
 
               <div className={styles.notes}>
                 <h4>Historial Reciente</h4>
                 <ul>
-                  <li>Control de presión arterial mensual</li>
-                  <li>Análisis de sangre pendiente</li>
-                  <li>Actualización de medicamentos</li>
-                  <li>Seguimiento tratamiento crónico</li>
+                  {nextPatient?.recentHistory.map((history, i) => (
+                    <li key={i}>{history}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className={styles.medications}>
                 <h4>Medicamentos Actuales</h4>
                 <div className={styles.medicationList}>
-                  <div className={styles.medication}>
-                    <FiFileText />
-                    <div>
-                      <h5>Enalapril 10mg</h5>
-                      <p>1 tableta cada 24 horas</p>
+                  {nextPatient?.medications.map((medication, i) => (
+                    <div className={styles.medication} key={i}>
+                      <FiFileText />
+                      <div>
+                        <h5>{medication.name}</h5>
+                        <p>{medication.dosage}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.medication}>
-                    <FiFileText />
-                    <div>
-                      <h5>Aspirina 81mg</h5>
-                      <p>1 tableta cada 24 horas</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
