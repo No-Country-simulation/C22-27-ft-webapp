@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
 const Consultation = require('./consultaModel.js');
 
-const Patient = conn.define('patient',{
+const Patient =  conn.define('patient',{
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -56,9 +56,11 @@ Patient.hasOne(Consultation, {
     sourceKey: 'id'
 });
 
-const belongs = Consultation.belongsTo(Patient, {
+Consultation.belongsTo(Patient, {
     foreignKey: 'patientId',
     targetId: 'id'
 });
+
+
 
 module.exports = Patient;

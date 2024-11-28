@@ -4,7 +4,12 @@ const notificationsController = require('../controllers/notifications.controller
 const authorization = require("../middlewares/authorization.middleware.js");
 const checkToken = require('../middlewares/checkTocken.middleware.js');
 
-router.get('/', checkToken , authorization("admin"), notificationsController.getAllNotification); 
+
+// Para autorizar y verificar tocken se utilida como
+// middleware : checkToken y  authorization("admin, patient, admin")
+
+
+router.get('/', notificationsController.getAllNotification); 
 router.get('/:id',notificationsController.getNotificationById);
 router.get('/userId/:usuario_id', notificationsController.getNotificationByUser);
 router.post('/', notificationsController.createNotification);

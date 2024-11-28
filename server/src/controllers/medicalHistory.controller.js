@@ -1,4 +1,6 @@
 const MedicalHistory = require('../models/medicalHistory.js');
+const Patient = require('../models/patientModel.js');
+const Consultation = require('../models/consultaModel.js');
 
 // Crear una History
 exports.createMedicalHistory = async (req, res) => {
@@ -20,7 +22,10 @@ exports.createMedicalHistory = async (req, res) => {
 exports.getAllMedicalHistory = async (req, res) => {
   try {
     const medicalHistory = await MedicalHistory.findAll({
-        attributes: ['message', 'type'],
+      include: [
+        { model: Patient },       // Incluye los datos del paciente
+        { model: Consultation },  // Incluye los datos de la consulta
+      ],
     });
     res.status(200).json(medicalHistory);
   } catch (error) {
@@ -31,9 +36,15 @@ exports.getAllMedicalHistory = async (req, res) => {
 // Obtener notificaciones por usuario
 exports.getMedicalHistoryByUser = async (req, res) => {
   try {
-    const { patient_id } = req.params;
+    const { patientId } = req.params;
+    
     const medicalHistory = await MedicalHistory.findAll({
-      where: { patient_id },
+      where: { patientId },
+      include: [
+        { model: Patient},
+        { model: Consultation},
+       
+    ],
     });
 
     res.status(200).json(medicalHistory);

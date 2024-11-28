@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
+const MedicalHistory = require('./medicalHistory.js')
 
 const Consultation = conn.define('consultation', {
     id: {
@@ -23,6 +24,7 @@ const Consultation = conn.define('consultation', {
         type: DataTypes.STRING,
         allowNull: false
     },
-})
+});
+
 
 module.exports = Consultation;

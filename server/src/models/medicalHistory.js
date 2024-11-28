@@ -1,7 +1,9 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
 const Patient = require('./patientModel.js')
-const Consultation = require('./consultaModel.js')
+const Consultation = require('./consultaModel.js');
+const Doctor = require('./doctorModel.js');
+const Notification = require('./notifications.js')
 
 const MedicalHistory = conn.define('MedicalHistory', {
   id: {
@@ -27,17 +29,22 @@ const MedicalHistory = conn.define('MedicalHistory', {
       key: 'id',
     },
   },
-
+  
 }, {
   timestamps: true,
   tableName: 'MedicalHistory',
 });
 
-Patient.hasMany(MedicalHistory, { foreignKey: 'patientId' });  // Un paciente puede tener muchos historiales médicos
-MedicalHistory.belongsTo(Patient, { foreignKey: 'patientId' });  // Cada historial médico pertenece a un paciente
+MedicalHistory.belongsTo(Patient, {
+  foreignKey: 'patientId',
+  targetKey: 'id',
+});
 
-Consultation.hasMany(MedicalHistory, { foreignKey: 'consultationId' });  // Una consulta puede estar asociada a muchos historiales médicos
-MedicalHistory.belongsTo(Consultation, { foreignKey: 'consultationId' });  // Cada historial médico pertenece a una consulta
+MedicalHistory.belongsTo(Consultation, {
+  foreignKey: 'consultationId',
+  targetKey: 'id',
+});
+
 
 
 module.exports = MedicalHistory;

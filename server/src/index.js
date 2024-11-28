@@ -5,9 +5,11 @@ const router =require('./routes/index')
 const cookieParser = require("cookie-parser");
 
 const {conn}=require('./db/DB_connection')
-const {consulta}=require('./models/consultaModel')
-const {patient}=require('./models/patientModel')
-const {doctor}=require('./models/doctorModel')
+const Consulta = require('./models/consultaModel')
+const Patient = require('./models/patientModel')
+const Doctor = require('./models/doctorModel')
+const Notification = require('./models/notifications.js');
+const MedicalHistory = require('./models/medicalHistory.js');
 
 app.listen(PORT, async () => {
     await conn.sync({force: false})
