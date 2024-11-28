@@ -24,10 +24,13 @@ import {
 } from "../../mock/doctor/dashboard.mock";
 import { Appointment } from "../../mock/doctor/dashboard.mock";
 import { useAuthStore } from "../../store/useAuth";
-import Loading from "../../component/common/loaders/loding";
+import Loading from "../../components/common/loaders/loding";
 import { useNavigate } from "react-router-dom";
+import useModal from "../../hooks/useModal";
+import NuevaConsultaModal from "../../components/Medic/dashboard/NuevaConsultaModal";
 const DashboardMedic = () => {
   const { user } = useAuthStore();
+  const {isOpen,closeModal,openModal} = useModal()
   const [stats, setStats] = useState<DoctorStats | null>(null);
   const [appointments, setAppointments] = useState<Appointment[] | null>(null);
   const [nextPatient, setNextPatient] = useState<NextPatientDetails | null>(
@@ -98,9 +101,7 @@ const DashboardMedic = () => {
       </header>
 
       <div className={styles.quickActions}>
-        <button className={styles.actionButton} onClick={()=>{
-          navigate("/app-medico/nueva-consulta");
-        }}>
+        <button className={styles.actionButton} onClick={openModal}>
           <RiStethoscopeLine />
           Nueva Consulta
         </button>
@@ -307,6 +308,7 @@ const DashboardMedic = () => {
           </div>
         </div>
       </div>
+      <NuevaConsultaModal isOpen={isOpen} onRequestClose={closeModal}/>
     </div>
   );
 };

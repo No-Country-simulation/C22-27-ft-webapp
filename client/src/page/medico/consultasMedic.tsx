@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react'
 import { FiClock, FiCalendar, FiUser } from 'react-icons/fi'
 import styles from './consultasMedic.module.css'
-import DisponibilidadPanel from '../../component/Medic/consultas/DisponibilidadPanel/DisponibilidadPanel'
-import StatCard from '../../component/Medic/consultas/StatCard/StatCard'
-import ConsultaItem from '../../component/Medic/consultas/ConsultaItem/ConsultaItem'
-import SummaryCard from '../../component/Medic/consultas/SummaryCard/SummaryCard'
-import ConsultasHeader from '../../component/Medic/consultas/ConsultasHeader/ConsultasHeader'
+import DisponibilidadPanel from '../../components/Medic/consultas/DisponibilidadPanel/DisponibilidadPanel'
+import StatCard from '../../components/Medic/consultas/StatCard/StatCard'
+import ConsultaItem from '../../components/Medic/consultas/ConsultaItem/ConsultaItem'
+import SummaryCard from '../../components/Medic/consultas/SummaryCard/SummaryCard'
+import ConsultasHeader from '../../components/Medic/consultas/ConsultasHeader/ConsultasHeader'
 import ConsultasFilter, {
   FilterType,
-} from '../../component/Medic/consultas/ConsultasFilter/ConsultasFilter'
-import ProximasAcciones from '../../component/Medic/consultas/ProximasAcciones/ProximasAcciones'
+} from '../../components/Medic/consultas/ConsultasFilter/ConsultasFilter'
+import ProximasAcciones from '../../components/Medic/consultas/ProximasAcciones/ProximasAcciones'
 
 // simulación consultas
 const consultasPendientes = [
