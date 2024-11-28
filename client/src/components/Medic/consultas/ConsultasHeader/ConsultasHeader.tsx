@@ -13,10 +13,10 @@ const ConsultasHeader = ({ totalHoy }: ConsultasHeaderProps) => {
         <h1 className={styles.title}>Panel de Pendientes</h1>
         <div className={styles.welcomeText}>
           Bienvenido a tu panel de consultas pendientes
-          <p className='gap-1 d-inline-flex align-items-center'>
+          <div className='gap-1 d-inline-flex align-items-center'>
             <FiClock />
             {totalHoy} consultas requieren atención
-          </p>
+          </div>
         </div>
       </div>
       <div className={styles.headerStats}>
