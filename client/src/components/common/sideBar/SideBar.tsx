@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import styles from './Sidebar.module.css'
 import { useAuthStore } from '../../../store/useAuth'
 
+
 // Define las propiedades requeridas para un NavLink
 interface NavLinkItemProps {
   to: string
@@ -28,15 +29,21 @@ const NavLinkItem = ({ to, badge, children }: NavLinkItemProps) => (
 )
 
 const Sidebar = () => {
+  const { user } = useAuthStore();
+
   return (
         <div className={styles.sidebar}>
           {/* Perfil */}
           <div className="p-3 pt-4">
             <div className="d-flex align-items-center">
-              <div className={styles['avatar-container']}>PE</div>
+              <div className={styles['avatar-container']}>
+              {user?.firstName?.[0]?.toUpperCase()}{user?.lastName?.[0]?.toUpperCase()}
+              </div>
               <div className="ms-3">
-                <div className="fw-bold">Dr. El pepe</div>
-                <small>Médico General</small>
+                <div className="fw-bold">
+                  {user?.firstName} {user?.lastName}
+                </div>
+                <small>{user?.role.toUpperCase()}</small>
               </div>
             </div>
           </div>

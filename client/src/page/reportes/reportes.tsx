@@ -19,8 +19,11 @@ interface Notificacion {
 
 interface Documento {
   id: number;
-  title: string;
-  url: string;
+  title: string;  
+  filename: string;
+  type?: 'pdf' | 'doc' | 'xls';
+  size?: string;
+  date?: string;
 }
 
 const reportes = () => {
@@ -55,12 +58,18 @@ const reportes = () => {
     {
       id: 1,
       title: 'Reporte Mensual - Marzo 2024',
-      url: '#'
+      filename: 'reporte-mensual-marzo-2024.pdf',
+      type: 'pdf',
+      size: '2.5MB',
+      date: '2024-03-15'
     },
     {
       id: 2,
       title: 'Cambios del Sistema v2.1.0',
-      url: '#'
+      filename: 'cambios-sistema-v2.1.0.pdf',
+      type: 'pdf',
+      size: '1.2MB',
+      date: '2024-03-10'
     }
   ];
   return (

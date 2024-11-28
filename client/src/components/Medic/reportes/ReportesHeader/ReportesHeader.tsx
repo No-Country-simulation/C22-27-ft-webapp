@@ -4,12 +4,12 @@ import styles from './ReportesHeader.module.css'
 const ReportesHeader = () => {
   return (
     <header className={styles.header}>
-        <div>
+        <div className="align-items-start">
           <h1 className={styles.title}>Reportes</h1>
-          <p className={styles.welcomeText}>
+          <div className={styles.welcomeText}>
             <FiBell /> 
             Centro de notificaciones y reportes del sistema
-          </p>
+          </div>
         </div>
       </header>
   )

@@ -89,6 +89,14 @@ const router = createBrowserRouter([
         path: "mi-historial",
         element: <div>Mi Historial Médico</div>,
       },
+      {
+        path: "configuracion",
+        element: <Configuracion />,
+      },
+      {
+        path: "reportes",
+        element: <Reportes/>,
+      },
     ],
   },
 
@@ -164,6 +172,15 @@ const router = createBrowserRouter([
       {
         path: "gestionar-pacientes",
         element: <div>Gestión de Pacientes</div>,
+      },
+      
+      {
+        path: "configuracion",
+        element: <Configuracion />,
+      },
+      {
+        path: "reportes",
+        element: <Reportes/>,
       },
     ],
   },

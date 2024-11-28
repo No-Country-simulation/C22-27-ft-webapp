@@ -19,7 +19,9 @@ const ConfiguracionPerfil = () => {
       <div className={styles.cardContent}>
         <div className={styles.avatarSection}>
           <div className={styles.avatarContainer}>
-            <div className={styles.avatarImage}>DR</div>
+            <div className={styles.avatarImage}>
+            {user?.firstName?.[0]?.toUpperCase()}{user?.lastName?.[0]?.toUpperCase()}
+            </div>
             <div className={styles.avatarOverlay}>
               <FiCamera className={styles.avatarIcon} />
             </div>
