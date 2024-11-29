@@ -36,6 +36,10 @@ import DashboardMedic from "../page/medico/dashboardMedic";
 import ConsultasMedic from "../page/medico/consultasMedic";
 import Historial  from "../page/historial/historial";
 import { Tpacientes } from "../page/tpacientes/tpacientes";
+import Recetas from "../page/medico/Recetas";
+import Configuracion from "../page/Configuracion/Configuracion";
+import Reportes from "../page/reportes/reportes";
+import { Histiorialcom } from "../page/historial/histiorialcom";
 
 
 
@@ -86,6 +90,14 @@ const router = createBrowserRouter([
         path: "mi-historial",
         element: <div>Mi Historial Médico</div>,
       },
+      {
+        path: "configuracion",
+        element: <Configuracion />,
+      },
+      {
+        path: "reportes",
+        element: <Reportes/>,
+      },
     ],
   },
 
@@ -109,15 +121,30 @@ const router = createBrowserRouter([
       {
         path: "consultas",
         element: <ConsultasMedic/>,
-        // element: <div>Consultas Pendientes</div>,
       },
       {
         path: "pacientes",
         element: <Tpacientes/>,
       },
       {
-        path: "historial/:pacienteId",
+        path: "historial",
         element: <Historial />,
+      },
+      {
+        path:"historial/paciente",
+        element:<Histiorialcom/>
+      },
+      {
+        path: "recetas",
+        element: <Recetas />,
+      },
+      {
+        path: "configuracion",
+        element: <Configuracion />,
+      },
+      {
+        path: "reportes",
+        element: <Reportes/>,
       },
     ],
   },
@@ -150,6 +177,15 @@ const router = createBrowserRouter([
       {
         path: "gestionar-pacientes",
         element: <div>Gestión de Pacientes</div>,
+      },
+      
+      {
+        path: "configuracion",
+        element: <Configuracion />,
+      },
+      {
+        path: "reportes",
+        element: <Reportes/>,
       },
     ],
   },
