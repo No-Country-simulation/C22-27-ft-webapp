@@ -4,14 +4,10 @@ const DoctorModel = require('../models/doctorModel');
 
 exports.createConsultation = async (req, res) => {
         try {
-            const { date, state, desciption, patientId, doctorId } = req.body;
+            const { ...rest } = req.body;
 
             const createConsultation = await ConsultationModel.create({
-                date,
-                state,
-                desciption,
-                patientId,
-                doctorId
+                ...rest
             });
             return res.json({ message: 'Consulta creada correctamente.', data: createConsultation });
         } catch (err) {

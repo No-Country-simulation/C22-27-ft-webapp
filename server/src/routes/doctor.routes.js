@@ -6,10 +6,6 @@ router.post('/', doctorController.createDoctor);
 
 router.get('/:id', doctorController.getAllCalendar);
 
-// router.get('/', doctorController.findAllDoctors);
-//
-// router.route('/:id')
-//     .get(doctorController.findOneDoctor)
-//     .patch(doctorController.updateDoctor)
-//     .delete(doctorController.deleteDoctor);
+router.patch('/:id', doctorController.updateDoctor);
+
 module.exports = router;
