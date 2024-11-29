@@ -39,6 +39,7 @@ import { Tpacientes } from "../page/tpacientes/tpacientes";
 import Recetas from "../page/medico/Recetas";
 import Configuracion from "../page/Configuracion/Configuracion";
 import Reportes from "../page/reportes/reportes";
+import { Histiorialcom } from "../page/historial/histiorialcom";
 
 
 
@@ -128,6 +129,10 @@ const router = createBrowserRouter([
       {
         path: "historial",
         element: <Historial />,
+      },
+      {
+        path:"historial/paciente",
+        element:<Histiorialcom/>
       },
       {
         path: "recetas",
