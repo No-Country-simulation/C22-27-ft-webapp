@@ -4,14 +4,10 @@ const DoctorModel = require('../models/doctorModel');
 
 exports.createConsultation = async (req, res) => {
         try {
-            const { date, status, desciption, patientId, doctorId } = req.body;
+            const { ...rest } = req.body;
 
             const createConsultation = await ConsultationModel.create({
-                date,
-                status,
-                desciption,
-                patientId,
-                doctorId
+                ...rest
             });
             return res.json({ message: 'Consulta creada correctamente.', data: createConsultation });
         } catch (err) {
@@ -66,7 +62,7 @@ exports.findOneConsultation = async (req, res) => {
 exports.updateConsultation = async (req, res) => {
     try {
         const { id } = req.params;
-        const { status, desciption } = req.body;
+        const { state, desciption } = req.body;
         const search = await ConsultationModel.findByPk(id);
 
         if (!search) {
@@ -75,12 +71,12 @@ exports.updateConsultation = async (req, res) => {
 
         const update = await ConsultationModel.update(
             {
-                status,
+                state,
                 desciption
             },
             { where: { id } }
         )
-        return res.json({ message: 'Consulta actualizada correctamente.', data: { status, desciption } });
+        return res.json({ message: 'Consulta actualizada correctamente.', data: { state, desciption } });
     } catch (err) {
         return res.status(500).json({ error: 'Error al actualizar la consulta.', details: err.message });
     }
