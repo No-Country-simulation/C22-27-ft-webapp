@@ -1,7 +1,13 @@
-import { FiCheck, FiAlertCircle, FiPhoneCall, FiMail, FiCalendar } from 'react-icons/fi';
-import styles from './consultaItem.module.css';
-import ConsultaAssignModal from './ConsultaAssignModal';
-import { useState } from 'react';
+import {
+  FiCheck,
+  FiAlertCircle,
+  FiPhoneCall,
+  FiMail,
+  FiCalendar,
+} from 'react-icons/fi'
+import styles from './consultaItem.module.css'
+import ConsultaAssignModal from './ConsultaAssignModal'
+import { useState } from 'react'
 
 interface ConsultaItemProps {
   consulta: {
@@ -16,16 +22,16 @@ interface ConsultaItemProps {
     motivo: string;
     horarioPreferido: string;
     tiempoEspera: string;
-  };
+  }
 }
 
 const ConsultaItem = ({ consulta }: ConsultaItemProps) => {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
-  
+
   const initials = consulta.paciente
     .split(' ')
     .map((n) => n[0])
-    .join('');
+    .join('')
 
   return (
     <>
@@ -35,7 +41,11 @@ const ConsultaItem = ({ consulta }: ConsultaItemProps) => {
           <div className={styles.pacienteInfo}>
             <div className={styles.pacienteNombre}>
               <span className={styles.nombreTexto}>{consulta.paciente}</span>
-              <span className={`${styles.statusBadge} ${styles[consulta.prioridad]}`}>
+              <span
+                className={`${styles.statusBadge} ${
+                  styles[consulta.prioridad]
+                }`}
+              >
                 {consulta.prioridad}
               </span>
             </div>
@@ -65,7 +75,7 @@ const ConsultaItem = ({ consulta }: ConsultaItemProps) => {
             </div>
           </div>
           <div className={styles.consultaActions}>
-            <button 
+            <button
               className={`${styles.btnGeneral} ${styles.btnAsignar}`}
               onClick={() => setIsAssignModalOpen(true)}
             >
@@ -75,10 +85,11 @@ const ConsultaItem = ({ consulta }: ConsultaItemProps) => {
         </div>
       </div>
 
-      <ConsultaAssignModal 
+      <ConsultaAssignModal
         isOpen={isAssignModalOpen}
         onClose={() => setIsAssignModalOpen(false)}
         consulta={consulta}
+        establecimiento="Hospital General San Martín Av. Rivadavia 1250, Buenos Aires"
       />
     </>
   );

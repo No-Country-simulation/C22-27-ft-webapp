@@ -1,12 +1,17 @@
+import { useState } from 'react';
 import styles from './DisponibilidadPanel.module.css';
+import ConsultaModal from './ConsultaModal';
 interface DisponibilidadItemProps {
   dia: string;
   fecha: string;
   espacios: number;
   porcentajeOcupado: number;
- }
- 
- const DisponibilidadPanel = () => {
+}
+
+const DisponibilidadPanel = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
+  
   // Test semanas
   const semanas = [
     [
@@ -15,10 +20,8 @@ interface DisponibilidadItemProps {
       { dia: 'Mie', fecha: '27 Nov', espacios: 8, porcentajeOcupado: 50 },
       { dia: 'Jue', fecha: '28 Nov', espacios: 4, porcentajeOcupado: 60 },
       { dia: 'Vie', fecha: '29 Nov', espacios: 6, porcentajeOcupado: 30 }
-    ],
-    // Puedes agregar más semanas aquí
+    ]
   ];
- 
   return (
     <div className={styles.disponibilidad}>
       <h3 className={styles.disponibilidadTitle}>
@@ -27,23 +30,31 @@ interface DisponibilidadItemProps {
       {semanas.map((semana, index) => (
         <div key={index} className={styles.semanaGrid}>
           {semana.map((dia) => (
-            <div key={dia.fecha} className={styles.diaItem}>
+            <div
+              key={dia.fecha}
+              className={styles.diaItem}
+              onClick={() => {
+                setSelectedDate(dia.fecha)
+                setShowModal(true)
+              }}
+            >
               <div className={styles.diaHeader}>
                 <span className={styles.nombreDia}>{dia.dia}</span>
                 <span className={styles.fecha}>{dia.fecha}</span>
               </div>
-              <div className={styles.espaciosInfo}>
-                {dia.espacios} espacios
-              </div>
+              <div className={styles.espaciosInfo}>{dia.espacios} espacios</div>
               <div className={styles.progressBar}>
-                <div 
+                <div
                   className={styles.progressFill}
-                  style={{ 
+                  style={{
                     width: `${dia.porcentajeOcupado}%`,
                     backgroundColor: `${
-                      dia.porcentajeOcupado > 80 ? '#ef4444' :
-                      dia.porcentajeOcupado > 50 ? '#f59e0b' : '#22c55e'
-                    }`
+                      dia.porcentajeOcupado > 80
+                        ? '#ef4444'
+                        : dia.porcentajeOcupado > 50
+                        ? '#f59e0b'
+                        : '#22c55e'
+                    }`,
                   }}
                 />
               </div>
@@ -51,7 +62,12 @@ interface DisponibilidadItemProps {
           ))}
         </div>
       ))}
+      <ConsultaModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        fecha={selectedDate}
+      />
     </div>
   );
- };
-  export default DisponibilidadPanel;
+};
+export default DisponibilidadPanel;
