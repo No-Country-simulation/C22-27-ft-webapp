@@ -40,6 +40,7 @@ import Recetas from "../pages/medico/Recetas";
 import Configuracion from "../pages/Configuracion/Configuracion";
 import Reportes from "../pages/reportes/reportes";
 import { Histiorialcom } from "../pages/historial/histiorialcom";
+import DashboardPaciente from "../pages/paciente/dashboardPaciente";
 
 
 
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <div>Panel de Control - Paciente</div>,
+        element: <DashboardPaciente />,
       },
       {
         path: "agendar-cita",
