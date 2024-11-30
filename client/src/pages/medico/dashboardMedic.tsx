@@ -17,7 +17,7 @@ import {
 } from "react-icons/fi";
 import { RiStethoscopeLine, RiVirusLine, RiHospitalLine } from "react-icons/ri";
 import styles from "./dashboardMedic.module.css";
-import { doctorDashboardApi } from "../../APIs/doctor/dashboard.api";
+import { doctorDashboardApi } from "../../api/doctor/dashboard.api";
 import {
   DoctorStats,
   NextPatientDetails,
@@ -55,7 +55,7 @@ const DashboardMedic = () => {
         setAppointments(appointments);
         setNextPatient(nextPatient);
       } catch (error) {
-        console.error(error);
+        console.error('--->',error);
         setError(error as Error);
       } finally {
         setLoading(false);
