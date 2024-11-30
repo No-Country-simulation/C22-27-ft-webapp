@@ -27,19 +27,19 @@
  * @returns {RouteObject[]} Configuración de rutas de la aplicación
  */
 import { createBrowserRouter } from "react-router-dom";
-import { Login } from "../page/login2";
-import { Layaud } from "../page/layaud";
+import { Login } from "../pages/login2";
+import { Layaud } from "../pages/layaud";
 import ProtectedRoute from "./protectedRoute";
 import RouteRedirect from "./routeRedirect";
 
-import DashboardMedic from "../page/medico/dashboardMedic";
-import ConsultasMedic from "../page/medico/consultasMedic";
-import Historial  from "../page/historial/historial";
-import { Tpacientes } from "../page/tpacientes/tpacientes";
-import Recetas from "../page/medico/Recetas";
-import Configuracion from "../page/Configuracion/Configuracion";
-import Reportes from "../page/reportes/reportes";
-import { Histiorialcom } from "../page/historial/histiorialcom";
+import DashboardMedic from "../pages/medico/dashboardMedic";
+import ConsultasMedic from "../pages/medico/consultasMedic";
+import Historial  from "../pages/historial/historial";
+import { Tpacientes } from "../pages/tpacientes/tpacientes";
+import Recetas from "../pages/medico/Recetas";
+import Configuracion from "../pages/Configuracion/Configuracion";
+import Reportes from "../pages/reportes/reportes";
+import { Histiorialcom } from "../pages/historial/histiorialcom";
 
 
 
