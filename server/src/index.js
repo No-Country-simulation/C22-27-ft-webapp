@@ -5,14 +5,9 @@ const router =require('./routes/index')
 const cookieParser = require("cookie-parser");
 
 const {conn}=require('./db/DB_connection')
-const Consulta = require('./models/consultaModel')
-const Patient = require('./models/patientModel')
-const Doctor = require('./models/doctorModel')
-const Notification = require('./models/notifications.js');
-const MedicalHistory = require('./models/medicalHistory.js');
 
 app.listen(PORT, async () => {
-    await conn.sync({force: false})
+    await conn.sync({force: true})
     console.log('Server OK in port: ' + PORT);
 });
 
@@ -32,9 +27,9 @@ app.use((req, res, next) => {
 
 app.use(cookieParser());
 
-app.use(express.json())
+app.use(express.json());
 
-app.use('/healdtech',router)
+app.use('/healdtech',router);
 
 
 

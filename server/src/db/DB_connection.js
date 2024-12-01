@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
 
     { logging: false, native: false }
 );
+
 sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully at DB.');

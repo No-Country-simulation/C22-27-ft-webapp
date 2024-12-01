@@ -1,19 +1,19 @@
-const Notification = require('../models/notifications.js');
-const MedicalHistory = require('../models/medicalHistory.js');
-const Consultation = require('../models/consultaModel.js');
-const Patient = require('../models/patientModel.js');
+const { Notification } = require('../models/index');
+const { conn } = require('../db/DB_connection');
+const Patient = require("../models/patientModel");
+const Consultation = require("../models/consultaModel");
+const Doctor = require("../models/doctorModel");
 
 // Crear una notificación
 exports.createNotification = async (req, res) => {
   try {
-    const { patient_id, message, type, send } = req.body;
+    const {  consultation_id, message, type, send } = req.body;
    
     const notification = await Notification.create({
-      patient_id,
+      consultation_id: consultation_id,
       message,
       type,
       send,
-     
     });
     
     res.status(201).json({ message: "Notification successfully created.", data: notification });
@@ -28,16 +28,20 @@ exports.getAllNotification = async (req, res) => {
     const notifications = await Notification.findAll({
       include: [
         {
-          model: Patient,
-          as: 'patient',
-        },
-        {
-          model: MedicalHistory,
-          as: 'medicalHistory',
-        },
-        {
           model: Consultation,
-          as: 'consultation',
+          as: "consultation",
+          include: [
+            {
+                model: Patient,
+                as: 'patient',
+                attributes: ['id', 'name', 'email'],
+            },
+            {
+                model: Doctor,
+                as: 'doctor',
+                attributes: ['id', 'name', 'specialty'],
+            },
+        ],
         },
       ],
     });
@@ -58,10 +62,6 @@ exports.getNotificationByUser = async (req, res) => {
         {
           model: Patient,
           as: 'patient',
-        },
-        {
-          model: MedicalHistory,
-          as: 'medicalHistory',
         },
         {
           model: Consultation,

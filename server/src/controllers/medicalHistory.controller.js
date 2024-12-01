@@ -23,8 +23,8 @@ exports.getAllMedicalHistory = async (req, res) => {
   try {
     const medicalHistory = await MedicalHistory.findAll({
       include: [
-        { model: Patient },       // Incluye los datos del paciente
-        { model: Consultation },  // Incluye los datos de la consulta
+        { model: Patient },       
+        { model: Consultation }, 
       ],
     });
     res.status(200).json(medicalHistory);

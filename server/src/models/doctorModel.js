@@ -1,13 +1,13 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
-const Consultation = require('./consultaModel');
+
 
 const Doctor = conn.define('doctor', {
     id: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER, 
         primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
+        autoIncrement: true, 
+        allowNull: false,
     },
 
     rol: {
@@ -61,15 +61,5 @@ const Doctor = conn.define('doctor', {
     }
 })
 
-Doctor.hasOne(Consultation, {
-    foreignKey: 'doctorId',
-    sourceKey: 'id'
-});
-
-Consultation.belongsTo(Doctor, {
-    foreignKey: 'doctorId',
-    targetId: 'id',
-    allowNull: false
-})
 
 module.exports = Doctor;
