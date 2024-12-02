@@ -3,10 +3,9 @@ const { conn } = require('../db/DB_connection');
 
 const Consultation = conn.define('consultation', {
     id: {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
     },
 
     date: {
