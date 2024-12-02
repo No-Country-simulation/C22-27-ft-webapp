@@ -2,10 +2,9 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 const router =require('./routes/index')
+const cookieParser = require("cookie-parser");
+
 const {conn}=require('./db/DB_connection')
-const {consulta}=require('./models/consultaModel')
-const {patient}=require('./models/patientModel')
-const {doctor}=require('./models/doctorModel')
 
 app.listen(PORT, async () => {
     await conn.sync({force: false})
@@ -24,9 +23,13 @@ app.use((req, res, next) => {
         'GET, POST, OPTIONS, PUT, DELETE'
     );
     next();
-})
+});
 
-app.use(express.json())
+app.use(cookieParser());
 
-app.use('/healdtech',router)
+app.use(express.json());
+
+app.use('/healdtech',router);
+
+
 

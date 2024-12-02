@@ -1,8 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
-const Consultation = require('./consultaModel');
 
-const Patient = conn.define('patient',{
+const Patient =  conn.define('patient',{
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
