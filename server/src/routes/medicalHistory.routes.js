@@ -6,7 +6,7 @@ const checkToken = require('../middlewares/checkTocken.middleware.js');
 
 router.get('/', medicalHistoryController.getAllMedicalHistory); 
 router.get('/:id',medicalHistoryController.getMedicalHistroyById);
-router.get('/patientId/:patient_id', medicalHistoryController.getMedicalHistoryByUser);
+router.get('/patientId/:patientId', medicalHistoryController.getMedicalHistoryByUser);
 router.post('/', medicalHistoryController.createMedicalHistory);
 router.delete('/:id', medicalHistoryController.deleteMedicalHistoryById);
 

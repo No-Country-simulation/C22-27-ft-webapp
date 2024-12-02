@@ -1,18 +1,11 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
-const Consultation = require('./consultaModel');
 
 const Patient =  conn.define('patient',{
     id: {
-        // type: DataTypes.BIGINT,
-        // primaryKey: true,
-        // type: DataTypes.UUID,
-
-        type: DataTypes.INTEGER, 
-        primaryKey: true,
-        autoIncrement: true, 
-        allowNull: false,
-       
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
     },
 
     rol: {
@@ -55,8 +48,5 @@ const Patient =  conn.define('patient',{
         allowNull: false
     },
 });
-
-
-
 
 module.exports = Patient;

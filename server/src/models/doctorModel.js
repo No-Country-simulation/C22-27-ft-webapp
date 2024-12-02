@@ -4,10 +4,10 @@ const { conn } = require('../db/DB_connection');
 
 const Doctor = conn.define('doctor', {
     id: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.BIGINT,
         primaryKey: true,
-        autoIncrement: true, 
-        allowNull: false,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
     },
 
     rol: {

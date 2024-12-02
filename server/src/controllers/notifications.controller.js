@@ -7,15 +7,15 @@ const Doctor = require("../models/doctorModel");
 // Crear una notificación
 exports.createNotification = async (req, res) => {
   try {
-    const {  consultationId, message, type, send } = req.body;
-   
+    const { consultationId, message, type, send } = req.body;
+
     const notification = await Notification.create({
       consultationId: consultationId,
       message,
       type,
       send,
     });
-    
+
     res.status(201).json({ message: "Notification successfully created.", data: notification });
   } catch (error) {
     res.status(500).json({ error: "Error creating the notification.", details: error.message });
@@ -32,16 +32,16 @@ exports.getAllNotification = async (req, res) => {
           as: "consultation",
           include: [
             {
-                model: Patient,
-                as: 'patient',
-                attributes: ['id', 'name', 'email'],
+              model: Patient,
+              as: 'patient',
+              attributes: ['id', 'name', 'email'],
             },
             {
-                model: Doctor,
-                as: 'doctor',
-                attributes: ['id', 'name', 'specialty'],
+              model: Doctor,
+              as: 'doctor',
+              attributes: ['id', 'name', 'specialty'],
             },
-        ],
+          ],
         },
       ],
     });
@@ -55,9 +55,9 @@ exports.getAllNotification = async (req, res) => {
 // Obtener notificaciones por usuario
 exports.getNotificationByUser = async (req, res) => {
   try {
-    const { patientId } = req.params;
-    const notifications = await Notification.findAll({
-      where: { patientId },
+    const { id } = req.params;
+    const notifications = await Notification.findOne({
+      where: { id },
       include: [
         {
           model: Patient,
@@ -79,14 +79,14 @@ exports.getNotificationByUser = async (req, res) => {
 // Marcar una notificación como enviada
 exports.markAsSent = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { patientId } = req.params;
 
-    const notifications = await Notification.findByPk(id);
+    const notifications = await Notification.findOne(patientId);
     if (!notifications) {
-      return res.status(404).json({ error:"Notification not found."});
+      return res.status(404).json({ error: "Notification not found." });
     }
 
-    notifications.enviado = true;
+    notifications.send = true;
     await notifications.save();
 
     res.status(200).json({ message: "Notification marked as sent.", details: notifications });
@@ -98,18 +98,19 @@ exports.markAsSent = async (req, res) => {
 exports.getNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const notification = await Notification.findByPk(id);
     if (!notification) {
       return res.status(404).json({ error: 'Notification not found.' });
     }
 
-    res.status(200).json({ message: 'Notificación encontrada correctamente.',  data: { notification }  });
+    res.status(200).json({ message: 'Notification successfully found.', data: { notification } });
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener la notificación.', details: error.message });
+    res.status(500).json({ error: 'Error retrieving the notification.', details: error.message });
   }
 };
 
+// Eliminar notificacion
 exports.deleteNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -119,8 +120,8 @@ exports.deleteNotificationById = async (req, res) => {
       return res.status(404).json({ error: 'Notification not found.' });
     }
     await notification.destroy();
-    res.status(200).json({ message: 'Notificación eliminada correctamente.'});
+    res.status(200).json({ message: 'Notification delete.' });
   } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar la notificación.', details: error.message });
+    res.status(500).json({ error: 'Error while deleting.', details: error.message });
   }
 };

@@ -3,9 +3,9 @@ const { JWT_SECRET_CODE } = process.env;
 
 const createToken = (user) => {
   
-  const { _id, email, role} = user;
+  const { _id, email, rol} = user;
 
-  const token = jwt.sign({ _id, email, role}, JWT_SECRET_CODE, {
+  const token = jwt.sign({ _id, email, rol}, JWT_SECRET_CODE, {
     expiresIn: "20m",
   });
  

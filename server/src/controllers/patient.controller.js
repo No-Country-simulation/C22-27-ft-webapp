@@ -1,21 +1,14 @@
-const Patient = require('../models/patientModel.js');
+const PatientController = require('../models/patientModel.js');
 
 
 exports.createPatient = async (req, res) => {
     try {
-        const { name, rol, age, email, password,  dateBirth, address, phone } = req.body;
+        const { ...rest } = req.body;
 
-        const createPatient = await Patient.create({
-            name,
-            rol,
-            age,
-            email,
-            password,
-            dateBirth,
-            address,
-            phone,
+        const createPatient = await PatientController.create({
+            ...rest
         })
-        
+
         return res.status(200).json({ message: 'Patient successfully created', data: createPatient });
     } catch (err) {
         return res.status(500).json({ error: 'Error when creating the patient', details: err.message });
@@ -24,7 +17,7 @@ exports.createPatient = async (req, res) => {
 
 exports.findAllPatient = async (req, res) => {
     try {
-        const findALl = await Patient.findAll();
+        const findALl = await PatientController.findAll();
         return res.json(findALl);
     } catch (err) {
         return res.status(500).json({ error: 'Error when searching for patients', details: err.message });
@@ -34,7 +27,7 @@ exports.findAllPatient = async (req, res) => {
 exports.findOnePatient = async (req, res) => {
     try {
         const { id } = req.params;
-        const findOne = await Patient.findByPk(id);
+        const findOne = await PatientController.findByPk(id);
 
         if (!findOne) {
             return res.json({ message: 'Patient not found' });
@@ -49,7 +42,7 @@ exports.findOnePatient = async (req, res) => {
 exports.updatePatient = async (req, res) => {
     try {
         const { id } = req.params;
-        const search = await Patient.findByPk(id);
+        const search = await PatientController.findByPk(id);
         const { name, rol, age, email, password, dateBirth, address, phone } = req.body;
 
         if (!search) {
@@ -79,7 +72,7 @@ exports.updatePatient = async (req, res) => {
 exports.deletePatient = async  (req, res) => {
     try {
         const { id } = req.params;
-        const search = await Patient.findByPk(id);
+        const search = await PatientController.findByPk(id);
 
         if (!search) {
             return res.json({ message: 'Patient not found' });

@@ -34,5 +34,8 @@ Consultation.belongsTo(Doctor, { foreignKey: 'doctorId' });
 Consultation.hasOne(Notification, { foreignKey: 'consultationId' });
 Notification.belongsTo(Consultation, { foreignKey: 'consultationId' });
 
+Notification.hasOne(Patient, { foreignKey: 'patientId' })
+Patient.belongsTo( Notification, {foreignKey: 'notificationId'})
+
 // Exporta la conexión y los modelos
 module.exports = { conn, ...models };

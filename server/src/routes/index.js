@@ -12,5 +12,6 @@ router.use("/notifications", notificationsRouter);
 router.use('/consultas', consultaRouter);
 router.use('/patients', patientRouter);
 router.use('/doctor', doctorRouter);
-router.use("/medicalHistory",medicalHistoryRouster)
+router.use("/medicalHistory",medicalHistoryRouster);
+
 module.exports = router;
