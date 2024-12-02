@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import backgroundImg from '../assets/2dab48e71b17bd29b01469f11981c192.jpg';
 import { useAuthStore } from '../store/useAuth';
-import { authApi } from '../APIs/auth.api';
+import { authApi } from '../api/auth.api';
 import { useNavigate } from 'react-router-dom';
 export const Login = () => {
   const [email, setEmail] = useState<string>('');

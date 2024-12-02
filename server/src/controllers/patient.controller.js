@@ -1,4 +1,5 @@
-const PatientController = require('../models/patientModel');
+const PatientController = require('../models/patientModel.js');
+
 
 exports.createPatient = async (req, res) => {
     try {
@@ -24,7 +25,7 @@ exports.updatePatient = async (req, res) => {
             return res.json({ message: 'Patient not found' });
         }
 
-        const update = await PatientController.update(
+        const update = await Patient.update(
             {
                 ...rest
             },
