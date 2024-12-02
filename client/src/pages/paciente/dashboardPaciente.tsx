@@ -1,109 +1,162 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./dashboardPaciente.module.css";
 import {
   RiCalendarLine,
-  RiStethoscopeLine,
   RiMedicineBottleLine,
   RiTimeLine,
   RiUserHeartLine,
-  RiPulseLine,
-  RiFileListLine,
   RiRunLine,
   RiMoonLine,
   RiHeartLine,
   RiCalendarCheckLine,
-  RiStarLine,
   RiBellLine,
-  RiHospitalLine,
   RiHeartPulseLine,
 } from "react-icons/ri";
 import { useAuthStore } from "../../store/useAuth";
+import { Appointment, HealthTip, Medication, PatientStats } from "../../types/patient.types";
+import { patientDashboardApi } from "../../api/patient/dashboard.api";
+import { AppointmentDetailsModal } from '../../components/AppointmentDetailsModal';
+import { MedicationDetailsModal } from '../../components/MedicationDetailsModal';
+import useModal from '../../hooks/useModal';
 
 const DashboardPaciente = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({
-    totalAppointments: 8,
-    activePrescriptions: 3,
-    newResults: 2,
-    healthScore: 85,
+  const [stats, setStats] = useState<PatientStats>({
+    totalAppointments: 0,
+    activePrescriptions: 0,
+    newResults: 0,
+    healthScore: 0,
   });
 
-  const [appointments, setAppointments] = useState([
-    {
-      id: 1,
-      datetime: new Date(2024, 0, 15, 14, 30),
-      doctor: {
-        name: "Dr. Juan Pérez",
-        specialty: "Medicina General",
-      },
-      type: "virtual",
-      status: "confirmed",
-    },
-    {
-      id: 2,
-      datetime: new Date(2024, 0, 20, 10, 0),
-      doctor: {
-        name: "Dra. Ana García",
-        specialty: "Cardiología",
-      },
-      type: "presencial",
-      status: "pending",
-    },
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [medications, setMedications] = useState<Medication[]>([]);
+  const [healthTips, setHealthTips] = useState<HealthTip[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [activeNotifications] = useState([
+    { id: 1, message: "Recordatorio: Cita médica mañana a las 14:30" },
+    { id: 2, message: "Nueva receta médica disponible" }
   ]);
 
-  const [medications, setMedications] = useState([
-    {
-      id: 1,
-      name: "Paracetamol",
-      dosage: "500mg",
-      frequency: "Cada 8 horas",
-      nextDose: "Hoy 14:00",
-      remainingDoses: 6,
-    },
-    {
-      id: 2,
-      name: "Omeprazol",
-      dosage: "20mg",
-      frequency: "Una vez al día",
-      nextDose: "Mañana 08:00",
-      remainingDoses: 15,
-    },
-    {
-      id: 3,
-      name: "Vitamina D",
-      dosage: "2000 UI",
-      frequency: "Una vez al día",
-      nextDose: "Hoy 20:00",
-      remainingDoses: 28,
-    },
-  ]);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [selectedMedication, setSelectedMedication] = useState<Medication | null>(null);
+  const { isOpen, openModal, closeModal } = useModal();
+  const { isOpen: isMedicationModalOpen, openModal: openMedicationModal, closeModal: closeMedicationModal } = useModal();
 
-  const healthTips = [
-    {
-      icon: <RiHeartLine />,
-      title: "Ejercicio Diario",
-      description: "30 minutos de actividad física moderada mejoran tu salud cardiovascular.",
-    },
-    {
-      icon: <RiMoonLine />,
-      title: "Descanso Adecuado",
-      description: "Dormir 7-8 horas fortalece tu sistema inmunológico y mejora tu bienestar.",
-    },
-    {
-      icon: <RiRunLine />,
-      title: "Mantente Activo",
-      description: "Realiza pausas activas durante tu jornada para mantener una buena circulación.",
-    },
-  ];
+  const handleAppointmentAction = (appointment: Appointment, action: 'view' | 'join') => {
+    if (action === 'join') {
+      // Simular unirse a consulta virtual
+      alert('Iniciando consulta virtual...');
+    } else {
+      // Mostrar modal con detalles de la cita
+      setSelectedAppointment(appointment);
+      openModal();
+    }
+  };
+
+  const closeAppointmentModal = () => {
+    setSelectedAppointment(null);
+    closeModal();
+  };
+
+  const handleMedicationClick = (medication: Medication) => {
+    setSelectedMedication(medication);
+    openMedicationModal();
+  };
+
+  const handleSetMedicationReminder = async (medication: Medication, time: string) => {
+    try {
+      // Aquí iría la llamada a la API para guardar el recordatorio
+      // Por ahora solo mostraremos un mensaje de éxito
+      alert(`Recordatorio configurado para ${medication.name} a las ${time}`);
+      closeMedicationModal();
+    } catch (error) {
+      console.error('Error al configurar el recordatorio:', error);
+    }
+  };
+
+  const closeMedicationDetailsModal = () => {
+    setSelectedMedication(null);
+    closeMedicationModal();
+  };
+
+  const handleHealthTipAction = (tip: HealthTip) => {
+    // Simular acción al hacer clic en un consejo de salud
+    alert(`Más información sobre: ${tip.title}`);
+  };
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const handleJoinMeeting = async (appointmentId: number) => {
+    try {
+      // Aquí iría la lógica para conectarse a la consulta virtual
+      // Por ejemplo, obtener el enlace de la reunión del backend
+      const meetingUrl = 'https://meet.google.com/abc-defg-hij';
+      window.open(meetingUrl, '_blank');
+    } catch (error) {
+      console.error('Error al unirse a la consulta:', error);
+      throw error;
+    }
+  };
+
+  const handleRescheduleAppointment = async (appointmentId: number) => {
+    try {
+      // Aquí iría la lógica para reprogramar la cita
+      // Por ahora solo mostraremos un mensaje
+      alert('Funcionalidad de reprogramación en desarrollo');
+    } catch (error) {
+      console.error('Error al reprogramar la cita:', error);
+      throw error;
+    }
+  };
+
+  const handleCancelAppointment = async (appointmentId: number) => {
+    try {
+      // Aquí iría la lógica para cancelar la cita
+      await patientDashboardApi.cancelAppointment(appointmentId);
+      
+      // Actualizar la lista de citas
+      const updatedAppointments = appointments.filter(app => app.id !== appointmentId);
+      setAppointments(updatedAppointments);
+      
+      // Actualizar las estadísticas
+      setStats(prev => ({
+        ...prev,
+        totalAppointments: prev.totalAppointments - 1
+      }));
+    } catch (error) {
+      console.error('Error al cancelar la cita:', error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
-    // Simulando carga de datos
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    const loadDashboardData = async () => {
+      try {
+        setLoading(true);
+        const [statsData, appointmentsData, medicationsData, healthTipsData] = await Promise.all([
+          patientDashboardApi.getPatientStats(),
+          patientDashboardApi.getPatientAppointments(),
+          patientDashboardApi.getPatientMedications(),
+          patientDashboardApi.getHealthTips(),
+        ]);
+
+        setStats(statsData);
+        setAppointments(appointmentsData);
+        setMedications(medicationsData);
+        setHealthTips(healthTipsData);
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
   }, []);
 
   if (loading) {
@@ -126,10 +179,25 @@ const DashboardPaciente = () => {
           </p>
         </div>
         <div className={styles.headerActions}>
-          <button className={styles.actionButton}>
+          <button 
+            className={`${styles.actionButton} ${showNotifications ? styles.active : ''}`}
+            onClick={toggleNotifications}
+          >
             <RiBellLine /> Notificaciones
+            {activeNotifications.length > 0 && (
+              <span className={styles.notificationBadge}>{activeNotifications.length}</span>
+            )}
           </button>
-          <button className={styles.actionButton}>
+          {showNotifications && (
+            <div className={styles.notificationsDropdown}>
+              {activeNotifications.map(notification => (
+                <div key={notification.id} className={styles.notificationItem}>
+                  {notification.message}
+                </div>
+              ))}
+            </div>
+          )}
+          <button className={styles.actionButton} onClick={() => navigate('/perfil')}>
             <RiUserHeartLine /> Mi Perfil
           </button>
         </div>
@@ -209,11 +277,17 @@ const DashboardPaciente = () => {
                   </div>
                 </div>
                 <div className={styles.appointmentActions}>
-                  <button className={styles.appointmentButton}>
+                  <button 
+                    className={styles.appointmentButton}
+                    onClick={() => handleAppointmentAction(appointment, 'view')}
+                  >
                     Ver detalles
                   </button>
                   {appointment.type === 'virtual' && (
-                    <button className={`${styles.appointmentButton} ${styles.primaryButton}`}>
+                    <button 
+                      className={`${styles.appointmentButton} ${styles.primaryButton}`}
+                      onClick={() => handleAppointmentAction(appointment, 'join')}
+                    >
                       Unirse a consulta
                     </button>
                   )}
@@ -233,7 +307,11 @@ const DashboardPaciente = () => {
           </div>
           <div className={styles.medicationsList}>
             {medications.map((medication, index) => (
-              <div key={index} className={styles.medicationCard}>
+              <div 
+                key={index} 
+                className={styles.medicationCard}
+                onClick={() => handleMedicationClick(medication)}
+              >
                 <div className={styles.medicationMain}>
                   <div className={styles.medicationIcon}>
                     <RiMedicineBottleLine />
@@ -266,18 +344,54 @@ const DashboardPaciente = () => {
             <button className={styles.sectionAction}>Más consejos</button>
           </div>
           <div className={styles.healthTipsList}>
-            {healthTips.map((tip, index) => (
-              <div key={index} className={styles.healthTipCard}>
-                <div className={styles.healthTipIcon}>{tip.icon}</div>
-                <div className={styles.healthTipContent}>
-                  <h3 className={styles.healthTipTitle}>{tip.title}</h3>
-                  <p className={styles.healthTipDescription}>{tip.description}</p>
+            {healthTips.map((tip) => {
+
+              const iconMap = {
+                RiHeartLine,
+                RiMoonLine,
+                RiRunLine
+              } as const;
+              type IconKey = keyof typeof iconMap;
+              const IconComponent = iconMap[tip.icon as IconKey] ?? iconMap.RiHeartLine;
+
+              return (
+                <div 
+                  key={tip.id} 
+                  className={styles.healthTipCard}
+                  onClick={() => handleHealthTipAction(tip)}
+                >
+                  <div className={styles.healthTipIcon}>
+                    {IconComponent && <IconComponent />}
+                  </div>
+                  <div className={styles.healthTipContent}>
+                    <h3 className={styles.healthTipTitle}>{tip.title}</h3>
+                    <p className={styles.healthTipDescription}>{tip.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </div>
+      {selectedAppointment && (
+        <AppointmentDetailsModal
+          appointment={selectedAppointment}
+          isOpen={isOpen}
+          onClose={closeAppointmentModal}
+          onJoinMeeting={handleJoinMeeting}
+          onReschedule={handleRescheduleAppointment}
+          onCancel={handleCancelAppointment}
+        />
+      )}
+      
+      {selectedMedication && (
+        <MedicationDetailsModal
+          medication={selectedMedication}
+          isOpen={isMedicationModalOpen}
+          onClose={closeMedicationDetailsModal}
+          onSetReminder={handleSetMedicationReminder}
+        />
+      )}
     </div>
   );
 };
