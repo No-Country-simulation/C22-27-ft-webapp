@@ -1,6 +1,7 @@
 const MedicalHistory = require('../models/medicalHistory.js');
 const Patient = require('../models/patientModel.js');
 const Consultation = require('../models/consultaModel.js');
+const Doctor = require('../models/doctorModel.js')
 
 // Crear una History
 exports.createMedicalHistory = async (req, res) => {
@@ -8,8 +9,9 @@ exports.createMedicalHistory = async (req, res) => {
     const { patientId, consultationId } = req.body;
    
     const notification = await MedicalHistory.create({
-      patientId,
-      consultationId,
+      patientId: patientId,
+      consultationId: consultationId,
+      
     });
 
     res.status(201).json({ message: "Medical History successfully created.", notification });
@@ -22,10 +24,6 @@ exports.createMedicalHistory = async (req, res) => {
 exports.getAllMedicalHistory = async (req, res) => {
   try {
     const medicalHistory = await MedicalHistory.findAll({
-      include: [
-        { model: Patient },       
-        { model: Consultation }, 
-      ],
     });
     res.status(200).json(medicalHistory);
   } catch (error) {
@@ -37,12 +35,23 @@ exports.getAllMedicalHistory = async (req, res) => {
 exports.getMedicalHistoryByUser = async (req, res) => {
   try {
     const { patientId } = req.params;
-    
-    const medicalHistory = await MedicalHistory.findAll({
+    const medicalHistory = await MedicalHistory.findOne({
       where: { patientId },
       include: [
-        { model: Patient},
-        { model: Consultation},
+        { model: Patient,
+          as: "patient",
+          attributes: ["id", "name"],
+        },
+        { model: Consultation,
+          as: "consultation",
+          include: [
+            {
+              model: Doctor,
+              as: 'doctor',
+              attributes: ['id', 'name', 'specialty'], // Atributos del doctor
+            },
+          ],
+        },
        
     ],
     });

@@ -62,4 +62,5 @@ const Doctor = conn.define('doctor', {
 })
 
 
+
 module.exports = Doctor;

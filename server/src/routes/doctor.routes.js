@@ -3,11 +3,8 @@ const router = express.Router();
 const doctorController = require('../controllers/doctor.controller');
 
 router.post('/', doctorController.createDoctor);
+router.get('/:id', doctorController.getAllCalendar)
 
-router.get('/', doctorController.findAllDoctors);
+router.route('/:id').patch(doctorController.updateDoctor)
 
-router.route('/:id')
-    .get(doctorController.findOneDoctor)
-    .patch(doctorController.updateDoctor)
-    .delete(doctorController.deleteDoctor);
 module.exports = router;

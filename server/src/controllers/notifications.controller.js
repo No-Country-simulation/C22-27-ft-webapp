@@ -7,10 +7,10 @@ const Doctor = require("../models/doctorModel");
 // Crear una notificación
 exports.createNotification = async (req, res) => {
   try {
-    const {  consultation_id, message, type, send } = req.body;
+    const {  consultationId, message, type, send } = req.body;
    
     const notification = await Notification.create({
-      consultation_id: consultation_id,
+      consultationId: consultationId,
       message,
       type,
       send,
@@ -55,9 +55,9 @@ exports.getAllNotification = async (req, res) => {
 // Obtener notificaciones por usuario
 exports.getNotificationByUser = async (req, res) => {
   try {
-    const { patient_id } = req.params;
+    const { patientId } = req.params;
     const notifications = await Notification.findAll({
-      where: { patient_id },
+      where: { patientId },
       include: [
         {
           model: Patient,

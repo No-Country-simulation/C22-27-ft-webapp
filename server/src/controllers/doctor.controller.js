@@ -1,4 +1,6 @@
 const doctorModel = require('../models/doctorModel');
+const patientModel = require('../models/patientModel');
+const consultaModel = require('../models/consultaModel');
 
 exports.createDoctor = async (req, res) => {
     try {
@@ -13,7 +15,7 @@ exports.createDoctor = async (req, res) => {
             dateBirth,
             address,
             phone,
-            specialty
+            specialty,
         })
         return res.json({ message: 'Doctor creado correctamente.', data: create });
     } catch (err) {
@@ -21,27 +23,39 @@ exports.createDoctor = async (req, res) => {
     }
 }
 
-exports.findAllDoctors = async (req, res) => {
+exports.getAllCalendar = async (req, res) => {
+    const doctor_id = req.params.id;
+    
     try {
-        const allDoctors = await  doctorModel.findAll();
-        return res.json({ message: 'Todos los doctores.', data: allDoctors });
+        const totalPatients = await patientModel.count({
+            include: {
+                model: consultaModel,
+                where: { doctor_id }
+            },
+            distinct: true
+        })
+
+        const allConsultations = await consultaModel.count({
+            where: {
+                doctor_id,
+                state: 'Atendido'
+            }
+        })
+
+        const totalPending  = await consultaModel.count({
+            where: {
+                doctor_id,
+                state: 'pendiente'
+            }
+        })
+
+        res.json({
+            totalPatients,
+            allConsultations,
+            totalPending
+        })
     } catch (err) {
-        return res.status(500).json({ error: 'Error al buscar los doctores.', details: err.message });
-    }
-}
-
-exports.findOneDoctor = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const findOne = await doctorModel.findByPk(id);
-
-        if (!findOne) {
-            return res.json({ message: 'Doctor no encontrado.' });
-        }
-
-        return res.json({ message: 'Doctor found',data:findOne });
-    } catch (err) {
-        return res.status(500).json({ error: 'Error al buscar el doctor.', details: err.message });
+        return res.status(500).json({ error: 'Error in obtaining statistics from the doctor', details: err.message });
     }
 }
 
@@ -73,21 +87,5 @@ exports.updateDoctor = async (req, res) => {
         return res.json({ message: 'Doctor actualizado correctamente.', data: { name, rol, age, email, password, dateBirth, address, phone, specialty } });
     } catch (err) {
         return res.status(500).json({ error: 'Error al actualizar el doctor.', details: err.message });
-    }
-}
-
-exports.deleteDoctor = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const search = await doctorModel.findByPk(id);
-         if (!search) {
-             return res.json({ message: 'Doctor no encontrado.' });
-         }
-
-        await doctorModel.destroy({ where: { id } });
-
-        return res.json({ message: 'Doctor eliminado correctamente.' });
-    } catch (err) {
-        return res.status(500).json({ error: 'Error al eliminar el doctor.', details: err.message });
     }
 }
