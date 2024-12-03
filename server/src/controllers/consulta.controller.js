@@ -1,10 +1,11 @@
 const ConsultationModel = require('../models/consultaModel');
 const PatientModel = require('../models/patientModel');
 const DoctorModel = require('../models/doctorModel');
+const Recipe = require('../models/recipeModel');
 
 exports.createConsultation = async (req, res) => {
         try {
-            const { ...rest } = req.body;
+            const {  ...rest } = req.body;
             
             const createConsultation = await ConsultationModel.create({
                ...rest,
@@ -24,7 +25,8 @@ exports.findAllConsultations = async  (req, res) => {
                 },
                 {
                     model: DoctorModel
-                }
+                },
+           
             ],
             attributes: { exclude: ['patientId', 'doctorId'] }
         });

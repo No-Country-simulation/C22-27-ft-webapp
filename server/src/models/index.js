@@ -17,7 +17,7 @@ const models = {
 
 // Relaciones entre modelos
 
-// MedicalHistory con Patient, Doctor y Consultation
+//MedicalHistory con Patient, Doctor y Consultation
 Patient.hasOne(MedicalHistory, {foreignKey: 'medicalHistoryId'});
 MedicalHistory.belongsTo(Patient, { foreignKey: 'patientId' });
 
@@ -38,8 +38,11 @@ Notification.belongsTo(Consultation, { foreignKey: 'consultationId' });
 Notification.hasOne(Patient, { foreignKey: 'patientId' });
 Patient.belongsTo( Notification, {foreignKey: 'notificationId'});
 
-Recipe.hasOne(Consultation, { foreignKey: 'consultationId' } );
-MedicalHistory.belongsTo(Recipe, {foreignKey: 'recipeId'});
+Consultation.hasOne(Recipe, { foreignKey: 'consultationId', as: 'recipe' });
+Recipe.belongsTo(Consultation, { foreignKey: 'consultationId', as: 'consultation' });
+
+
+
 
 // Exporta la conexión y los modelos
 module.exports = { conn, ...models };

@@ -2,24 +2,28 @@ const { conn } = require('../db/DB_connection');
 const Patient = require("../models/patientModel");
 const Consultation = require("../models/consultaModel");
 const Doctor = require("../models/doctorModel");
-const Recipe = require('../models/recipeModel')
-// Crear una notificación
+const Recipe = require('../models/recipeModel');
+
+// Crear una receta
 exports.createRecipe = async (req, res) => {
   try {
     const { consultationId,...rest  } = req.body;
 
+    if (!consultationId) {
+        return res.status(400).json({ error: "ConsultationId is required." });
+      }
     const recipe = await Recipe.create({
       ...rest,
-      consultationId
+      consultationId: consultationId,
     });
 
-    res.status(201).json({ message: "Notification successfully created.", data: recipe });
+    res.status(201).json({ message: "Recipe successfully created.", data: recipe });
   } catch (error) {
-    res.status(500).json({ error: "Error creating the notification.", details: error.message });
+    res.status(500).json({ error: "Error creating the recipe.", details: error.message });
   }
 };
 
-// Obtener todas las notificaciones
+// Obtener todas las recetas
 exports.getAllRecipe = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({
@@ -43,81 +47,38 @@ exports.getAllRecipe = async (req, res) => {
       ],
     });
 
-    res.status(200).json({message: "encontradas", data: recipes});
+    res.status(200).json({message: "OK", data: recipes});
   } catch (error) {
-    res.status(500).json({ error: "Error fetching the notifications.", details: error.message });
+    res.status(500).json({ error: "Error fetching the recipes.", details: error.message });
   }
 };
 
-// Obtener notificaciones por usuario
-exports.getNotificationByUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const notifications = await Notification.findOne({
-      where: { id },
-      include: [
-        {
-          model: Patient,
-          as: 'patient',
-        },
-        {
-          model: Consultation,
-          as: 'consultation',
-        },
-      ],
-    });
-
-    res.status(200).json(notifications);
-  } catch (error) {
-    res.status(500).json({ error: "Error fetching user notifications.", details: error.message });
-  }
-};
-
-// Marcar una notificación como enviada
-exports.markAsSent = async (req, res) => {
-  try {
-    const { patientId } = req.params;
-
-    const notifications = await Notification.findOne(patientId);
-    if (!notifications) {
-      return res.status(404).json({ error: "Notification not found." });
-    }
-
-    notifications.send = true;
-    await notifications.save();
-
-    res.status(200).json({ message: "Notification marked as sent.", details: notifications });
-  } catch (error) {
-    res.status(500).json({ error: "Error marking the notification as sent.", details: error.message });
-  }
-};
-
-exports.getNotificationById = async (req, res) => {
+exports.getRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const notification = await Notification.findByPk(id);
-    if (!notification) {
-      return res.status(404).json({ error: 'Notification not found.' });
+    const recipe = await Recipe.findByPk(id);
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found.' });
     }
 
-    res.status(200).json({ message: 'Notification successfully found.', data: { notification } });
+    res.status(200).json({ message: 'Recipe successfully found.', data: recipe });
   } catch (error) {
-    res.status(500).json({ error: 'Error retrieving the notification.', details: error.message });
+    res.status(500).json({ error: 'Error retrieving the recipe.', details: error.message });
   }
 };
 
-// Eliminar notificacion
+// Eliminar receta
 exports.deleteNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const notification = await Notification.findByPk(id);
-    if (!notification) {
-      return res.status(404).json({ error: 'Notification not found.' });
+    const recipe = await Recipe.findByPk(id);
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found.' });
     }
-    await notification.destroy();
-    res.status(200).json({ message: 'Notification delete.' });
+    await recipe.destroy();
+    res.status(200).json({ message: 'Recipe delete.' });
   } catch (error) {
     res.status(500).json({ error: 'Error while deleting.', details: error.message });
   }
