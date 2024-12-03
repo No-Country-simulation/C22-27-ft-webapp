@@ -1,7 +1,6 @@
 const ConsultationModel = require('../models/consultaModel');
 const PatientModel = require('../models/patientModel');
 const DoctorModel = require('../models/doctorModel');
-const Recipe = require('../models/recipeModel');
 
 exports.createConsultation = async (req, res) => {
         try {
