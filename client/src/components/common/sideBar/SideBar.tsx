@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom'
 import styles from './Sidebar.module.css'
 import { useAuthStore } from '../../../store/useAuth'
 
-
 // Define las propiedades requeridas para un NavLink
 interface NavLinkItemProps {
   to: string
@@ -29,95 +28,94 @@ const NavLinkItem = ({ to, badge, children }: NavLinkItemProps) => (
 )
 
 const Sidebar = () => {
-  const { user } = useAuthStore();
+  const { user } = useAuthStore()
 
   return (
-        <div className={styles.sidebar}>
-          {/* Perfil */}
-          <div className="p-3 pt-4">
-            <div className="d-flex align-items-center">
-              <div className={styles['avatar-container']}>
-              {user?.firstName?.[0]?.toUpperCase()}{user?.lastName?.[0]?.toUpperCase()}
-              </div>
-              <div className="ms-3">
-                <div className="fw-bold">
-                  {user?.firstName} {user?.lastName}
-                </div>
-                <small>{user?.role.toUpperCase()}</small>
-              </div>
-            </div>
+    <div className={styles.sidebar}>
+      {/* Perfil */}
+      <div className="p-3 pt-4">
+        <div className="d-flex align-items-center">
+          <div className={styles['avatar-container']}>
+            {user?.firstName?.[0]?.toUpperCase()}
+            {user?.lastName?.[0]?.toUpperCase()}
           </div>
-
-          {/* nav */}
-          <nav className="mt-3">
-            {/* Principal */}
-            <div className="px-3 mb-2">
-              <small className="text-secondary text-uppercase">Principal</small>
+          <div className="ms-3">
+            <div className="fw-bold">
+              {user?.firstName} {user?.lastName}
             </div>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <NavLinkItem to="dashboard">Panel Principal</NavLinkItem>
-              </li>
-              {/* fin - Panel Principal*/}
-              <li className="nav-item">
-                <NavLinkItem to="consultas" badge={5}>
-                  Consultas Pendientes
-                </NavLinkItem>
-              </li>
-              {/* fin - Consultas Pendientes*/}
-            </ul>
+            <small>{user?.role.toUpperCase()}</small>
+          </div>
+        </div>
+      </div>
 
-            {/* Pacientes */}
-            <div className="px-3 mb-2 mt-4">
-              <small className="text-secondary text-uppercase">Pacientes</small>
-            </div>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <NavLinkItem to="pacientes" badge={120}>
-                  Todos los Pacientes
-                </NavLinkItem>
-              </li>
-              {/* fin - Todos los Pacientes*/}
-              <li className="nav-item">
-                <NavLinkItem to="historial">
-                  Historiales
-                </NavLinkItem>
-              </li>
-              {/* fin - Historiales*/}
-            </ul>
+      {/* nav */}
+      <nav className="mt-3">
+        {/* Principal */}
+        <div className="px-3 mb-2">
+          <small className="text-secondary text-uppercase">Principal</small>
+        </div>
+        <ul className="nav flex-column">
+          <li className="nav-item">
+            <NavLinkItem to="dashboard">Panel Principal</NavLinkItem>
+          </li>
+          {/* fin - Panel Principal*/}
+          <li className="nav-item">
+            <NavLinkItem to="mis-citas" badge={5}>
+              Mis Citas
+            </NavLinkItem>
+          </li>
+          {/* fin - Citas Pendientes*/}
+        </ul>
 
-            {/* Administración */}
-            <div className="px-3 mb-2 mt-4">
-              <small className="text-secondary text-uppercase">
-                Administración
-              </small>
-            </div>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <NavLinkItem to="configuracion">Configuración</NavLinkItem>
-              </li>
-              {/* fin - Configuración*/}
-              <li className="nav-item">
-                <NavLinkItem to="Reportes">Reportes</NavLinkItem>
-              </li>
-              {/* fin - Reportes*/}
-            </ul>
+        {/* Pacientes */}
+        <div className="px-3 mb-2 mt-4">
+          <small className="text-secondary text-uppercase">Pacientes</small>
+        </div>
+        <ul className="nav flex-column">
+          <li className="nav-item">
+            <NavLinkItem to="pacientes" badge={120}>
+              Todos los Pacientes
+            </NavLinkItem>
+          </li>
+          {/* fin - Todos los Pacientes*/}
+          <li className="nav-item">
+            <NavLinkItem to="historial">Historiales</NavLinkItem>
+          </li>
+          {/* fin - Historiales*/}
+        </ul>
 
-            {/* cerrar sesión */}
-            <div className="mt-4 text-center">
-              <button
-                className="btn btn-outline-danger text-decoration-none text-white "
-                onClick={() => {
-                  const logout = useAuthStore.getState().logout;
-                  logout();
-                  window.location.href = '/login';
-                }}
-              >
-                Cerrar Sesión
-              </button>
-            </div>
-          </nav>
-        </div>      
+        {/* Administración */}
+        <div className="px-3 mb-2 mt-4">
+          <small className="text-secondary text-uppercase">
+            Administración
+          </small>
+        </div>
+        <ul className="nav flex-column">
+          <li className="nav-item">
+            <NavLinkItem to="configuracion">Configuración</NavLinkItem>
+          </li>
+          {/* fin - Configuración*/}
+          <li className="nav-item">
+            <NavLinkItem to="Reportes">Reportes</NavLinkItem>
+          </li>
+          {/* fin - Reportes*/}
+        </ul>
+
+        {/* cerrar sesión */}
+        <div className="mt-4 text-center">
+          <button
+            className="btn btn-outline-danger text-decoration-none text-white "
+            onClick={() => {
+              const logout = useAuthStore.getState().logout
+              logout()
+              window.location.href = '/login'
+            }}
+          >
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
   )
 }
 
