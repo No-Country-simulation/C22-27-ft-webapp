@@ -7,7 +7,7 @@ import {
   Doctor,
   FormData,
   doctoresMock,
-} from '../../../../mock/paciente/citas.mock'
+} from '../../../../mock/patient/citas.mock'
 
 interface NuevaCitaModalProps {
   modalAbierto: boolean

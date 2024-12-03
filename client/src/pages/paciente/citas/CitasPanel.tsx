@@ -5,7 +5,7 @@ import {
   Cita,
   citasPacientesMock,
   CitaActualizada,
-} from '../../../mock/paciente/citas.mock'
+} from '../../../mock/patient/citas.mock'
 import CitasPacientesHeader from '../../../components/Pacientes/Citas/CitasPacientesHeader/CitasPacientesHeader'
 import CitasPacientesStats from '../../../components/Pacientes/Citas/CitasPacientesStats/CitasPacientesStats'
 import CitasPacientesFilter from '../../../components/Pacientes/Citas/CitasPacientesFilter/CitasPacientesFilter'

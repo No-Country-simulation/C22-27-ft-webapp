@@ -1,7 +1,7 @@
 import { RiCloseFill } from "react-icons/ri";
 import  styles  from "./ReprogramarCitaModal.module.css";
 import { useState } from "react";
-import { Cita } from "../../../../mock/paciente/citas.mock";
+import { Cita } from "../../../../mock/patient/citas.mock";
 
 interface ModalReprogramarProps {
     cita: Cita

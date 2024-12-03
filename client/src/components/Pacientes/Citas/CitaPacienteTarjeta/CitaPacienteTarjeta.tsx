@@ -8,7 +8,7 @@ import {
   RiFileList3Line,
   RiCalendarEventLine,
 } from 'react-icons/ri'
-import { Cita, CitaActualizada } from '../../../../mock/paciente/citas.mock'
+import { Cita, CitaActualizada } from '../../../../mock/patient/citas.mock'
 import styles from './CitaPacienteTarjeta.module.css'
 import { useEffect, useState } from 'react'
 import ReprogramarCitaModal from '../ReprogramarCitaModal/ReprogramarCitaModal'

@@ -1,5 +1,5 @@
 import { RiCalendarLine, RiVideoLine, RiHospitalLine } from 'react-icons/ri'
-import { estadisticasCitasMock } from '../../../../mock/paciente/citas.mock'
+import { estadisticasCitasMock } from '../../../../mock/patient/citas.mock'
 import styles from './CitasPacientesStats.module.css'
 
 const CitasPacientesStats = () => {

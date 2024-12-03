@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Cita } from '../../../../mock/paciente/citas.mock'
+import { Cita } from '../../../../mock/patient/citas.mock'
 import styles from './CitasPacientesFilter.module.css'
 import NuevaCitaModal from '../NuevaCitaModal/NuevaCitaModal'
 
