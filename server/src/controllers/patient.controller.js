@@ -6,7 +6,8 @@ exports.createPatient = async (req, res) => {
         const { ...rest } = req.body;
 
         const createPatient = await PatientController.create({
-            ...rest
+            ...rest,
+           
         })
 
         return res.status(200).json({ message: 'Patient successfully created', data: createPatient });
