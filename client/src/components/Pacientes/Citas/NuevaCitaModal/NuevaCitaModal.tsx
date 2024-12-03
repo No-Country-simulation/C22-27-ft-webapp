@@ -2,9 +2,6 @@ import { useState } from 'react'
 import styles from './NuevaCitaModal.module.css'
 import {
   RiCloseLine,
-  RiCalendarLine,
-  RiTimeLine,
-  RiStethoscopeLine,
 } from 'react-icons/ri'
 import {
   Doctor,

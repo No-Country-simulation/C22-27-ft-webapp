@@ -41,6 +41,8 @@ import Configuracion from "../pages/Configuracion/Configuracion";
 import Reportes from "../pages/reportes/reportes";
 import { Histiorialcom } from "../pages/historial/histiorialcom";
 import DashboardPaciente from "../pages/paciente/dashboardPaciente";
+import { HistiorialPaciente } from "../pages/historialpaciente/historial";
+import { TablaDoctores } from "../pages/tdoctores/tabla";
 import CitasPanel from "../pages/paciente/citas/CitasPanel";
 
 
@@ -90,7 +92,11 @@ const router = createBrowserRouter([
       },
       {
         path: "mi-historial",
-        element: <div>Mi Historial Médico</div>,
+        element: <HistiorialPaciente/>,
+      },
+      {
+        path: "dotores",
+        element: <TablaDoctores/>,
       },
       {
         path: "configuracion",
