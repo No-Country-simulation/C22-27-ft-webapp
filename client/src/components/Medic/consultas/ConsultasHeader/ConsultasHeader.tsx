@@ -10,7 +10,7 @@ const ConsultasHeader = ({ totalHoy }: ConsultasHeaderProps) => {
   return (
     <div className={styles.header}>
       <div className='align-items-start'>
-        <h1 className={styles.title}>Panel de Pendientes</h1>
+        <h1 className={styles.title}>Panel de Citas</h1>
         <div className={styles.welcomeText}>
           Bienvenido a tu panel de consultas pendientes
           <div className='gap-1 d-inline-flex align-items-center'>
