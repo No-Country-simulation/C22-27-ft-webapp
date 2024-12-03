@@ -1,17 +1,11 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
-const Consultation = require('../models/consultaModel')
 
-const Patient =  conn.define('patient',{
+const Recipe =  conn.define('recipe',{
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
-    },
-
-    rol: {
-        type: DataTypes.STRING,
-        allowNull: false
     },
 
     name: {
@@ -19,36 +13,26 @@ const Patient =  conn.define('patient',{
         allowNull: false
     },
 
-    age: {
+    dose: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    frecuency: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
 
-    email: {
+    duration: {
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    password: {
+    notes: {
         type: DataTypes.STRING,
         allowNull: false
     },
-
-    dateBirth: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-
-    address: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-
-    phone: {
-        type: DataTypes.BIGINT,
-        allowNull: false
-    }
 })
 
 
-module.exports = Patient;
+module.exports = Recipe;

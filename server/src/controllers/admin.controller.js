@@ -1,13 +1,16 @@
 const adminController = require('../models/adminModel');
 const doctorModel = require("../models/doctorModel");
 const PatientController = require("../models/patientModel");
+const {createHash} = require("../utils/hashPassword");
 
 exports.createAdmin = async (req, res) => {
     try {
-        const  { ...rest } = req.body;
+        const  { password,...rest } = req.body;
+        const hashedPassword = createHash(password);
 
         const admin = await adminController.create({
-            ...rest
+            ...rest,
+            password: hashedPassword
         })
 
         res.status(200).json({ message: 'Admin successfully created', data: admin });

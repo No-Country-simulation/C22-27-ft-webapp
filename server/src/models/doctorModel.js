@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { conn } = require('../db/DB_connection');
+const Consultation = require('../models/consultaModel')
 
 
 const Doctor = conn.define('doctor', {
@@ -58,16 +59,6 @@ const Doctor = conn.define('doctor', {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
     }
-})
-
-Doctor.hasMany(Consultation, {
-    foreignKey: 'doctorId',
-    sourceKey: 'id'
-});
-
-Consultation.belongsTo(Doctor, {
-    foreignKey: 'doctorId',
-    targetId: 'id',
 })
 
 module.exports = Doctor;

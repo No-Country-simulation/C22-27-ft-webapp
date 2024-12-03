@@ -1,19 +1,20 @@
 const ConsultationModel = require('../models/consultaModel');
 const PatientModel = require('../models/patientModel');
 const DoctorModel = require('../models/doctorModel');
+const Recipe = require('../models/recipeModel');
 
 exports.createConsultation = async (req, res) => {
         try {
-            const { ...rest } = req.body;
-
+            const {  ...rest } = req.body;
+            
             const createConsultation = await ConsultationModel.create({
-                ...rest
+               ...rest,
             });
             return res.json({ message: 'Consulta creada correctamente.', data: createConsultation });
         } catch (err) {
             return res.status(500).send(err);
         }
-}
+};
 
 exports.findAllConsultations = async  (req, res) => {
     try {
@@ -24,7 +25,8 @@ exports.findAllConsultations = async  (req, res) => {
                 },
                 {
                     model: DoctorModel
-                }
+                },
+           
             ],
             attributes: { exclude: ['patientId', 'doctorId'] }
         });
@@ -32,7 +34,7 @@ exports.findAllConsultations = async  (req, res) => {
     } catch (err) {
         return res.status(500).json({ error: 'Error al buscar las consultas.', details: err.message });
     }
-}
+};
 
 exports.findOneConsultation = async (req, res) => {
     try {
