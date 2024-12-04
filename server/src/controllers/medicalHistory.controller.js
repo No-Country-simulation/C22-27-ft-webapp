@@ -3,21 +3,32 @@ const Patient = require('../models/patientModel.js');
 const Consultation = require('../models/consultaModel.js');
 const Doctor = require('../models/doctorModel.js')
 
-// Crear una History
 exports.createMedicalHistory = async (req, res) => {
   try {
-    const { patientId, consultationId } = req.body;
+    const {
+      patientId,
+      consultationId,
+      ...rest
+    } = req.body;
 
-    const notification = await MedicalHistory.create({
-      patientId: patientId,
-      consultationId: consultationId,
+    const medicalHistory = await MedicalHistory.create({
+      patientId,
+      consultationId,
+      ...rest
     });
 
-    res.status(201).json({ message: "Medical History successfully created.", data: notification });
+    res.status(201).json({
+      message: "Medical History successfully created.",
+      data: medicalHistory
+    });
   } catch (error) {
-    res.status(500).json({ error: "Error creating the History.", details: error.message });
+    res.status(500).json({
+      error: "Error creating the History.",
+      details: error.message
+    });
   }
 };
+
 
 // Obtener todas las Historias Medicas
 exports.getAllMedicalHistory = async (req, res) => {
@@ -75,7 +86,7 @@ exports.getMedicalHistoryByUser = async (req, res) => {
       ],
     });
 
-    res.status(200).json({message: "Medical History found successfully", data: medicalHistory });
+    res.status(200).json({ message: "Medical History found successfully", data: medicalHistory });
   } catch (error) {
     res.status(500).json({ error: "Error fetching the medical Histories.", details: error.message });
   }
@@ -90,7 +101,7 @@ exports.getMedicalHistroyById = async (req, res) => {
     if (!medicalHistory) {
       return res.status(404).json({ error: 'Medical History not found.' });
     };
-    
+
     res.status(200).json({ message: 'Medical History found', data: medicalHistory });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching the medical Histories.', details: error.message });
