@@ -8,6 +8,11 @@ const Admin = conn.define('admin', {
         primaryKey: true
     },
 
+    rol: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
     name: {
         type: DataTypes.STRING,
         allowNull: false
