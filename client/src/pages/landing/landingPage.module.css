@@ -81,6 +81,9 @@
   border-radius: 12px;
   position: relative;
   letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .navLink:hover {
@@ -506,7 +509,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
   .heroButtons {
     flex-direction: column;
@@ -559,70 +562,4 @@
   .sectionHeader h2 {
     font-size: 1.75rem;
   }
-}
-
-/* Footer */
-.footer {
-  background: var(--dark);
-  color: var(--white);
-  padding: 6rem 0 3rem;
-}
-
-.footerBrand {
-  margin-bottom: 2.5rem;
-}
-
-.footer h4 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.3px;
-}
-
-.footer ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer ul li {
-  margin-bottom: 0.75rem;
-}
-
-.footer ul li a {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 0.95rem;
-}
-
-.footer ul li a:hover {
-  color: var(--white);
-}
-
-.socialLinks {
-  display: flex;
-  gap: 1.25rem;
-  margin-top: 2rem;
-}
-
-.socialIcon {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 1.1rem;
-}
-
-.socialIcon:hover {
-  color: var(--white);
-  transform: translateY(-2px);
-}
-
-.footerBottom {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
 }

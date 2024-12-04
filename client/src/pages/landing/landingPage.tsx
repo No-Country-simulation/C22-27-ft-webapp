@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './landingPage.module.css';
+import { useAuthStore } from '../../store/useAuth';
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const {isAuthenticated,user} = useAuthStore();
   const [activeSection, setActiveSection] = useState('inicio');
+
+ 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,6 +41,10 @@ const LandingPage = () => {
       navigate('/login');
       return;
     }
+    if(user.role === 'patient'){
+      navigate('/app-paciente/dashboard');
+      return;
+    }
     document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -56,52 +63,43 @@ const LandingPage = () => {
             <span className={styles.logoText}>MediConnect</span>
           </div>
           <div className={styles.navLinks}>
-            <a 
-              href="#inicio" 
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('inicio');
-              }}
+            <button 
+              onClick={() => handleNavClick('inicio')}
               className={`${styles.navLink} ${activeSection === 'inicio' ? styles.active : ''}`}
             >
               Inicio
-            </a>
-            <a 
-              href="#servicios" 
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('servicios');
-              }}
+            </button>
+            <button 
+              onClick={() => handleNavClick('servicios')}
               className={`${styles.navLink} ${activeSection === 'servicios' ? styles.active : ''}`}
             >
               Servicios
-            </a>
-            <a 
-              href="#funcionamiento" 
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('funcionamiento');
-              }}
+            </button>
+            <button 
+              onClick={() => handleNavClick('funcionamiento')}
               className={`${styles.navLink} ${activeSection === 'funcionamiento' ? styles.active : ''}`}
             >
               Cómo Funciona
-            </a>
-            <a 
-              href="#especialistas" 
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('especialistas');
-              }}
+            </button>
+            <button 
+              onClick={() => handleNavClick('especialistas')}
               className={`${styles.navLink} ${activeSection === 'especialistas' ? styles.active : ''}`}
             >
               Especialistas
-            </a>
-            {!isAuthenticated && (
+            </button>
+            {(!isAuthenticated || (isAuthenticated && user?.role !== 'patient')) ? (
               <button 
                 onClick={() => navigate('/login')} 
                 className={styles.loginButton}
               >
                 Iniciar Sesión
+              </button>
+            ) : (
+              <button 
+                onClick={() => navigate('/app-paciente/dashboard')} 
+                className={styles.loginButton}
+              >
+                Dashboard
               </button>
             )}
           </div>
@@ -348,7 +346,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className={styles.footerBottom}>
-            <p>© 2024 MediConnect - Todos los derechos reservados</p>
+            <p> 2024 MediConnect - Todos los derechos reservados</p>
           </div>
         </div>
       </footer>
