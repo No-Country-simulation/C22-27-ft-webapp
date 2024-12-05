@@ -63,7 +63,7 @@ exports.findOneConsultation = async (req, res) => {
 exports.updateConsultation = async (req, res) => {
     try {
         const { id } = req.params;
-        const { state, desciption } = req.body;
+        const { state, description } = req.body;
         const search = await ConsultationModel.findByPk(id);
 
         if (!search) {
@@ -73,7 +73,7 @@ exports.updateConsultation = async (req, res) => {
         const update = await ConsultationModel.update(
             {
                 state,
-                desciption
+                description
             },
             { where: { id } }
         )
