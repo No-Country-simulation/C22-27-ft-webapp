@@ -28,6 +28,7 @@ const CitaPacienteTarjeta = ({
   onReprogramar,
   onCancelar,
 }: TarjetaCitaProps) => {
+  // variables
   const [modalAbierto, setModalAbierto] = useState(false)
   const [puedeUnirse, setPuedeUnirse] = useState(false)
   //
@@ -55,6 +56,13 @@ const CitaPacienteTarjeta = ({
   const handleCancelar = () => {
     onCancelar(cita.id)
   }
+
+  // reprogramar cita
+  const handleReprogramar = (citaActualizada: CitaActualizada) => {
+    if (onReprogramar) {
+      onReprogramar(citaActualizada)
+    }
+  }
   useEffect(() => {
     // Verificación inicial
     setPuedeUnirse(verificarTiempoCita())
@@ -66,14 +74,8 @@ const CitaPacienteTarjeta = ({
 
     // Limpiar intervalo
     return () => clearInterval(interval)
+    //
   }, [cita.fecha])
-
-  // reprogramar cita
-  const handleReprogramar = (citaActualizada: CitaActualizada) => {
-    if (onReprogramar) {
-        onReprogramar(citaActualizada)
-    }
-}
 
   return (
     <>
@@ -114,7 +116,7 @@ const CitaPacienteTarjeta = ({
                 {cita.doctor.especialidad}
               </p>
             </div>
-            {cita.notificaciones && (
+            {(cita.notificaciones || 0) > 0 && (
               <span className={styles.notificacion}>{cita.notificaciones}</span>
             )}
           </div>

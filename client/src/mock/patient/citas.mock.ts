@@ -102,7 +102,8 @@ export const actualizarCitaMock = (citaData: UpdateCitaDTO): Cita[] => {
 
   citasPacientesMock[index] = {
     ...citasPacientesMock[index],
-    ...citaData
+    ...citaData,
+    notificaciones: 0
   }
 
   actualizarEstadisticas()
