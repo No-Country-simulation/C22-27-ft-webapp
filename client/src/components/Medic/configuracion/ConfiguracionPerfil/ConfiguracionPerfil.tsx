@@ -1,5 +1,5 @@
 import styles from './ConfiguracionPerfil.module.css'
-import { FiCamera, FiEdit, FiUser } from 'react-icons/fi'
+import { FiCamera, FiEdit, FiLock, FiUser } from 'react-icons/fi'
 import { useAuthStore } from '../../../../store/useAuth';
 
 const ConfiguracionPerfil = () => {
@@ -54,9 +54,13 @@ const ConfiguracionPerfil = () => {
               className="form-control"
               defaultValue={user?.role}
               readOnly
+              disabled
             />
             <span className={styles.badge}>Verificado</span>
           </div>
+          <button className={styles.actionButton}>
+          <FiLock /> Guardar cambios
+        </button>
         </div>
       </div>
     </div>

@@ -43,7 +43,8 @@ import { Histiorialcom } from "../pages/historial/histiorialcom";
 import DashboardPaciente from "../pages/paciente/dashboardPaciente";
 import { HistiorialPaciente } from "../pages/historialpaciente/historial";
 import { TablaDoctores } from "../pages/tdoctores/tabla";
-
+import CitasPanel from "../pages/paciente/citas/CitasPanel";
+import LandingPage from "../pages/landing/landingPage"; // Agregar la importación del componente PaginaInicio
 
 
 const ROLES = {
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
   // Ruta principal
   {
     path: "/",
-    element: <div> Pagina inicio</div>,
+    element: <LandingPage />,
     errorElement: <div>¡Ups! Algo salió mal - Página no encontrada</div>,
   },
 
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
       },
       {
         path: "mis-citas",
-        element: <div>Mis Citas Programadas</div>,
+        element: <CitasPanel/>,
       },
       {
         path: "consulta/:citaId",
@@ -126,7 +127,7 @@ const router = createBrowserRouter([
         element: <DashboardMedic />,
       },
       {
-        path: "consultas",
+        path: "mis-citas",
         element: <ConsultasMedic/>,
       },
       {
@@ -208,8 +209,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/unauthorized",
-    element: <div>No autorizado</div>,
-  },
+    element: <div>No autorizado</div>
+  }
 ]);
 
 export default router;
