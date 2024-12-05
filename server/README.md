@@ -19,6 +19,18 @@ Los administradores tienen control total para asignar médicos disponibles.
 
 👨‍💼 Administrador: Gestiona citas y asigna médicos según disponibilidad.
 
+
+## Tecnologías Utilizadas
+
+- **Express.js**: Framework web para Node.js.
+- **JWT (JSON Web Tokens)**: Gestión de autenticación.
+- **PostgreSQL**: Base de datos relacional.
+- **Railway**: Plataforma de despliegue.
+- **dotenv**: Gestión de variables de entorno.
+- **Sequelize**: ORM para interactuar con PostgreSQL.
+- **Bcrypt**: Encriptación de contraseñas.
+- **Cookie-Parser**: Manejo de cookies en las solicitudes HTTP.
+
 ## Instalación
 
 1. Clona el repositorio:
