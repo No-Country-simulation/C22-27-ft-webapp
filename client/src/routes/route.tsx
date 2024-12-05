@@ -91,11 +91,11 @@ const router = createBrowserRouter([
         element: <div>Sala de Consulta Virtual</div>,
       },
       {
-        path: "mi-historial",
+        path: "historial",
         element: <HistiorialPaciente/>,
       },
       {
-        path: "dotores",
+        path: "pacientes",
         element: <TablaDoctores/>,
       },
       {
