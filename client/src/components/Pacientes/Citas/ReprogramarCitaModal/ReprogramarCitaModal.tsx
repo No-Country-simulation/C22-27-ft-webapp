@@ -1,13 +1,13 @@
 import { RiCloseFill } from "react-icons/ri";
 import  styles  from "./ReprogramarCitaModal.module.css";
 import { useState } from "react";
-import { Cita } from "../../../../mock/patient/citas.mock";
+import { Cita, CitaActualizada } from "../../../../types/citas.type";
 
 interface ModalReprogramarProps {
     cita: Cita
     modalAbierto: boolean
     onClose: () => void
-    onSubmit: (nuevaFecha: Date) => void 
+    onSubmit: (citaActualizada: CitaActualizada) => void
   }
 
 const ReprogramarCitaModal = ({ 
@@ -16,19 +16,25 @@ const ReprogramarCitaModal = ({
     onClose, 
     onSubmit 
   }: ModalReprogramarProps) => {
+    const fechaCita = new Date(cita.fecha)
     const [formData, setFormData] = useState({
       tipo: cita.tipo,
-      fecha: cita.fecha.toISOString().split('T')[0],
-      hora: cita.fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+      fecha: fechaCita.toISOString().split('T')[0],
+      hora: fechaCita.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
       motivo: cita.descripcion
     })
   
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        const nuevaFecha = new Date(`${formData.fecha}T${formData.hora}`)
-        onSubmit(nuevaFecha)
-        onClose()
-    }
+      e.preventDefault()
+      const citaActualizada: CitaActualizada = {
+          ...cita,
+          fecha: new Date(`${formData.fecha}T${formData.hora}`),
+          estado: 'pendiente',
+          descripcion: formData.motivo  // Asegurarnos de usar el motivo actualizado
+      }
+      onSubmit(citaActualizada)
+      onClose()
+  }
   
     if (!modalAbierto) return null
   

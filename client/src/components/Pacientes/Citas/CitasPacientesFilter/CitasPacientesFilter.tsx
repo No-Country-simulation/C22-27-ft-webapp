@@ -1,16 +1,19 @@
 import { useState } from 'react'
-import { Cita } from '../../../../mock/patient/citas.mock'
+import { Cita } from '../../../../types/citas.type'
 import styles from './CitasPacientesFilter.module.css'
 import NuevaCitaModal from '../NuevaCitaModal/NuevaCitaModal'
 
 interface FiltrosCitasProps {
   onFiltrosChange: (citasFiltradas: Cita[]) => void
   citasOriginales: Cita[]
+  onNuevaCita: (dataCita: any) => void
+
 }
 
 const CitasPacientesFilter = ({
   onFiltrosChange,
   citasOriginales,
+  onNuevaCita,
 }: FiltrosCitasProps) => {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [busqueda, setBusqueda] = useState('')
@@ -28,9 +31,10 @@ const CitasPacientesFilter = ({
     setModalAbierto(true)
   }
   // handleGuardarCita es para guardar la nueva cita 
-  const handleGuardarCita =  () => {
-   
-  }
+  const handleGuardarCita = (formData: FormData) => {
+    onNuevaCita(formData)
+    setModalAbierto(false)
+}
   const aplicarFiltros = (
     textoBusqueda: string,
     fecha: typeof filtroFecha,
