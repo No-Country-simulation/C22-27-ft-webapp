@@ -4,7 +4,7 @@ const adminController = require('../controllers/admin.controller');
 const authorization = require("../middlewares/authorization.middleware.js");
 const checkToken = require('../middlewares/checkTocken.middleware.js');
 
-router.post('/', checkToken, authorization("admin"), adminController.createAdmin);
+router.post('/', adminController.createAdmin);
 router.get('/', checkToken, authorization("admin"),  adminController.findAllAdmins);
 router.get('/doctors', checkToken, authorization("admin"), adminController.findAllDoctors);
 router.get('/patients', checkToken, authorization("admin"), adminController.findAllPatient);

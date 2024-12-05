@@ -5,8 +5,9 @@ const { verifyToken } = require("../utils/jw.js");
 const checkToken = async (req = request, res = response, next) => {
   try {
     const token = await req.cookies.token;
+
     if (!token)
-      return res.status(401).json({ status: error, msg: "Token not provided" });
+      return res.status(401).json({ status: "error", msg: "Token not provided" });
 
     const tokenVerify = verifyToken(token);
     if (!tokenVerify)
@@ -15,7 +16,7 @@ const checkToken = async (req = request, res = response, next) => {
     req.user = tokenVerify;
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ status: "error", msg: "internal server error" });
   }
 };

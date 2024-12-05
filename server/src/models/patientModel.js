@@ -26,7 +26,13 @@ const Patient =  conn.define('patient',{
 
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: {
+                msg: "Invalid email format",
+            },
+        },
     },
 
     password: {

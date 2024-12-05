@@ -57,7 +57,10 @@ exports.getRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" });
+
     const recipe = await Recipe.findByPk(id);
+    
     if (!recipe) {
       return res.status(404).json({ error: 'Recipe not found.' });
     }
@@ -73,10 +76,14 @@ exports.deleteRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" });
+
     const recipe = await Recipe.findByPk(id);
+
     if (!recipe) {
       return res.status(404).json({ error: 'Recipe not found.' });
     }
+
     await recipe.destroy();
     res.status(200).json({ message: 'Recipe delete.' });
   } catch (error) {

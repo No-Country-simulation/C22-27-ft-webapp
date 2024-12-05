@@ -10,7 +10,7 @@ exports.createMedicalHistory = async (req, res) => {
       consultationId,
       ...rest
     } = req.body;
-
+    if (!patientId || !consultationId) return res.status(400).send({ status: "error", error: "Incomplete values" });
     
     const medicalHistory = await MedicalHistory.create({
       patientId,
@@ -64,6 +64,9 @@ exports.getAllMedicalHistory = async (req, res) => {
 exports.getMedicalHistoryByUser = async (req, res) => {
   try {
     const { patientId } = req.params;
+
+    if (!patientId) return res.status(400).send({ status: "error", error: "Incomplete values" })
+
     const medicalHistory = await MedicalHistory.findOne({
       where: { patientId },
       include: [

@@ -9,6 +9,8 @@ exports.createNotification = async (req, res) => {
   try {
     const { consultationId, message, type, send } = req.body;
 
+    if (!consultationId || !message || !type || !send) return res.status(400).send({ status: "error", error: "Incomplete values" })
+
     const notification = await Notification.create({
       consultationId: consultationId,
       message,
@@ -56,6 +58,9 @@ exports.getAllNotification = async (req, res) => {
 exports.getNotificationByUser = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" })
+
     const notifications = await Notification.findOne({
       where: { id },
       include: [
@@ -80,7 +85,7 @@ exports.getNotificationByUser = async (req, res) => {
 exports.markAsSent = async (req, res) => {
   try {
     const { patientId } = req.params;
-
+    if (!patientId) return res.status(400).send({ status: "error", error: "Incomplete values" });
     const notifications = await Notification.findOne(patientId);
     if (!notifications) {
       return res.status(404).json({ error: "Notification not found." });
@@ -99,6 +104,8 @@ exports.getNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" });
+
     const notification = await Notification.findByPk(id);
     if (!notification) {
       return res.status(404).json({ error: 'Notification not found.' });
@@ -115,6 +122,8 @@ exports.deleteNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" });
+    
     const notification = await Notification.findByPk(id);
     if (!notification) {
       return res.status(404).json({ error: 'Notification not found.' });

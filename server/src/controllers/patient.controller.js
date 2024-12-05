@@ -1,11 +1,14 @@
 const PatientController = require('../models/patientModel.js');
-
+const { createHash } = require('../utils/hashPassword.js');
 
 exports.createPatient = async (req, res) => {
     try {
-        const { ...rest } = req.body;
+        const { password, ...rest } = req.body;
+
+        const passHashed = createHash(password);
 
         const createPatient = await PatientController.create({
+            password: passHashed,
             ...rest,
            
         })
