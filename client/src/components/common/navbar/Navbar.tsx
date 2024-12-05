@@ -129,7 +129,7 @@ const Navbar = () => {
 
                 <div className="p-2 text-center">
                   <NavLink
-                    to="consultas"
+                    to="mis-citas"
                     role="button"
                     className="btn w-100 border"
                     style={{
