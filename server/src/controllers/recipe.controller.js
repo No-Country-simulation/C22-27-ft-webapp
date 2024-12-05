@@ -69,7 +69,7 @@ exports.getRecipeById = async (req, res) => {
 };
 
 // Eliminar receta
-exports.deleteNotificationById = async (req, res) => {
+exports.deleteRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
 

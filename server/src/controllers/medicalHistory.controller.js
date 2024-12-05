@@ -11,6 +11,7 @@ exports.createMedicalHistory = async (req, res) => {
       ...rest
     } = req.body;
 
+    
     const medicalHistory = await MedicalHistory.create({
       patientId,
       consultationId,
