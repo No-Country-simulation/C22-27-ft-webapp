@@ -3,6 +3,7 @@ const { createHash, isValidPassword } = require("../utils/hashPassword.js");
 const { createToken, } = require("../utils/jw.js");
 const Patient = require('../models/patientModel.js');
 const Admin = require("../models/adminModel.js");
+const Doctor = require("../models/doctorModel.js")
 
 const register = async (req = request, res = response) => {
   try {
@@ -40,8 +41,10 @@ const login = async (req = request, res = response) => {
     // Buscar el usuario en la base de datos por email
     const patient = await Patient.findOne({ where: { email } });
     const admin = await Admin.findOne({ where: { email } })
-    if (!patient && !admin) {
-      return res.status(404).json({ status: "error", msg: "patient not found" });
+    const doctor = await Doctor.findOne({ where: { email } })
+
+    if (!patient && !admin && !doctor) {
+      return res.status(404).json({ status: "error", msg: "Person not found" });
     }
     // Validar la contraseña
     if (patient) {
@@ -51,53 +54,58 @@ const login = async (req = request, res = response) => {
       }
       const token = createToken(patient);
 
-    // Configurar la cookie con el token
-    res.cookie("token", token, { httpOnly: true });
+      // Configurar la cookie con el token
+      res.cookie("token", token, { httpOnly: true });
 
-    return res.status(200).json({
-      status: "ok",
-      msg: "Login successful",
-      payload: { id: patient.id, email: patient.email, name: patient.name },
-    });
+      return res.status(200).json({
+        status: "ok",
+        msg: "Login successful",
+        payload: { id: patient.id, email: patient.email, name: patient.name },
+      });
 
     }
     if (admin) {
       const passwordMatch = isValidPassword(admin.password, password);
-      
+
       if (!passwordMatch) {
         return res.status(401).json({ status: "error", msg: "Incorrect password" });
       }
       const token = createToken(admin);
 
-    // Configurar la cookie con el token
-    res.cookie("token", token, { httpOnly: true });
+      // Configurar la cookie con el token
+      res.cookie("token", token, { httpOnly: true });
 
-    return res.status(200).json({
-      status: "ok",
-      msg: "Login successful",
-      payload: { id: admin.id, email: admin.email, name: admin.name },
-    });
-
+      return res.status(200).json({
+        status: "ok",
+        msg: "Login successful",
+        payload: { id: admin.id, email: admin.email, name: admin.name },
+      });
     }
-    // Generar el token
-    // const token = createToken(patient);
 
-    // // Configurar la cookie con el token
-    // res.cookie("token", token, { httpOnly: true });
+    if (doctor) {
+      const passwordMatch = isValidPassword(doctor.password, password);
 
-    // Responder con éxito
-    // return res.status(200).json({
-    //   status: "ok",
-    //   msg: "Login successful",
-    //   payload: { id: patient.id, email: patient.email, name: patient.name },
-    //});
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ status: "error", msg: "Internal server error" });
-  }
-};
+      if (!passwordMatch) {
+        return res.status(401).json({ status: "error", msg: "Incorrect password" });
+      }
+      const token = createToken(doctor);
 
-module.exports = {
-  register,
-  login,
-};
+      // Configurar la cookie con el token
+      res.cookie("token", token, { httpOnly: true });
+
+      return res.status(200).json({
+        status: "ok",
+        msg: "Login successful",
+        payload: { id: doctor.id, email: doctor.email, name: doctor.name },
+      });
+    }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ status: "error", msg: "Internal server error" });
+    }
+  };
+
+  module.exports = {
+    register,
+    login,
+  };

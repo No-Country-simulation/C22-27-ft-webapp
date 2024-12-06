@@ -1,11 +1,14 @@
 const { request, response } = require("express");
 
-const authorization = (rol) => {
+const authorization = (...roles) => {
   return async (req = request, res = response, next) => {
-    if (!req.user)
+    if (!req.user) {
       return res.status(401).json({ status: "error", msg: "Unauthorized" });
-    if (req.user.rol != rol)
+    }
+    if (!roles.includes(req.user.rol)) {
       return res.status(403).json({ status: "error", msg: "No permission" });
+    }
+
     next();
   };
 };

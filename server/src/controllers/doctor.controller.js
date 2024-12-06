@@ -1,17 +1,20 @@
 const doctorModel = require('../models/doctorModel');
 const patientModel = require('../models/patientModel');
 const consultaModel = require('../models/consultaModel');
+const { createHash } = require('../utils/hashPassword');
 
 exports.createDoctor = async (req, res) => {
     try {
         const { name, rol, age, email, password, dateBirth, address, phone, specialty, patientId } = req.body;
+
+        const hashedPassword = createHash(password);
 
         const create = await doctorModel.create({
             name,
             rol,
             age,
             email,
-            password,
+            password : hashedPassword,
             dateBirth,
             address,
             phone,

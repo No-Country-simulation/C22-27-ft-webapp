@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
 const PORT = 3001;
-const router =require('./routes/index')
+const router =require('./routes/index.js')
 const cookieParser = require("cookie-parser");
+const {seedAdmin} = require('./controllers/admin.controller.js')
 
-const {conn}=require('./db/DB_connection')
+const {conn}=require('./db/DB_connection.js')
 
 app.listen(PORT, async () => {
-    await conn.sync({force: false})
+    await conn.sync({force: false});
+    await seedAdmin()
     console.log('Server OK in port: ' + PORT);
 });
 

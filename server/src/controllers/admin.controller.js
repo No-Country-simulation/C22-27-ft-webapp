@@ -1,27 +1,61 @@
+require('dotenv').config();
+const { SUPER_ADMIN_USER, PASSWORD_SUPER_ADMIN } = process.env;
+const { Op } = require('sequelize');
 const adminController = require('../models/adminModel');
 const doctorModel = require("../models/doctorModel");
 const PatientController = require("../models/patientModel");
 const { createHash } = require('../utils/hashPassword');
 
+exports.seedAdmin = async () => {
+    try {
+        const existingAdmins = await adminController.findAll();
+
+        // Si ya existen administradores, no se crea el Super Admin
+        if (existingAdmins.length > 0) {
+            console.log("Ya existen administradores, no se crea el Super Admin.");
+            return;
+        }
+
+        const hashedPassword = createHash(`${PASSWORD_SUPER_ADMIN}`);
+
+        await adminController.create({
+            name: "Super Admin",
+            email: `${SUPER_ADMIN_USER}`,
+            password: hashedPassword,
+            rol: "superAdmin",
+            age: 35,
+            dateBirth: "1988-01-01",
+            address: "123 Admin St",
+            phone: 1234567890,
+        });
+        console.log("Admin creado correctamente.");
+
+    } catch (error) {
+        console.error("Error creando el admin:", error);
+    }
+};
 
 exports.createAdmin = async (req, res) => {
     try {
-        const  { password, rol, ...rest } = req.body;
+        const { password, rol, ...rest } = req.body;
 
         const passHashed = createHash(password);
 
-        const existAdmin = await adminController.findOne({ where: { password: passHashed } });
-
-        if (!existAdmin) {
-            return res.json({ message: 'Admin already exists' });
-        }
-
         const admin = await adminController.create({
             password: passHashed,
-            rol: 'admin',
+            rol: rol || 'admin',
             ...rest
-        })
+        });
 
+        const deleted = await adminController.destroy({
+            where: { email: SUPER_ADMIN_USER },
+        });
+
+        if (deleted) {
+            console.log("Super Admin eliminado correctamente.");
+        } else {
+            console.log("No se encontró un Super Admin para eliminar.");
+        }
         res.status(200).json({ message: 'Admin successfully created', data: admin });
 
     } catch (err) {
@@ -50,12 +84,12 @@ exports.findOneAdmin = async (req, res) => {
 
 exports.updateAdmin = async (req, res) => {
     try {
-        const { id  } = req.params;
+        const { id } = req.params;
         const { ...rest } = req.body;
 
         const findOne = await adminController.findByPk(id);
 
-        if (!findOne){
+        if (!findOne) {
             return res.json({ message: 'Admin not found' });
         }
 
@@ -76,7 +110,7 @@ exports.deleteAdmin = async (req, res) => {
 
         const findOne = await adminController.findByPk(id);
 
-        if (!findOne){
+        if (!findOne) {
             return res.json({ message: 'Admin not found' });
         }
 
@@ -92,7 +126,7 @@ exports.deleteAdmin = async (req, res) => {
 
 exports.findAllDoctors = async (req, res) => {
     try {
-        const allDoctors = await  doctorModel.findAll();
+        const allDoctors = await doctorModel.findAll();
         return res.json({ message: 'Todos los doctores.', data: allDoctors });
     } catch (err) {
         return res.status(500).json({ error: 'Error al buscar los doctores.', details: err.message });
@@ -108,7 +142,7 @@ exports.findOneDoctor = async (req, res) => {
             return res.json({ message: 'Doctor no encontrado.' });
         }
 
-        return res.json({ message: 'Doctor found',data:findOne });
+        return res.json({ message: 'Doctor found', data: findOne });
     } catch (err) {
         return res.status(500).json({ error: 'Error al buscar el doctor.', details: err.message });
     }
@@ -152,14 +186,14 @@ exports.findOnePatient = async (req, res) => {
             return res.json({ message: 'Patient not found' });
         }
 
-        return res.json({ message: 'Patient found',data:findOne });
-    }catch (err) {
+        return res.json({ message: 'Patient found', data: findOne });
+    } catch (err) {
         return res.status(500).json({ error: 'Error when searching for the patient.', details: err.message });
     }
 }
 
 
-exports.deletePatient = async  (req, res) => {
+exports.deletePatient = async (req, res) => {
     try {
         const { id } = req.params;
         const search = await PatientController.findByPk(id);
@@ -173,6 +207,6 @@ exports.deletePatient = async  (req, res) => {
         });
         return res.json({ message: 'Patient delete correctly' });
     } catch (err) {
-        return  res.status(500).json({ error: 'Error deleting patient' });
+        return res.status(500).json({ error: 'Error deleting patient' });
     }
 }
