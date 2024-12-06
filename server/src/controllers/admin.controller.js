@@ -6,12 +6,19 @@ const { createHash } = require('../utils/hashPassword');
 
 exports.createAdmin = async (req, res) => {
     try {
-        const  { password, ...rest } = req.body;
+        const  { password, rol, ...rest } = req.body;
 
         const passHashed = createHash(password);
 
+        const existAdmin = await adminController.findOne({ where: { password: passHashed } });
+
+        if (!existAdmin) {
+            return res.json({ message: 'Admin already exists' });
+        }
+
         const admin = await adminController.create({
             password: passHashed,
+            rol: 'admin',
             ...rest
         })
 
@@ -46,6 +53,12 @@ exports.updateAdmin = async (req, res) => {
         const { id  } = req.params;
         const { ...rest } = req.body;
 
+        const findOne = await adminController.findByPk(id);
+
+        if (!findOne){
+            return res.json({ message: 'Admin not found' });
+        }
+
         await adminController.update(
             { ...rest },
             { where: { id } }
@@ -60,6 +73,13 @@ exports.updateAdmin = async (req, res) => {
 exports.deleteAdmin = async (req, res) => {
     try {
         const { id } = req.params;
+
+        const findOne = await adminController.findByPk(id);
+
+        if (!findOne){
+            return res.json({ message: 'Admin not found' });
+        }
+
         await adminController.destroy({ where: { id } });
         res.json({ message: 'Admin successfully deleted' });
     } catch (err) {
@@ -98,6 +118,7 @@ exports.findOneDoctor = async (req, res) => {
 exports.deleteDoctor = async (req, res) => {
     try {
         const { id } = req.params;
+
         const search = await doctorModel.findByPk(id);
         if (!search) {
             return res.json({ message: 'Doctor no encontrado.' });
@@ -125,9 +146,9 @@ exports.findAllPatient = async (req, res) => {
 exports.findOnePatient = async (req, res) => {
     try {
         const { id } = req.params;
-        const findOne = await PatientController.findByPk(id);
+        const search = await PatientController.findByPk(id);
 
-        if (!findOne) {
+        if (!search) {
             return res.json({ message: 'Patient not found' });
         }
 

@@ -18,7 +18,7 @@ const Consultation = conn.define('consultation', {
         allowNull: false
     }
     ,
-    desciption: {
+    description: {
         type: DataTypes.STRING,
         allowNull: false
     },
