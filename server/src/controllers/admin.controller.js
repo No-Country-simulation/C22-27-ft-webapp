@@ -3,6 +3,7 @@ const doctorModel = require("../models/doctorModel");
 const PatientController = require("../models/patientModel");
 const { createHash } = require('../utils/hashPassword');
 
+
 exports.createAdmin = async (req, res) => {
     try {
         const  { password, ...rest } = req.body;
