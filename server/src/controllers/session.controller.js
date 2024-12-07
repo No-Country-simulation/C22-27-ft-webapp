@@ -60,7 +60,6 @@ const login = async (req = request, res = response) => {
       return res.status(200).json({
         status: "ok",
         msg: "Login successful",
-        payload: { id: patient.id, email: patient.email, name: patient.name },
       });
 
     }
@@ -78,7 +77,6 @@ const login = async (req = request, res = response) => {
       return res.status(200).json({
         status: "ok",
         msg: "Login successful",
-        payload: { id: admin.id, email: admin.email, name: admin.name },
       });
     }
 
@@ -96,7 +94,6 @@ const login = async (req = request, res = response) => {
       return res.status(200).json({
         status: "ok",
         msg: "Login successful",
-        payload: { id: doctor.id, email: doctor.email, name: doctor.name },
       });
     }
     } catch (error) {
