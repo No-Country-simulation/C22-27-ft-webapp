@@ -29,7 +29,7 @@ exports.updatePatient = async (req, res) => {
             return res.json({ message: 'Patient not found' });
         }
 
-        const update = await Patient.update(
+        const update = await PatientController.update(
             {
                 ...rest
             },
