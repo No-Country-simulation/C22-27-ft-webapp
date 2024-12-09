@@ -186,7 +186,7 @@ exports.findOnePatient = async (req, res) => {
             return res.json({ message: 'Patient not found' });
         }
 
-        return res.json({ message: 'Patient found', data: findOne });
+        return res.json({ message: 'Patient found', data: search });
     } catch (err) {
         return res.status(500).json({ error: 'Error when searching for the patient.', details: err.message });
     }
