@@ -3,7 +3,7 @@ const sessionControllers = require("../controllers/session.controller.js");
 
 const router = Router();
 
-router.post("/register", sessionControllers.register);
 router.post("/login", sessionControllers.login);
+router.post('/logout', sessionControllers.logout);
 
 module.exports = router;

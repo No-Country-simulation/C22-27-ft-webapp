@@ -12,7 +12,7 @@ exports.seedAdmin = async () => {
 
         // Si ya existen administradores, no se crea el Super Admin
         if (existingAdmins.length > 0) {
-            console.log("Ya existen administradores, no se crea el Super Admin.");
+            console.log("There are already administrators, the Super Admin will not be created.");
             return;
         }
 
@@ -28,10 +28,10 @@ exports.seedAdmin = async () => {
             address: "123 Admin St",
             phone: 1234567890,
         });
-        console.log("Admin creado correctamente.");
+        console.log("Admin created");
 
     } catch (error) {
-        console.error("Error creando el admin:", error);
+        console.error("Error creating the admin:", error);
     }
 };
 
@@ -52,9 +52,9 @@ exports.createAdmin = async (req, res) => {
         });
 
         if (deleted) {
-            console.log("Super Admin eliminado correctamente.");
+            console.log("Super Admin deleted.");
         } else {
-            console.log("No se encontró un Super Admin para eliminar.");
+            console.log("Super Admin Not found.");
         }
         res.status(200).json({ message: 'Admin successfully created', data: admin });
 
@@ -139,12 +139,12 @@ exports.findOneDoctor = async (req, res) => {
         const findOne = await doctorModel.findByPk(id);
 
         if (!findOne) {
-            return res.json({ message: 'Doctor no encontrado.' });
+            return res.json({ message: 'Doctor not found.' });
         }
 
         return res.json({ message: 'Doctor found', data: findOne });
     } catch (err) {
-        return res.status(500).json({ error: 'Error al buscar el doctor.', details: err.message });
+        return res.status(500).json({ error: 'Error while searching for the doctor.', details: err.message });
     }
 }
 
@@ -155,14 +155,14 @@ exports.deleteDoctor = async (req, res) => {
 
         const search = await doctorModel.findByPk(id);
         if (!search) {
-            return res.json({ message: 'Doctor no encontrado.' });
+            return res.json({ message: 'Doctor not found.' });
         }
 
         await doctorModel.destroy({ where: { id } });
 
-        return res.json({ message: 'Doctor eliminado correctamente.' });
+        return res.json({ message: 'Doctor deleted' });
     } catch (err) {
-        return res.status(500).json({ error: 'Error al eliminar el doctor.', details: err.message });
+        return res.status(500).json({ error: 'Error deleting the doctor.', details: err.message });
     }
 }
 
