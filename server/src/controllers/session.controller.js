@@ -53,7 +53,7 @@ const login = async (req = request, res = response) => {
 
 const logout = (req = request, res = response) => {
   try {
-    res.clearCookie("token"); // Elimina la cookie que contiene el token
+    res.clearCookie("token"); 
     return res.status(200).json({
       status: "ok",
       msg: "Logout successful",

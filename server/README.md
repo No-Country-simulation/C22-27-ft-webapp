@@ -30,6 +30,7 @@ Los administradores tienen control total para asignar médicos disponibles.
 - **Sequelize**: ORM para interactuar con PostgreSQL.
 - **Bcrypt**: Encriptación de contraseñas.
 - **Cookie-Parser**: Manejo de cookies en las solicitudes HTTP.
+- **Swagger**: Documentacion de API.
 
 ## Instalación
 
@@ -100,6 +101,12 @@ DELETE	/doctors/:id	Elimina un médico.
 GET	/admin/patients	Lista todos los pacientes.\
 GET	/admin/patients/:id	Muestra información de un paciente específico.\
 DELETE	/admin/patients/:id	Elimina un paciente.
+
+**Swagger**
+
+Para acceder a la documentacion:
+
+GET /api-docs
 
 **Testing**
 
