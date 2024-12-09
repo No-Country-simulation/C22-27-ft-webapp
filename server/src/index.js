@@ -4,12 +4,13 @@ const PORT = 3001;
 const router =require('./routes/index.js')
 const cookieParser = require("cookie-parser");
 const {seedAdmin} = require('./controllers/admin.controller.js')
-
 const {conn}=require('./db/DB_connection.js')
+const {swaggerDocs} = require('./swagger.js')
 
 app.listen(PORT, async () => {
     await conn.sync({force: false});
     await seedAdmin()
+    swaggerDocs(app, PORT);
     console.log('Server OK in port: ' + PORT);
 });
 
