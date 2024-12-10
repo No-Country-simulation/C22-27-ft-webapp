@@ -47,7 +47,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-
+      
       {/* nav */}
       <nav className="mt-3">
         {/* Principal */}
@@ -61,7 +61,7 @@ const Sidebar = () => {
           {/* fin - Panel Principal*/}
           <li className="nav-item">
             <NavLinkItem to="mis-citas" badge={5}>
-              Mis Citas
+            {user?.role === 'doctor' ? 'Citas pendientes' : 'Mis citas'}
             </NavLinkItem>
           </li>
           {/* fin - Citas Pendientes*/}
@@ -69,17 +69,22 @@ const Sidebar = () => {
 
         {/* Pacientes */}
         <div className="px-3 mb-2 mt-4">
-          <small className="text-secondary text-uppercase">Pacientes</small>
+          <small className="text-secondary text-uppercase">
+            {user?.role === 'doctor' ? 'Pacientes' : 'Doctores'}
+          </small>
         </div>
         <ul className="nav flex-column">
           <li className="nav-item">
-            <NavLinkItem to="pacientes" badge={120}>
-              Todos los Pacientes
+            <NavLinkItem to={user?.role === 'doctor' ? 'pacientes' : 'doctores'}
+             badge={120}>
+              {user?.role === 'doctor' ? 'Todos los Pacientes' : 'Todos los Doctores'}
             </NavLinkItem>
           </li>
           {/* fin - Todos los Pacientes*/}
           <li className="nav-item">
-            <NavLinkItem to="historial">Historiales</NavLinkItem>
+            <NavLinkItem to="historial">
+              {user?.role === 'doctor' ? 'Historiales' : 'Mi historial'}
+              </NavLinkItem>
           </li>
           {/* fin - Historiales*/}
         </ul>

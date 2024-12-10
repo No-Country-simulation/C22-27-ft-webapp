@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         element: <HistiorialPaciente/>,
       },
       {
-        path: "pacientes",
+        path: "doctores",
         element: <TablaDoctores/>,
       },
       {
