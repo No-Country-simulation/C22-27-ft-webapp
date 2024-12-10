@@ -82,7 +82,7 @@ const checkToken = require('../middlewares/checkTocken.middleware.js');
  *                      type: integer
  *                      example: 123456789
  */
-router.post('/', checkToken, authorization("superAdmin", "admin") ,adminController.createAdmin);
+router.post('/', checkToken, authorization("superAdmin", "admin"), adminController.createAdmin);
 
 /**
  * @openapi
@@ -126,7 +126,7 @@ router.post('/', checkToken, authorization("superAdmin", "admin") ,adminControll
  *                   type: integer
  *                   example: 123456789
  */
-router.get('/', checkToken, authorization("admin"),  adminController.findAllAdmins);
+router.get('/', checkToken, authorization("admin"), adminController.findAllAdmins);
 
 /**
  * @openapi
@@ -222,7 +222,7 @@ router.get('/doctors', checkToken, authorization("admin"), adminController.findA
  */
 router.get('/patients', checkToken, authorization("admin"), adminController.findAllPatient);
 
-router.route('/:id',checkToken, authorization("admin"))
+router.route('/:id', checkToken, authorization("admin"))
     /**
      * @openapi
      * /healdtech/admin/{id}:
@@ -391,7 +391,7 @@ router.route('/:id',checkToken, authorization("admin"))
 
 // Doctor routes
 
-router.route('/doctors/:id',checkToken, authorization("admin"))
+router.route('/doctors/:id', checkToken, authorization("admin"))
     /**
      * @openapi
      * /healdtech/admin/doctors/{id}:
@@ -455,7 +455,7 @@ router.route('/patients/:id')
      *      200:
      *        description: OK
      */
-    .get(checkToken, authorization("admin", "doctor"),adminController.findOnePatient)
+    .get(checkToken, authorization("admin", "doctor"), adminController.findOnePatient)
     /**
      * @openapi
      * /healdtech/admin/patients/{id}:
@@ -475,6 +475,6 @@ router.route('/patients/:id')
      *       200:
      *         description: OK
      */
-    .delete(checkToken, authorization("admin"),adminController.deletePatient);
+    .delete(checkToken, authorization("admin"), adminController.deletePatient);
 
 module.exports = router;

@@ -7,6 +7,6 @@ const checkToken = require('../middlewares/checkTocken.middleware.js');
 router.post('/', checkToken, authorization("admin"), doctorController.createDoctor);
 router.get('/:id', checkToken, authorization("doctor"), doctorController.getAllCalendar)
 
-router.route('/:id',checkToken, authorization("admin", "doctor")).patch(doctorController.updateDoctor)
+router.route('/:id', checkToken, authorization("admin", "doctor")).patch(doctorController.updateDoctor)
 
 module.exports = router;
