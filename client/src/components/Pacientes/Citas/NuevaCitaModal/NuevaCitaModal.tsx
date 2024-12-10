@@ -3,16 +3,20 @@ import styles from './NuevaCitaModal.module.css'
 import {
   RiCloseLine,
 } from 'react-icons/ri'
+// 
 import {
   Doctor,
   FormData,
+} from "../../../../types/citas.type"
+import {
   doctoresMock,
-} from '../../../../mock/patient/citas.mock'
+} from "../../../../mock/patient/citas.mock"
 
 interface NuevaCitaModalProps {
   modalAbierto: boolean
   onClose: () => void
   onSubmit: (dataCita: any) => void
+  
 }
 
 const NuevaCitaModal = ({
@@ -183,7 +187,8 @@ const NuevaCitaModal = ({
             >
               Cancelar
             </button>
-            <button type="submit" className={styles.submitButton}>
+            <button type="submit" 
+            className={styles.submitButton}>
               Solicitar Turno
             </button>
           </div>

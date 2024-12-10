@@ -8,7 +8,7 @@ import {
   RiFileList3Line,
   RiCalendarEventLine,
 } from 'react-icons/ri'
-import { Cita, CitaActualizada } from '../../../../mock/patient/citas.mock'
+import { Cita, CitaActualizada } from '../../../../types/citas.type'
 import styles from './CitaPacienteTarjeta.module.css'
 import { useEffect, useState } from 'react'
 import ReprogramarCitaModal from '../ReprogramarCitaModal/ReprogramarCitaModal'
@@ -18,6 +18,7 @@ interface TarjetaCitaProps {
   seleccionada: boolean
   onSeleccionar: () => void
   onReprogramar: (citaActualizada: CitaActualizada) => void
+  onCancelar: (citaId: number) => void
 }
 
 const CitaPacienteTarjeta = ({
@@ -25,14 +26,16 @@ const CitaPacienteTarjeta = ({
   seleccionada,
   onSeleccionar,
   onReprogramar,
+  onCancelar,
 }: TarjetaCitaProps) => {
+  // variables
   const [modalAbierto, setModalAbierto] = useState(false)
   const [puedeUnirse, setPuedeUnirse] = useState(false)
   //
+  const fechaCita = new Date(cita.fecha)
   // Función para verificar el tiempo
   const verificarTiempoCita = () => {
     const ahora = new Date()
-    const fechaCita = new Date(cita.fecha)
     // Obtener tiempo en minutos para ambas fechas
     const tiempoActual = ahora.getHours() * 60 + ahora.getMinutes()
     const tiempoCita = fechaCita.getHours() * 60 + fechaCita.getMinutes()
@@ -49,7 +52,17 @@ const CitaPacienteTarjeta = ({
     // Permitir unirse 5 minutos antes y hasta 20 minutos después
     return esMismoDia && diferenciaMinutos <= 20
   }
+  // Función para cancelar cita
+  const handleCancelar = () => {
+    onCancelar(cita.id)
+  }
 
+  // reprogramar cita
+  const handleReprogramar = (citaActualizada: CitaActualizada) => {
+    if (onReprogramar) {
+      onReprogramar(citaActualizada)
+    }
+  }
   useEffect(() => {
     // Verificación inicial
     setPuedeUnirse(verificarTiempoCita())
@@ -61,19 +74,8 @@ const CitaPacienteTarjeta = ({
 
     // Limpiar intervalo
     return () => clearInterval(interval)
+    //
   }, [cita.fecha])
-  
-  // reprogramar cita
-  const handleReprogramar = (nuevaFecha: Date) => {
-    if (onReprogramar) {
-      const citaActualizada: CitaActualizada = {
-        ...cita,
-        fecha: nuevaFecha,
-        estado: 'pendiente' as const,
-      }
-      onReprogramar(citaActualizada)
-    }
-  }
 
   return (
     <>
@@ -114,7 +116,7 @@ const CitaPacienteTarjeta = ({
                 {cita.doctor.especialidad}
               </p>
             </div>
-            {cita.notificaciones && (
+            {(cita.notificaciones || 0) > 0 && (
               <span className={styles.notificacion}>{cita.notificaciones}</span>
             )}
           </div>
@@ -122,12 +124,12 @@ const CitaPacienteTarjeta = ({
           <div className={styles.detallesCita}>
             <div className={styles.itemDetalle}>
               <RiCalendarLine />
-              <span>{cita.fecha.toLocaleDateString()}</span>
+              <span>{fechaCita.toLocaleDateString()}</span>
             </div>
             <div className={styles.itemDetalle}>
               <RiTimeLine />
               <span>
-                {cita.fecha.toLocaleTimeString([], {
+                {fechaCita.toLocaleTimeString([], {
                   hour: '2-digit',
                   minute: '2-digit',
                 })}
@@ -154,49 +156,51 @@ const CitaPacienteTarjeta = ({
           </div>
         )}
 
-<div className={styles.contenedorAcciones}>
-        {cita.estado === 'confirmada' ? (
-          <>
-            {puedeUnirse ? (
-              <button className={styles.botonUnirse}>
-                <RiVideoLine /> Unirse ahora
+        <div className={styles.contenedorAcciones}>
+          {cita.estado === 'confirmada' ? (
+            <>
+              {puedeUnirse ? (
+                <button className={styles.botonUnirse}>
+                  <RiVideoLine /> Unirse ahora
+                </button>
+              ) : (
+                <button
+                  className={styles.botonReprogramar}
+                  onClick={() => setModalAbierto(true)}
+                >
+                  <RiCalendarEventLine /> Reprogramar
+                </button>
+              )}
+              {/* detalles */}
+              <button
+                className={`${styles.botonDetalle} ${
+                  seleccionada ? styles.activo : ''
+                }`}
+                onClick={onSeleccionar}
+              >
+                {seleccionada ? 'Ocultar detalles' : 'Ver detalles'}
               </button>
-            ) : (
+            </>
+          ) : (
+            <>
+              <button className={styles.botonCancelar} onClick={handleCancelar}>
+                Cancelar
+              </button>
               <button
                 className={styles.botonReprogramar}
                 onClick={() => setModalAbierto(true)}
               >
                 <RiCalendarEventLine /> Reprogramar
               </button>
-            )}
-            {/* detalles */}
-            <button
-              className={`${styles.botonDetalle} ${seleccionada ? styles.activo : ''}`}
-              onClick={onSeleccionar}
-            >
-              {seleccionada ? 'Ocultar detalles' : 'Ver detalles'}
-            </button>
-          </>
-        ) : (
-          <>
-            <button className={styles.botonCancelar}>
-              Cancelar
-            </button>
-            <button
-              className={styles.botonReprogramar}
-              onClick={() => setModalAbierto(true)}
-            >
-              <RiCalendarEventLine /> Reprogramar
-            </button>
-          </>
-        )}
+            </>
+          )}
         </div>
       </div>
       <ReprogramarCitaModal
         cita={cita}
         modalAbierto={modalAbierto}
         onClose={() => setModalAbierto(false)}
-        onSubmit={(nuevaFecha: Date) => handleReprogramar(nuevaFecha)}
+        onSubmit={handleReprogramar}
       />
     </>
   )
