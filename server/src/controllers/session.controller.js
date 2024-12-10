@@ -51,8 +51,29 @@ const login = async (req = request, res = response) => {
   }
 };
 
-const logout = (req = request, res = response) => {
+const logout = async (req = request, res = response) => {
   try {
+    const { email } = req.body;
+    const userRoles = [
+      { model: Patient, role: "patient" },
+      { model: Admin, role: "admin" },
+      { model: Doctor, role: "doctor" },
+    ];
+
+    let user = null;
+
+    for (const userRole of userRoles) {
+      user = await userRole.model.findOne({ where: { email } });
+      if (user) {
+        role = userRole.role;
+        break;
+      }
+    }
+
+    if (!user) {
+      return res.status(404).json({ status: "error", msg: "Person not found" });
+    }
+
     res.clearCookie("token"); 
     return res.status(200).json({
       status: "ok",

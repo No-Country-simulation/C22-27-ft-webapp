@@ -77,7 +77,7 @@ exports.updateConsultation = async (req, res) => {
             },
             { where: { id } }
         )
-        return res.json({ message: 'Consulta actualizada correctamente.', data: { state, desciption } });
+        return res.json({ message: 'Consulta actualizada correctamente.', data: { state, description } });
     } catch (err) {
         return res.status(500).json({ error: 'Error al actualizar la consulta.', details: err.message });
     }

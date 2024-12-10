@@ -73,6 +73,7 @@ exports.updateDoctor = async (req, res) => {
         }
 
         const { name, rol, age, email, password, dateBirth, address, phone, specialty} = req.body;
+        const hashedPassword = createHash(password);
 
         await doctorModel.update(
             {
@@ -80,7 +81,7 @@ exports.updateDoctor = async (req, res) => {
                 rol,
                 age,
                 email,
-                password,
+                password: hashedPassword,
                 dateBirth,
                 address,
                 phone,

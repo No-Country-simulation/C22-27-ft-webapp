@@ -397,7 +397,7 @@ router.route('/doctors/:id',checkToken, authorization("admin"))
      * /healdtech/admin/doctors/{id}:
      *  get:
      *    tags:
-     *      - Doctor id's
+     *      - Admin id's
      *    summary: Get a doctor by id
      *    parameters:
      *      - in: path
@@ -417,7 +417,7 @@ router.route('/doctors/:id',checkToken, authorization("admin"))
      * /healdtech/admin/doctors/{id}:
      *   delete:
      *     tags:
-     *       - Doctor id's
+     *       - Admin id's
      *     parameters:
      *       - in: path
      *         name: id
@@ -441,7 +441,7 @@ router.route('/patients/:id')
      * /healdtech/admin/patients/{id}:
      *  get:
      *    tags:
-     *      - Patient id's
+     *      - Admin id's
      *    summary: Get a doctor by id
      *    parameters:
      *      - in: path
@@ -461,7 +461,7 @@ router.route('/patients/:id')
      * /healdtech/admin/patients/{id}:
      *   delete:
      *     tags:
-     *       - Patient id's
+     *       - Admin id's
      *     parameters:
      *       - in: path
      *         name: id
@@ -474,6 +474,15 @@ router.route('/patients/:id')
      *     responses:
      *       200:
      *         description: OK
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 id:
+     *                   type: string
+     *                   example: 21432irojfew213
+     *
      */
     .delete(checkToken, authorization("admin"),adminController.deletePatient);
 
