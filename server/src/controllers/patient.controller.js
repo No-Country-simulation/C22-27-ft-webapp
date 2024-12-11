@@ -23,7 +23,8 @@ exports.updatePatient = async (req, res) => {
     try {
         const { id } = req.params;
         const search = await PatientController.findByPk(id);
-        const { ...rest } = req.body;
+        const { password, ...rest } = req.body;
+        const passHashed = createHash(password);
 
         if (!search) {
             return res.json({ message: 'Patient not found' });
@@ -31,11 +32,12 @@ exports.updatePatient = async (req, res) => {
 
         const update = await PatientController.update(
             {
-                ...rest
+                password: passHashed,
+                ...rest,
             },
             { where: { id } }
         )
-        return res.json({ message: 'Patient correctly updated.', data: { name, rol, age, email, password, dateBirth, address, phone } });
+        return res.json({ message: 'Patient correctly updated.', data: { ...rest, password } });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: 'Error updating the patient', details: err.message });

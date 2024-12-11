@@ -85,7 +85,8 @@ exports.findOneAdmin = async (req, res) => {
 exports.updateAdmin = async (req, res) => {
     try {
         const { id } = req.params;
-        const { ...rest } = req.body;
+        const { password,...rest } = req.body;
+        const passHashed = createHash(password);
 
         const findOne = await adminController.findByPk(id);
 
@@ -94,10 +95,10 @@ exports.updateAdmin = async (req, res) => {
         }
 
         await adminController.update(
-            { ...rest },
+            { password: passHashed,...rest },
             { where: { id } }
         );
-        res.json({ message: 'Admin successfully updated', data: { ...rest } });
+        res.json({ message: 'Admin successfully updated', data: { password, ...rest } });
 
     } catch (err) {
         res.status(500).json({ error: 'Error when updating the admin', details: err.message });
