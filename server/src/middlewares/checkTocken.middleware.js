@@ -10,6 +10,7 @@ const checkToken = async (req = request, res = response, next) => {
       return res.status(401).json({ status: "error", msg: "Token not provided" });
 
     const tokenVerify = verifyToken(token);
+    
     if (!tokenVerify)
       return res.status(401).json({ status: "error", msg: "Invalid Token" });
    

@@ -76,15 +76,12 @@ exports.deleteRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" });
-
     const recipe = await Recipe.findByPk(id);
 
-    if (!recipe) {
-      return res.status(404).json({ error: 'Recipe not found.' });
-    }
+    if (!recipe) return res.status(400).send({ status: "error", error: "Incomplete values" });
+    if (!recipe) return res.status(404).json({ error: 'Recipe not found.' });
 
-    await recipe.destroy();
+    await Recipe.destroy( {where: {id} });
     res.status(200).json({ message: 'Recipe delete.' });
   } catch (error) {
     res.status(500).json({ error: 'Error while deleting.', details: error.message });
