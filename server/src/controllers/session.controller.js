@@ -38,8 +38,8 @@ const login = async (req = request, res = response) => {
       
       return res.status(401).json({ status: "error", msg: "Incorrect password" });
     }
-
-    const token = createToken({ ...user.toJSON(), role });
+    console.log(user)
+    const token = createToken({ ...user.toJSON() });
     res.cookie("token", token, { httpOnly: true });
 
     return res.status(200).json({
