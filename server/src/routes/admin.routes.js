@@ -469,7 +469,7 @@ router.route('/patients/:id')
      *         schema:
      *           type: string
      *           description: The id of the patient to delete
-     *           example: 213njlk4234
+     *           example: 213njlk4234-asdasdf0312312-423
      *         description: The id of the patient to delete
      *     responses:
      *       200:
