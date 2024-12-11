@@ -31,11 +31,19 @@ const checkToken = require('../middlewares/checkTocken.middleware.js');
  *                type: string
  *                example: "Description of the consultation"
  *                description: The description of the consultation
+ *              patientId:
+ *                type: string
+ *                example: "21432irojfew213"
+ *                description: The patient's id
+ *              doctorId:
+ *                type: string
+ *                example: "21432irojfew213"
+ *                description: The doctor's id
  *    responses:
  *      200:
  *        description: Consultation created
  */
-router.post('/',checkToken, authorization("admin", "user"), consultaController.createConsultation);
+router.post('/',checkToken, authorization("admin", "doctor", "patient"), consultaController.createConsultation);
 
 /**
  * @openapi
@@ -62,9 +70,9 @@ router.post('/',checkToken, authorization("admin", "user"), consultaController.c
  *                   type: string
  *                   example: Description of the consultation
  */
-router.get('/',checkToken, authorization("admin", "user"), consultaController.findAllConsultations);
+router.get('/',checkToken, authorization("admin", "doctor", "patient"), consultaController.findAllConsultations);
 
-router.route('/:id',checkToken, authorization("admin", "user"))
+router.route('/:id',checkToken, authorization("admin", "doctor"))
     /**
      * @openapi
      * /healdtech/consultas/{id}:
