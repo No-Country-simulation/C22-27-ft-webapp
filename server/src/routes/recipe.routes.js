@@ -161,7 +161,7 @@ router.post('/', checkToken, authorization("doctor"), recipeController.createRec
  *                   description: Consultation id
  *                   example: 123456
  */
-router.get('/:recipeId', checkToken, authorization("admin", "doctor"), recipeController.getRecipeById);
-router.delete('/:recipeId', checkToken, authorization("admin", "doctor"), recipeController.deleteRecipeById);
+router.get('/:id', checkToken, authorization("admin", "doctor"), recipeController.getRecipeById);
+router.delete('/:id', checkToken, authorization("admin", "doctor"), recipeController.deleteRecipeById);
 
 module.exports = router;
