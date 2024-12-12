@@ -1,5 +1,6 @@
 [build]
 builder = "NIXPACKS"
+baseDirectory = "client"
 
 [deploy]
 runtime = "V2"
