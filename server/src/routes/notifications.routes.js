@@ -157,6 +157,68 @@ router.get('/patientId/:id', checkToken, authorization("admin", "user"), notific
  *        description: medical history created
  */
 router.post('/', checkToken, authorization("admin"), notificationsController.createNotification);
+router.patch('/:id', notificationsController.updateNotification);
+/**
+ * @openapi
+ *   /healdtech/notifications/{id}:
+ *     patch:
+ *       tags:
+ *         - Notifications
+ *       summary: Patch notifications by id
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           schema:
+ *             type: string
+ *           description: Notifications id
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          message:
+ *                            type: string
+ *                            description: The user's name.
+ *                            example: Camilo Zapata
+ *                          type:
+ *                            type: integer
+ *                            description: The user's age.
+ *                            example: 30
+ *                          send:
+ *                            type: string
+ *                            description: The user's email.
+ *                            example: zapata@gmail.com
+ *              
+ *       responses:
+ *         200:
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     description: Message of the notification
+ *                     example: This is a notification
+ *                   type:
+ *                     type: string
+ *                     description: Type of the notification
+ *                     example: type
+ *                   send:
+ *                     type: boolean
+ *                     description: Send status of the notification
+ *                     example: false
+ *                   consultationId:
+ *                     type: string
+ *                     description: consultationId id
+ *                     example: 1313e4234-324mgfresg
+ */
+
+
 router.patch('/:id/enviado', notificationsController.markAsSent);
 /**
  * @openapi

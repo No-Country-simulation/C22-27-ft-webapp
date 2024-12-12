@@ -9,7 +9,7 @@ exports.createNotification = async (req, res) => {
   try {
     const { consultationId, message, type, send } = req.body;
 
-    if (!consultationId || !message || !type || !send) return res.status(400).send({ status: "error", error: "Incomplete values" })
+    if (!consultationId && !message && !type && !send) return res.status(400).send({ status: "error", error: "Incomplete values" });
 
     const notification = await Notification.create({
       consultationId: consultationId,
@@ -117,13 +117,37 @@ exports.getNotificationById = async (req, res) => {
   }
 };
 
+exports.updateNotification = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const search = await Notification.findByPk(id);
+    if (!search) {
+      return res.json({ message: 'Notification not found' });
+    }
+
+    const { consultationId, message, type, send } = req.body;
+
+    const notificationUpdate =  await Notification.update(
+      {
+        consultationId, message, type, send
+      },
+      { where: { id } }
+    )
+    return res.json({ message: 'Notification update', data: { notificationUpdate } });
+  } catch (err) {
+    return res.status(500).json({ error: 'Error to update notification', details: err.message });
+  }
+};
+
+
 // Eliminar notificacion
 exports.deleteNotificationById = async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!id) return res.status(400).send({ status: "error", error: "Incomplete values" });
-    
+
     const notification = await Notification.findByPk(id);
     if (!notification) {
       return res.status(404).json({ error: 'Notification not found.' });

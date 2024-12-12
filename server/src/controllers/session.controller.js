@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-const { isValidPassword} = require("../utils/hashPassword.js");
+const { isValidPassword } = require("../utils/hashPassword.js");
 const { createToken } = require("../utils/jw.js");
 const Patient = require("../models/patientModel.js");
 const Admin = require("../models/adminModel.js");
@@ -24,7 +24,7 @@ const login = async (req = request, res = response) => {
 
     for (const userRole of userRoles) {
       user = await userRole.model.findOne({ where: { email } });
-     
+
       if (user) {
         role = userRole.role;
         break;
@@ -35,10 +35,9 @@ const login = async (req = request, res = response) => {
       return res.status(404).json({ status: "error", msg: "Person not found" });
     }
     if (!isValidPassword(user.password, password)) {
-      
+
       return res.status(401).json({ status: "error", msg: "Incorrect password" });
     }
-    console.log(user)
     const token = createToken({ ...user.toJSON() });
     res.cookie("token", token, { httpOnly: true });
 
@@ -75,7 +74,7 @@ const logout = async (req = request, res = response) => {
       return res.status(404).json({ status: "error", msg: "Person not found" });
     }
 
-    res.clearCookie("token"); 
+    res.clearCookie("token");
     return res.status(200).json({
       status: "ok",
       msg: "Logout successful",
