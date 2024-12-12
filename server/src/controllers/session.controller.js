@@ -8,7 +8,7 @@ const Doctor = require("../models/doctorModel.js");
 const login = async (req = request, res = response) => {
   try {
     const { email, password } = req.body;
-
+    console.log(req.body)
     if (!email || !password) {
       return res.status(400).json({ status: "error", error: "Incomplete values" });
     }
@@ -44,6 +44,8 @@ const login = async (req = request, res = response) => {
     return res.status(200).json({
       status: "ok",
       msg: "Login successful",
+      token: token,
+      user: user
     });
   } catch (error) {
     console.error(error);
