@@ -63,7 +63,7 @@ exports.findOneConsultation = async (req, res) => {
 exports.updateConsultation = async (req, res) => {
     try {
         const { id } = req.params;
-        const { state, description } = req.body;
+        const { state, description, type } = req.body;
         const search = await ConsultationModel.findByPk(id);
 
         if (!search) {
@@ -73,11 +73,12 @@ exports.updateConsultation = async (req, res) => {
         const update = await ConsultationModel.update(
             {
                 state,
-                description
+                description,
+                type
             },
             { where: { id } }
         )
-        return res.json({ message: 'Consulta actualizada correctamente.', data: { state, description } });
+        return res.json({ message: 'Consulta actualizada correctamente.', data: { update } });
     } catch (err) {
         return res.status(500).json({ error: 'Error al actualizar la consulta.', details: err.message });
     }

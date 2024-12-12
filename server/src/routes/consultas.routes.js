@@ -31,6 +31,9 @@ const checkToken = require('../middlewares/checkTocken.middleware.js');
  *                type: string
  *                example: "Description of the consultation"
  *                description: The description of the consultation
+ *              type:
+ *                type: string
+ *                example: Type of consult virtual or presential
  *              patientId:
  *                type: string
  *                example: "21432irojfew213"
@@ -43,7 +46,7 @@ const checkToken = require('../middlewares/checkTocken.middleware.js');
  *      200:
  *        description: Consultation created
  */
-router.post('/',checkToken, authorization("admin", "doctor", "patient"), consultaController.createConsultation);
+router.post('/', checkToken, authorization("admin", "doctor", "patient"), consultaController.createConsultation);
 
 /**
  * @openapi
@@ -69,10 +72,13 @@ router.post('/',checkToken, authorization("admin", "doctor", "patient"), consult
  *                 description:
  *                   type: string
  *                   example: Description of the consultation
+ *                 type:
+ *                   type: string
+ *                   example: Type of consult virtual or presential
  */
-router.get('/',checkToken, authorization("admin", "doctor", "patient"), consultaController.findAllConsultations);
+router.get('/', checkToken, authorization("admin", "doctor", "patient"), consultaController.findAllConsultations);
 
-router.route('/:id',checkToken, authorization("admin", "doctor"))
+router.route('/:id', checkToken, authorization("admin", "doctor"))
     /**
      * @openapi
      * /healdtech/consultas/{id}:
@@ -105,6 +111,9 @@ router.route('/:id',checkToken, authorization("admin", "doctor"))
      *                  type: string
      *                  example: Description of the consultation
      *                  description: The description of the consultation
+     *                type:
+     *                   type: string
+     *                   example: Type of consult virtual or presential
      */
     .get(consultaController.findOneConsultation)
     /**
@@ -138,6 +147,10 @@ router.route('/:id',checkToken, authorization("admin", "doctor"))
      *                type: string
      *                example: "Description of the consultation"
      *                description: The description of the consultation
+     *              type:
+     *                type: string
+     *                example: Type of consult virtual or presential
+     * 
      *    responses:
      *      200:
      *        description: patient updated
@@ -168,7 +181,10 @@ router.route('/:id',checkToken, authorization("admin", "doctor"))
      *                 message:
      *                   type: string
      *                   example: Consultation successfully deleted
+     *                 type:
+     *                   type: string
+     *                   example: Type of consult virtual or presential
      */
     .delete(consultaController.deleteConsultation);
-    
+
 module.exports = router;
