@@ -69,5 +69,6 @@ router.post("/login", sessionControllers.login);
  *                   example: zapatacamilo86@gmail.com
  */
 router.post('/logout', sessionControllers.logout);
+router.get('/protected', sessionControllers.protected)
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const { isValidPassword } = require("../utils/hashPassword.js");
-const { createToken } = require("../utils/jw.js");
+const { createToken, verifyToken } = require("../utils/jw.js");
 const Patient = require("../models/patientModel.js");
 const Admin = require("../models/adminModel.js");
 const Doctor = require("../models/doctorModel.js");
@@ -8,7 +8,7 @@ const Doctor = require("../models/doctorModel.js");
 const login = async (req = request, res = response) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body)
+
     if (!email || !password) {
       return res.status(400).json({ status: "error", error: "Incomplete values" });
     }
@@ -44,15 +44,12 @@ const login = async (req = request, res = response) => {
     return res.status(200).json({
       status: "ok",
       msg: "Login successful",
-      token: token,
-      user: user
     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ status: "error", msg: "Internal server error" });
   }
 };
-
 const logout = async (req = request, res = response) => {
   try {
     const { email } = req.body;
@@ -87,4 +84,11 @@ const logout = async (req = request, res = response) => {
   }
 };
 
-module.exports = { login, logout };
+const protected = async ( req = request, res = response ) =>{
+  const token = req.cookies.token;
+
+  const verifyCredentials = verifyToken(token)
+  return res.json({ message: 'Login ok.', data: verifyCredentials });
+}
+
+module.exports = { login, logout, protected };
